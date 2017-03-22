@@ -1,0 +1,17 @@
+version 2
+run General-0-20170322-07:31:32-4707
+attr configname General
+attr datetime 20170322-07:31:32
+attr experiment General
+attr inifile omnetpp.ini
+attr iterationvars ""
+attr iterationvars2 $repetition=0
+attr measurement ""
+attr network Container_A
+attr processid 4707
+attr repetition 0
+attr replication #0
+attr resultdir results
+attr runnumber 0
+attr seedset 0
+

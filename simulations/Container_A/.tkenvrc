@@ -1,0 +1,10 @@
+# Partial OMNeT++/Tkenv config file -- see $HOME/.tkenvrc as well
+config default-configname	{}
+config default-runnumber	{}
+inspector {Container_A.rc_0_Rack_A_4[0]} NodeVL 11 2 470x298+633+379:normal
+inspector {Container_A.rc_0_Rack_A_4[2].hypervisor.VM_Small:u777:p3988.osModule} VmOperatingSystemModule 3989 2 482x298+127+394:normal
+inspector {Container_A.rc_0_Rack_A_4[3].hypervisor} CitrixXenServer6_Linux 504 2 411x298+1114+187:normal
+inspector {Container_A.rc_0_Rack_A_4[1].hypervisor.VM_Small:u603:p669.osModule} VmOperatingSystemModule 670 2 620x507+682+43:normal
+inspector {Container_A.rc_0_Rack_A_4[0].hypervisor.VM_Small:u2753:p4482.osModule} VmOperatingSystemModule 4483 2 1053x541+108+119:normal
+inspector {Container_A.rc_0_Rack_A_4[0].hypervisor.VM_Small:u2079:p4088.osModule.app} CPU_Intensive 2111 2 411x266+667+386:normal
+
