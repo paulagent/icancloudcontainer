@@ -27,6 +27,7 @@ AbstractCloudManager::~AbstractCloudManager() {
 }
 
 void AbstractCloudManager::initialize(){
+ //   if (DEBUG_CLOUD_SCHED) printf("\n Method[AbstractCloudManager]: -------> initialize\n");
 
     // Define ..
         string initialVIP;
@@ -67,7 +68,7 @@ void AbstractCloudManager::initialize(){
         if (topology == NULL) throw cRuntimeError ("AbstractCloudManager::initialize() -> Error during initialization. There is no topology\n");
 
         int computeSize = topology->par("computeNodeQuantity").longValue();
-
+        cout << "computeSize"<<computeSize<<endl;
         for (int i = 0; i < computeSize; i++){
             cModule* computeNodeMod = topology->getSubmodule("computeNode",i);
             dataCenterConfig->setNodeType(computeNodeMod->par("id").stringValue(), computeNodeMod->par("quantity").longValue());
@@ -87,9 +88,12 @@ void AbstractCloudManager::initialize(){
         AbstractDCManager::initialize();
 
         configDone = false;
+   //     if (DEBUG_CLOUD_SCHED) printf("\n Method[AbstractCloudManager]: -------> initialize-----------------FIN------\n");
+
 }
 
 void AbstractCloudManager::initManager (int totalNodes){
+    if (DEBUG_CLOUD_SCHED) printf("\n Method[AbstractCloudManager]: -------> initManager\n");
 
     migrationActive = false;
 
@@ -364,6 +368,7 @@ void AbstractCloudManager::initManager (int totalNodes){
                 }
 
        AbstractDCManager::initManager(totalNodes);
+       if (DEBUG_CLOUD_SCHED) printf("\n Method[AbstractCloudManager]: -------> initManager--------FIN-----\n");
 
 }
 
@@ -395,6 +400,7 @@ AbstractCloudUser* AbstractCloudManager::getUserFromId(int uId){
 }
 
 bool AbstractCloudManager::request_start_vm (RequestVM* req){
+    if (DEBUG_CLOUD_SCHED) printf("\n Method[AbstractCloudManager]: -------> request_start_vm\n");
 
     //Define ...
         AbstractNode* selectedNode;
@@ -423,6 +429,7 @@ bool AbstractCloudManager::request_start_vm (RequestVM* req){
     for (int i = 0; ((i < req->getDifferentTypesQuantity()) && (!notEnoughResources));){
 
         vmQuantity = req->getSelectionQuantity(i);
+        if (DEBUG_CLOUD_SCHED) cout<< "vmQuantity--->"<<vmQuantity<<endl;
 
         for (int j = 0; (j < vmQuantity) && !notEnoughResources; j++ ){
 
@@ -430,7 +437,9 @@ bool AbstractCloudManager::request_start_vm (RequestVM* req){
             vmImage = getSubmodule("vmImage");
 
             vm = dynamic_cast<VM*>(vmImage);
-
+            if (DEBUG_CLOUD_SCHED) cout<< " Method[AbstractCloudManager]: ------->vmCPUs--->"<<vm->getNumCores()<<endl;
+                if (DEBUG_CLOUD_SCHED) cout<< " Method[AbstractCloudManager]: ------->vmMemory--->"<<vm->getMemoryCapacity()<<endl;
+                if (DEBUG_CLOUD_SCHED) cout<< " Method[AbstractCloudManager]: ------->vmStorage--->"<<vm->getStorageCapacity()<<endl;
             // Create the request for scheduling selecting node method
             RequestVM* reqSch;
             AbstractRequest* reqA;
@@ -454,6 +463,7 @@ bool AbstractCloudManager::request_start_vm (RequestVM* req){
                 //TODO--
 
             } else if (selectedNode == NULL){ // There are not a node to allocate the request!
+                if (DEBUG_CLOUD_SCHED) printf("\n Method[AbstractCloudManager]: -------> Selected Node is NULL\n");
 
                 // Reenqueue to wait until exists enough resources.
                 req->incrementTimesEnqueue();
@@ -463,6 +473,7 @@ bool AbstractCloudManager::request_start_vm (RequestVM* req){
 
             } // everything is ok.
             else {
+                if (DEBUG_CLOUD_SCHED) printf("\n Method[AbstractCloudManager]: -------> Selected Node is --->%s\n",selectedNode->getFullName());
 
                 std::ostringstream vmName;
                 vmName << vm->getName();
@@ -516,12 +527,14 @@ bool AbstractCloudManager::request_start_vm (RequestVM* req){
         user = getUserByModuleID(req -> getUid());
         user -> notify_UserRequestAttendeed(attendedRequest);
     }
+    if (DEBUG_CLOUD_SCHED) printf("\n Method[AbstractCloudManager]: -------> request_start_vm-------FIN-------------\n");
 
     return notEnoughResources;
 
 }
 
 void AbstractCloudManager::request_shutdown_vm(RequestVM* req){
+    if (DEBUG_CLOUD_SCHED) printf("\n Method[AbstractCloudManager]: -------> request_shutdown_vm--------------------\n");
 
     // Define ..
         VM* vm;
@@ -564,6 +577,8 @@ void AbstractCloudManager::request_shutdown_vm(RequestVM* req){
             req->eraseVM(0);
 
         }
+        if (DEBUG_CLOUD_SCHED) printf("\n Method[AbstractCloudManager]: -------> request_shutdown_vm-------FIN-------------\n");
+
 }
 
 void AbstractCloudManager::linkVM (AbstractNode* node, VM* vm){
@@ -578,6 +593,7 @@ void AbstractCloudManager::linkVM (AbstractNode* node, VM* vm){
 }
 
 void AbstractCloudManager::unlinkVM(AbstractNode* node, VM* vm, bool turnOff){
+    if (DEBUG_CLOUD_SCHED) printf("\n Method[AbstractCloudManager]: -------> unlinkVM-------------------\n");
 
     vm->shutdownVM();
 
@@ -594,6 +610,8 @@ void AbstractCloudManager::unlinkVM(AbstractNode* node, VM* vm, bool turnOff){
         if ((nodeVL->getNumProcessesRunning() == 0) && (nodeVL->getNumVMAllocated() == 0))
             node->turnOff();
     }
+    if (DEBUG_CLOUD_SCHED) printf("\n Method[AbstractCloudManager]: -------> unlinkVM-------FIN-------------\n");
+
 }
 
 void AbstractCloudManager::closeVMConnections (vector<AbstractNode*> nodes, VM* vm){

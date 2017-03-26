@@ -162,10 +162,12 @@ void CloudSchedulerRandom::schedule (){
 
                schedulerUnblock();
            }
+           if (DEBUG_CLOUD_SCHED) printf("\n Method[CLOUD_SCHEDULER]: -------> schedule-------------FIN----------\n");
 
 }
 
 AbstractNode* CloudSchedulerRandom::selectNode (AbstractRequest* req){
+    if (DEBUG_CLOUD_SCHED) printf("\n Method[CloudSchedulerRandom]: -------> selectNode\n");
 
     // Define ..
         AbstractNode* node;
@@ -259,6 +261,7 @@ AbstractNode* CloudSchedulerRandom::selectNode (AbstractRequest* req){
             }
 
         return node;
+        if (DEBUG_CLOUD_SCHED) printf("\n Method[CloudSchedulerRandom]: -------> selectNode-----FIN----\n");
 
 }
 

@@ -270,6 +270,9 @@ void AbstractUserGenerator::createUser (){
                                newJob = cloneJob (jobSelect->job, behaviorMod, appNameBuild.str().c_str());
                                // Insert into users waiting queue
                                user->addParsedJob(newJob);
+                               cout<<"user"<<user->getFullName() <<endl;
+
+                               cout<<"newjob"<<newJob->getFullName() <<endl;
                            }
                        }
 

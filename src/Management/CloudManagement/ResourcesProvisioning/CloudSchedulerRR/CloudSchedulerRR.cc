@@ -69,7 +69,7 @@ void CloudSchedulerRR::setupScheduler(){
 void CloudSchedulerRR::schedule (){
 
 
-    if (DEBUG_CLOUD_SCHED) printf("\n Method[CLOUD_SCHEDULER]: -------> schedule\n");
+    if (DEBUG_CLOUD_SCHED) printf("\n Method[CLOUD_SCHEDULER_RR]: -------> schedule\n");
 
        //Define ...
            vector<AbstractNode*> selectedNodes;
@@ -167,6 +167,7 @@ void CloudSchedulerRR::schedule (){
 
                schedulerUnblock();
            }
+           if (DEBUG_CLOUD_SCHED) printf("\n Method[CLOUD_SCHEDULER_RR]: -------> schedule----FIN-----\n");
 
 }
 
@@ -197,13 +198,15 @@ AbstractNode* CloudSchedulerRR::selectNode (AbstractRequest* req){
         setInitial = currentNodeType;
         positionInitial = currentNodeIndex;
         found = false;
-
+        if (DEBUG_CLOUD_SCHED) cout<< "vmCPU--->"<<vmCPU<<endl;
+        if (DEBUG_CLOUD_SCHED) cout<< "vmMemory--->"<<vmMemory<<endl;
     // Begin ..
 
         // select the node
 
             positionInitial = currentNodeIndex;
             while (!found){
+                if (DEBUG_CLOUD_SCHED) cout<< "currentNodeIndex--->"<<currentNodeIndex<<endl;
 
                  node = getNodeByIndex(setInitial,positionInitial);
 
@@ -237,6 +240,7 @@ AbstractNode* CloudSchedulerRR::selectNode (AbstractRequest* req){
                      node = NULL;
                  }
             }
+            if (DEBUG_CLOUD_SCHED) printf("\n Method[SCHEDULER_ROUNDROBIN]: -------> select_nodes-----FIN----\n");
 
 		return node;
 

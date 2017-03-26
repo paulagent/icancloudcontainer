@@ -296,9 +296,14 @@ int SyscallManager::createProcess(icancloud_Base* job, int uid){
 }
 
 void SyscallManager::initializeSystemApps(int storagePort, string state){
+  //  if (DEBUG_CLOUD_SCHED) printf("\n Method[SyscallManager]: ------->initializeSystemApps\n");
+  //  if (DEBUG_CLOUD_SCHED) printf("\n Method[SyscallManager]: ------->initializeSystemApps------------storagePort----%i\n",storagePort);
+  //  if (DEBUG_CLOUD_SCHED) printf("\n Method[SyscallManager]: ------->initializeSystemApps------------state----%s\n",state);
+
     statesAppPtr->initState(state);
     // Initialize the local port if this is a storage node..
     if (storagePort != -1) ioManager -> initialize_storage_data (storagePort);
+ //   if (DEBUG_CLOUD_SCHED) printf("\n Method[SyscallManager]: ------->initializeSystemApps-------FIN--------------\n");
 
 }
 

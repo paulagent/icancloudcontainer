@@ -165,11 +165,13 @@ void CloudSchedulerFCFS::schedule (){
 
                schedulerUnblock();
            }
+           if (DEBUG_CLOUD_SCHED) printf("\n Method[CLOUD_SCHEDULER]: -------> schedule----FIN------\n");
+
 }
 
 AbstractNode* CloudSchedulerFCFS::selectNode (AbstractRequest* req){
 
-    if (DEBUG_CLOUD_SCHED) printf("\n Method[SCHEDULER_FIFO]: -------> select_nodes\n");
+ //   if (DEBUG_CLOUD_SCHED) printf("\n Method[SCHEDULER_FIFO]: -------> select_nodes-------------------------------------------\n");
 
 	// Define ..
         vector <int> set;
@@ -189,9 +191,13 @@ AbstractNode* CloudSchedulerFCFS::selectNode (AbstractRequest* req){
         set.clear();
         node = NULL;
         el = reqVm->getSingleRequestType();
+   //     if (DEBUG_CLOUD_SCHED) cout<< "el Type--->"<<el->getType()<<endl;
+
         vmCPU = el->getNumCores();
         vmMemory = el->getMemorySize();
         numProcesses = 0;
+ //       if (DEBUG_CLOUD_SCHED) cout<< "vmCPU--->"<<vmCPU<<endl;
+ //       if (DEBUG_CLOUD_SCHED) cout<< "vmMemory--->"<<vmMemory<<endl;
 
     // Begin ..
 
@@ -199,26 +205,60 @@ AbstractNode* CloudSchedulerFCFS::selectNode (AbstractRequest* req){
             vector<HeterogeneousSet*>::iterator setIt;
 
         // Begin ..
+    //        if (DEBUG_CLOUD_SCHED) cout<< "getMapSize()--->"<<getMapSize()<<endl;
 
             // Push in the set the different heterogeneous node types where it is possible allocate the vm
                 for (i = 0; i < getMapSize(); i++){
+
+         //           if (DEBUG_CLOUD_SCHED) cout<< "getSetName()--->"<<getSetName(i, false)<<endl;
+
                     if ( (getSetMemorySize(i, false) >= vmMemory) && (getSetNumCores(i,false) >= vmCPU) ){
+          //              if (DEBUG_CLOUD_SCHED) cout<< "getSetMemorySize(i, false)--->"<<getSetMemorySize(i, false)<<endl;
+         //               if (DEBUG_CLOUD_SCHED) cout<< "getSetNumCores(i,false)--->"<<getSetNumCores(i,false)<<endl;
+         //               if (DEBUG_CLOUD_SCHED) cout<< "vmCPU--->"<<vmCPU<<endl;
+         //               if (DEBUG_CLOUD_SCHED) cout<< "vmMemory--->"<<vmMemory<<endl;
+
                         set.push_back(i);
-                        break;
+                        //Zahra Nikdel:
+                      //  break;
                     }
                 }
-
+         //       if (DEBUG_CLOUD_SCHED) cout<< "set.size()--->"<<set.size()<<endl;
+                //Zahra Nikdel:
+                int found=false;
             // select the first set
                 for (i = 0; i < (int)set.size(); i++){
+                    //Zahra Nikdel:
+                    if (!found){
+
+
+                    //if (DEBUG_CLOUD_SCHED) cout<< "getSetName()--->"<<getSetName(i, false)<<endl;
+
+         //           if (DEBUG_CLOUD_SCHED) cout<< " getSetSize--->"<< getSetSize((*(set.begin() + i)))<<endl;
                     for (int j = 0; j < getSetSize((*(set.begin() + i))); j++){
-                        NodeVL* node_vl = check_and_cast<NodeVL*>(getNodeByIndex((*(set.begin())),j));
+                     //   NodeVL* node_vl = check_and_cast<NodeVL*>(getNodeByIndex((*(set.begin())),j));
+                     //Zahra Nikdel:
+                        NodeVL* node_vl = check_and_cast<NodeVL*>(getNodeByIndex((*(set.begin()+i)),j));
+
                         numProcesses = node_vl->getNumOfLinkedVMs();
+          //              if (DEBUG_CLOUD_SCHED) cout<< "node_vl--->"<< node_vl->getFullName() <<endl;
+
+         //               if (DEBUG_CLOUD_SCHED) cout<< "numProcesses--->"<<numProcesses<<endl;
+
                         if (numProcesses < maximum_number_of_processes_per_node){
                             node = check_and_cast<Node*>(node_vl);
+                  //          if (DEBUG_CLOUD_SCHED) cout<< "Selected Node-->"<< node_vl->getFullName() <<endl;
+                            //Zahra Nikdel:
+                            found=true;
                             break;
                         }
                     }
+                    }
                 }
+
+    //    if (DEBUG_CLOUD_SCHED) cout<< "node--->"<<node->getFullName()<<endl;
+
+   //     if (DEBUG_CLOUD_SCHED) printf("\n Method[SCHEDULER_FIFO]: -------> select_nodes--- FIN----------------------------------------\n");
 
 		return node;
 
@@ -287,6 +327,7 @@ vector<AbstractNode*> CloudSchedulerFCFS::selectStorageNodes (AbstractRequest* s
 }
 
 vector<AbstractNode*> CloudSchedulerFCFS::remoteShutdown (AbstractRequest* req){
+    if (DEBUG_CLOUD_SCHED) printf("\n Method[SCHEDULER_FIFO]: -------> remoteShutdown\n");
 
     // Define ..
         vector<AbstractNode*> nodes;
@@ -648,7 +689,10 @@ void CloudSchedulerFCFS::finalizeScheduler(){
 
 int CloudSchedulerFCFS::selectNodeSet (string setName, int vmcpu, int vmmemory){
 
-	if (DEBUG_CLOUD_SCHED) printf("\n Method[SCHEDULER_FIFO]: -------> selectNodeSet\n");
+	if (DEBUG_CLOUD_SCHED) printf("\n Method[SCHEDULER_FIFO]: -------> selectNodeSet----START----------------------------------------\n");
+	if (DEBUG_CLOUD_SCHED) cout<< "setName--->"<<setName<<endl;
+    if (DEBUG_CLOUD_SCHED) cout<< "vmcpu--->"<<vmcpu<<endl;
+    if (DEBUG_CLOUD_SCHED) cout<< "vmmemory--->"<<vmmemory<<endl;
 
 	int bestFit;
 	int acumCPU;
@@ -663,9 +707,12 @@ int CloudSchedulerFCFS::selectNodeSet (string setName, int vmcpu, int vmmemory){
 	numCPUs = -1;
 	numTypeSize = getMapSize();
 	//acumVM = set.begin()->getTotalMemory();
+    if (DEBUG_CLOUD_SCHED) cout<< "numTypeSize--->"<<numTypeSize<<endl;
 
 	for (i = 0; i < numTypeSize; i++){
-	    numCPUs = getSetNumCores(i, false);
+	    numCPUs = getSetNumCores(i, false); // false means it's not a storage
+	    if (DEBUG_CLOUD_SCHED) printf("\n Method[SCHEDULER_FIFO]: -------> selectNodeSet---->numCPUs %d\n",numCPUs);
+
 		if (((numCPUs - vmcpu) < acumCPU )){ //&& ((set.begin()->getTotalMemory - acumVM )  < vmmemory)){
 
 			bestFit  = i;
@@ -673,6 +720,8 @@ int CloudSchedulerFCFS::selectNodeSet (string setName, int vmcpu, int vmmemory){
 			//vmmemory = bestFit -> getTotalMemory - acumVM;
 		}
 	}
+    if (DEBUG_CLOUD_SCHED) cout<< "bestFit--->"<<bestFit<<endl;
+    if (DEBUG_CLOUD_SCHED) printf("\n Method[SCHEDULER_FIFO]: -------> selectNodeSet------FIN--------------------------------------\n");
 
 	return bestFit;
 

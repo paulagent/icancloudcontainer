@@ -37,6 +37,7 @@ icancloud_Base::~icancloud_Base(){
 
 
 void icancloud_Base::initialize(){
+  //  if (DEBUG_CLOUD_SCHED) printf("\n Method[icancloud_Base]: -------> initialize\n");
 
     char module_path [NAME_SIZE];
 	char currentHostName [NAME_SIZE];
@@ -125,6 +126,7 @@ void icancloud_Base::initialize(){
 
 	// Log that this module starts
 	showStartedModule (" ");
+ //   if (DEBUG_CLOUD_SCHED) printf("\n Method[icancloud_Base]: -------> initialize-------FIN-------\n");
 
 }
 

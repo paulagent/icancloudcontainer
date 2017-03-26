@@ -43,6 +43,15 @@ channel Channel_1_Container_A extends DatarateChannel
     per = 0.0;
 }
 
+channel Channel_2_Container_A extends DatarateChannel
+{
+    delay = 1.25E-4us;
+    datarate = 10Gbps;
+    ber = 0.0;
+    per = 0.0;
+}
+
+
 channel RackChannel_0_Container_A extends DatarateChannel
 {
     delay = 1.25E-4us;
@@ -67,8 +76,10 @@ network Container_A
         // ---------------------------------------------------------------
         //    Network Manager
         // ---------------------------------------------------------------
-        networkManager: NetworkManager;
+        networkManager: NetworkManager {
 
+            @display("p=454,163");
+        }
         // ---------------------------------------------------------------
         //   Definition of cloud scheduler
         // ---------------------------------------------------------------
@@ -78,6 +89,7 @@ network Container_A
                 remote_storage_VMs_per_node = 2;
                 minimum_percent_storageNode_free = 0.15;
                 virtualIPsBasis = "10.0.0.1";
+                @display("p=520,248");
         }
 
         // ---------------------------------------------------------------
@@ -92,9 +104,11 @@ network Container_A
         //   Definition of switches
         // ---------------------------------------------------------------
         switch_0: EtherSwitch;
-
         rackSwitch_0: EtherSwitch {
             @display("p=209,162");
+        }
+        rackSwitch_1: EtherSwitch {
+            @display("p=209,82");
         }
 
         // ---------------------------------------------------------------
@@ -112,14 +126,17 @@ network Container_A
         //------------------------------------------------------
         vmSet: VmSet;
         topology: Topology;
-
-
         // ---------------------------------------------------------------
         //   Definition of Racks
         // ---------------------------------------------------------------
-        rc_0_Rack_A_4[4]: NodeVL {
+        rc_0_Rack_A_4[3]: NodeVL {
 
-            @display("p=257,50");
+            @display("p=295,196");
+        }
+
+        rc_0_Rack_B_4[3]: NodeVL {
+
+            @display("p=315,56");
         }
     // ---------------------------------------------------------------
     //   Connections section
@@ -127,10 +144,17 @@ network Container_A
     connections allowunconnected:
 
         // Connections for rack rc_0_Rack_A_16
-        for i=0..3 {
+        for i=0..2 {
             rc_0_Rack_A_4[i].ethg++ <--> RackChannel_0_Container_A <--> rackSwitch_0.ethg++;
         }
 
+        for i=0..2 {
+            rc_0_Rack_B_4[i].ethg++ <--> RackChannel_0_Container_A <--> rackSwitch_1.ethg++;
+        }
+
+
         rackSwitch_0.ethg++ <--> Channel_0_Container_A <--> switch_0.ethg++;
-        ns_0_NodeStorage_C.ethg++ <--> Channel_1_Container_A <--> switch_0.ethg++;
+        rackSwitch_1.ethg++ <--> Channel_1_Container_A <--> switch_0.ethg++;
+
+        ns_0_NodeStorage_C.ethg++ <--> Channel_2_Container_A <--> switch_0.ethg++;
 }

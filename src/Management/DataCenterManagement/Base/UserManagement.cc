@@ -20,12 +20,14 @@ UserManagement::~UserManagement() {
 }
 
 void UserManagement::initialize(){
+    if (DEBUG_CLOUD_SCHED) printf("\n Method[UserManagement]: -------> initialize\n");
 
     userList.clear();
     no_more_users = false;
     simulationPerTime = false;
 
     icancloud_Base::initialize();
+    if (DEBUG_CLOUD_SCHED) printf("\n Method[UserManagement]: -------> initialize-----FIN---------------\n");
 
 }
 

@@ -80,6 +80,7 @@ bool RequestsManagement::schedulerUnblock(){
 
 // ---------------------- Interact with requests and requestsQueue ------------------------------------
 void RequestsManagement::userSendRequest(AbstractRequest* request){
+    if (DEBUG_CLOUD_SCHED) printf("\n Method[RequestsManagement]: -------> userSendRequest-------------------------------------------\n");
 
     // Insert into the requestsQueue
     if (!schedulerQueueBlocked){

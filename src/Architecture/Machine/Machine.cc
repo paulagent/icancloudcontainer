@@ -19,6 +19,7 @@ Machine::~Machine() {
 }
 
 void Machine::initialize(){
+  //  if (DEBUG_CLOUD_SCHED) printf("\n Method[Machine]: ------->initialize\n");
 
     cModule* osMod;
 
@@ -32,14 +33,19 @@ void Machine::initialize(){
 
     os->setFreeMemory (type->getMemorySize());
     os->setFreeStorage (type->getStorageSize());
+    if (DEBUG_CLOUD_SCHED) cout <<"type->getMemorySize()---->" <<type->getMemorySize() << endl;
+    if (DEBUG_CLOUD_SCHED) cout << "type->getStorageSize()"<<type->getStorageSize() << endl;
 
     type->setNumCores(par("numCores").longValue());
     type->setNumStorageDevices(par("numStorageSystems").longValue());
     type->setType(this->getName());
+    if (DEBUG_CLOUD_SCHED) cout << "type->getType()"<<type->getType() << endl;
 
     if (os == NULL) throw cRuntimeError ("Node can't link its os at initialization.\n");
 
     icancloud_Base::initialize();
+ //   if (DEBUG_CLOUD_SCHED) printf("\n Method[Machine]: ------->initialize--------FIN--------------------------------\n");
+
 }
 
 void Machine::finish(){

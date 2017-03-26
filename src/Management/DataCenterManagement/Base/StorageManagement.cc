@@ -21,10 +21,13 @@ StorageManagement::~StorageManagement() {
 }
 
 void StorageManagement::initialize(){
+    if (DEBUG_CLOUD_SCHED) printf("\n Method[StorageManagement]: -------> initialize\n");
 
     // The number of Parallel file system remote servers (from .ned parameter)
     numberOfPFSRemoteServers = par("numberOfPFSRemoteServers");
     icancloud_Base::initialize();
+    if (DEBUG_CLOUD_SCHED) printf("\n Method[StorageManagement]: -------> initialize--------FIN--------------\n");
+
 }
 
 void StorageManagement::finish(){

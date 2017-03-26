@@ -6,6 +6,7 @@ AbstractSyscallManager::~AbstractSyscallManager(){
 
 
 void AbstractSyscallManager::initialize(){
+  //  if (DEBUG_CLOUD_SCHED) printf("\n Method[AbstractSyscallManager]: ------->initialize\n");
 
     // Init the super-class
     icancloud_Base::initialize();
@@ -34,7 +35,9 @@ void AbstractSyscallManager::initialize(){
         processesRunning.clear();
 
         totalMemory_KB = totalStorage_KB = memoryFree_KB = storageFree_KB = 0;
-		    
+
+     //   if (DEBUG_CLOUD_SCHED) printf("\n Method[AbstractSyscallManager]: ------->initialize---------------FIN-----------\n");
+
 }
 
 

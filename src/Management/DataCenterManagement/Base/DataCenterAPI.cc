@@ -266,6 +266,9 @@ AbstractNode* DataCenterAPI::getNodeByIndex (string setId, int nodeIndex, bool s
 AbstractNode* DataCenterAPI::getNodeByIndex (int setIndex, int nodeIndex, bool storage){
     Machine* result;
     AbstractNode* node;
+ //   if (DEBUG_CLOUD_SCHED) printf("\n Method[DataCenterAPI]: -------> getNodeByIndex-------------------------------------------\n");
+//    if (DEBUG_CLOUD_SCHED) printf("\n Method[DataCenterAPI]: -------> setIndex-----------%i\n",setIndex);
+//    if (DEBUG_CLOUD_SCHED) printf("\n Method[DataCenterAPI]: -------> nodeIndex-----------%i\n",nodeIndex);
 
     if (storage)
         result = storage_nodesMap->getMachineByIndex(setIndex, nodeIndex);
@@ -273,6 +276,7 @@ AbstractNode* DataCenterAPI::getNodeByIndex (int setIndex, int nodeIndex, bool s
         result = nodesMap->getMachineByIndex(setIndex, nodeIndex);
 
     node = dynamic_cast<AbstractNode*>(result);
+ //   if (DEBUG_CLOUD_SCHED) printf("\n Method[DataCenterAPI]: -------> getNodeByIndex--------FIN-----------------------------------\n");
 
     return node;
 }

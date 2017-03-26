@@ -18,10 +18,12 @@
 Define_Module(Node);
 
 void Node::initialize(){
+    if (DEBUG_CLOUD_SCHED) printf("\n Method[Node]: ------->initialize\n");
 
     AbstractNode::initialize();
     // Initialize the state
     energyMeterPtr = NULL;
+    if (DEBUG_CLOUD_SCHED) printf("\n Method[Node]: ------->initialize---------------FIN-----------\n");
 
 }
 
@@ -50,6 +52,7 @@ void Node::turnOff (){
 }
 
 void Node::initNode (){
+  //  if (DEBUG_CLOUD_SCHED) printf("\n Method[Node]: -------> initNode\n");
 
     RoutingTable* rTable;
     string ipNode;
@@ -75,6 +78,7 @@ void Node::initNode (){
         storageNode = par("storageNode").boolValue();
         state = par("initialState").stringValue();
         storageLocalPort = par("storage_local_port").longValue();
+        if (DEBUG_CLOUD_SCHED) printf("\n Method[Node]: -------> initNode--------------storageLocalPort----------------%i\n",storageLocalPort);
 
         cModule* mod = getSubmodule("energyMeter")->getSubmodule("meterController");
 
@@ -82,6 +86,7 @@ void Node::initNode (){
         energyMeterPtr->init();
         energyMeterPtr->registerMemorization(getParentModule()->getSubmodule("manager")->par("memorization").boolValue());
         energyMeterPtr->activateMeters();
+        if (DEBUG_CLOUD_SCHED) printf("\n Method[Node]: -------> initNode--------------activateMeters---------------\n");
 
         // initialize system apps
         int port;
@@ -95,6 +100,8 @@ void Node::initNode (){
     }catch (exception& e){
         throw cRuntimeError("Node::initNode -> can not initialize the node module!...");
     }
+   // if (DEBUG_CLOUD_SCHED) printf("\n Method[Node]: -------> initNode---------------FIN----------------\n");
+
 
 }
 

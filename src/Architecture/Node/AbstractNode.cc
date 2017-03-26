@@ -19,11 +19,13 @@ AbstractNode::~AbstractNode() {
 }
 
 void AbstractNode::initialize(){
+  //  if (DEBUG_CLOUD_SCHED) printf("\n Method[AbstractNode]: ------->initialize\n");
 
     Machine::initialize();
 
     os = dynamic_cast<SyscallManager*>(os);
     storageLocalPort = -1;
+  //  if (DEBUG_CLOUD_SCHED) printf("\n Method[AbstractNode]: ------->initialize-------------FIN----------\n");
 
 }
 
@@ -33,11 +35,15 @@ void AbstractNode::finish(){
 }
 
 void AbstractNode::initialize_syscallManager(int localPort){
+  //  if (DEBUG_CLOUD_SCHED) printf("\n Method[AbstractNode]: ------->initialize_syscallManager\n");
+
     SyscallManager* sc;
     storageLocalPort = localPort;
     sc = check_and_cast<SyscallManager*>(os);
     sc -> initializeSystemApps(storageLocalPort, INITIAL_STATE);
     sc -> setManager(this);
+  //  if (DEBUG_CLOUD_SCHED) printf("\n Method[AbstractNode]: ------->initialize_syscallManager-----FIN---------\n");
+
 }
 
 void AbstractNode::closeConnections (int uId, int pId){

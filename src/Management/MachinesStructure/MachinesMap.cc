@@ -562,6 +562,7 @@ Machine* MachinesMap::getMachineByIndex (string machineSetId, int machineIndex){
 }
 
 Machine* MachinesMap::getMachineByIndex (int machineSetIndex, int machineIndex){
+//    if (DEBUG_CLOUD_SCHED) printf("\n Method[MachinesMap]: -------> getMachineByIndex-------------------------------------------\n");
 
 	// Define ..
 		Machine* result;
@@ -577,6 +578,8 @@ Machine* MachinesMap::getMachineByIndex (int machineSetIndex, int machineIndex){
 		else {
 			throw cRuntimeError("machinesMap::getmachineByIndex->Error. Index (%i) - machineMapIndex(%i)", machineSetIndex, machineMap.size());
 		}
+//	    if (DEBUG_CLOUD_SCHED) printf("\n Method[MachinesMap]: -------> getMachineByIndex----------FIN---------------------------------\n");
+
 		return result;
 
 }

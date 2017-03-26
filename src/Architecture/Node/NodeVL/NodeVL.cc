@@ -23,9 +23,12 @@ NodeVL::~NodeVL() {
 }
 
 void NodeVL::initialize(){
+ //   if (DEBUG_CLOUD_SCHED) printf("\n Method[NodeVL]: ------->initialize\n");
 
         instancedVMs.clear();
         Node::initialize();
+
+ //    if (DEBUG_CLOUD_SCHED) printf("\n Method[NodeVL]: ------->initialize--------------FIN--------------\n");
 
 }
 
@@ -40,6 +43,7 @@ void NodeVL::freeResources (int pId, int uId){
 }
 
 bool NodeVL::testLinkVM (int vmCPUs, int vmMemory, int vmStorage, int vmNetIF, string vmTypeID, int uId, int pId){
+    if (DEBUG_CLOUD_SCHED) printf("\n Method[NodeVL]: -------> testLinkVM\n");
 
     // Define ..
         bool ok;
@@ -48,8 +52,15 @@ bool NodeVL::testLinkVM (int vmCPUs, int vmMemory, int vmStorage, int vmNetIF, s
         ok = false;
 
     // Begin ..
+        if (DEBUG_CLOUD_SCHED) cout<< "vmCPUs--->"<<vmCPUs<<endl;
+        if (DEBUG_CLOUD_SCHED) cout<< "vmMemory--->"<<vmMemory<<endl;
+        if (DEBUG_CLOUD_SCHED) cout<< "vmStorage--->"<<vmStorage<<endl;
+
+        if (DEBUG_CLOUD_SCHED) cout<< "NodeMemory--->"<<getFreeMemory()<<endl;
+        if (DEBUG_CLOUD_SCHED) cout<< "NodeStorage--->"<<getFreeStorage()<<endl;
 
      if ((getFreeMemory() > vmMemory) && (getFreeStorage() > vmStorage) && (!getIP().empty())) {
+
          // The maximum number of processes that allow running at node (vms maybe?)
          if  (getNumProcessesRunning() < 1000){
              ok = true;
@@ -58,6 +69,8 @@ bool NodeVL::testLinkVM (int vmCPUs, int vmMemory, int vmStorage, int vmNetIF, s
 
          }
      }
+     if (DEBUG_CLOUD_SCHED) printf("\n Method[NodeVL]: -------> testLinkVM----------------FIN--------\n");
+
      return ok;
 }
 
@@ -69,6 +82,7 @@ void NodeVL::linkVM (cGate** iGateCPU,cGate** oGateCPU,
         cGate* iGateNet,cGate* oGateNet,
         cGate* iGateStorage,cGate* oGateStorage,
         int numCores, string virtualIP,  int vmMemory, int vmStorage, int uId, int pId){
+    if (DEBUG_CLOUD_SCHED) printf("\n Method[NodeVL]: -------> LinkVM\n");
 
     VMID* vmIdentifier;
 
@@ -81,6 +95,7 @@ void NodeVL::linkVM (cGate** iGateCPU,cGate** oGateCPU,
 }
 
 void NodeVL::unlinkVM (int vmMemory, int vmNumCores, int vmStorage, string virtualIP, int uId, int pId){
+    if (DEBUG_CLOUD_SCHED) printf("\n Method[NodeVL]: -------> unlinkVM\n");
 
 	// Define ..
 		vector<VMID*>::iterator vmIT;
@@ -147,6 +162,8 @@ VM* NodeVL::getVMInstance (int pId, int uId){
 };
 
 void NodeVL::initNode (){
+
+  //  if (DEBUG_CLOUD_SCHED) printf("\n Method[NodeVL]: -------> initNode\n");
 
     cModule* hypervisorMod;
     string ipNode;

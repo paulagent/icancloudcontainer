@@ -58,6 +58,7 @@ void Hypervisor::setVM (cGate** iGateCPU,
         cGate* iGateStorage,
         cGate* oGateStorage,
         int numCores, string virtualIP, int requestedMemoryKB, int requestedStorageKB, int uId, int pId){
+ //   if (DEBUG_CLOUD_SCHED) printf("\n Method[Hypervisor]: -------> setVM\n");
 
     cpuM->setVM(oGateCPU, iGateCPU, numCores, uId, pId);
 
@@ -70,6 +71,8 @@ void Hypervisor::setVM (cGate** iGateCPU,
 }
 
 void Hypervisor::freeResources (int uId, int pId){
+    if (DEBUG_CLOUD_SCHED) printf("\n Method[Hypervisor]: -------> freeResources\n");
+
     cpuM->freeVM(uId, pId);
     memM->freeVM(uId, pId);
     netM->freeVM(uId, pId);

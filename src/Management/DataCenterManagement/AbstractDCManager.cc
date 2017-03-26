@@ -30,6 +30,7 @@ AbstractDCManager::~AbstractDCManager() {
 }
 
 void AbstractDCManager::initialize(){
+    if (DEBUG_CLOUD_SCHED) printf("\n Method[AbstractDCManager]: -------> initialize\n");
 
         // Define ..
             cMessage *msg;
@@ -147,6 +148,7 @@ void AbstractDCManager::initialize(){
           scheduleAt (simTime()+timeToStartManager, msg);
 
           memorization = par ("memorization").boolValue();
+          if (DEBUG_CLOUD_SCHED) printf("\n Method[AbstractDCManager]: -------> initialize------------FIN---------\n");
 
 }
 

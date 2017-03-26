@@ -42,8 +42,8 @@ using std::string;
 
 //// TRACE_LOCAL_APPLICATION
 
-	#define DEBUG_Application false			        // Shows basic debug messages
-	#define DEBUG_MSG_BasicApplication false		// Shows all messages enterely (including all parameters)
+	#define DEBUG_Application true			        // Shows basic debug messages
+	#define DEBUG_MSG_BasicApplication true		// Shows all messages enterely (including all parameters)
 
 
 //// TRACE_LOCAL_APPLICATION
@@ -82,8 +82,8 @@ using std::string;
 
 //// APP_SYSTEM_REQUESTS
 
-	#define DEBUG_AppSystem false					// Shows basic debug messages
-	#define DEBUG_MSG_AppSystem false				// Shows all messages enterely (including all parameters)
+	#define DEBUG_AppSystem true					// Shows basic debug messages
+	#define DEBUG_MSG_AppSystem true			// Shows all messages enterely (including all parameters)
 
 //// REMOTE STORAGE APP Debug
 	#define DEBUG_RemoteStorage false					// Shows basic debug messages
@@ -95,8 +95,8 @@ using std::string;
 
 //// Application Checkpoint
 
-	#define DEBUG_ApplicationCheckpoint false		//Shows basic debug messages
-	#define DEBUG_MSG_ApplicationCheckpoint false	// Shows all messages enterely (including all parameters)
+	#define DEBUG_ApplicationCheckpoint true		//Shows basic debug messages
+	#define DEBUG_MSG_ApplicationCheckpoint true	// Shows all messages enterely (including all parameters)
 
 
 /************************* FILE CONFIGURATION *************************/		
@@ -117,8 +117,8 @@ using std::string;
 
 /************************* CPU SCHEDULERS *************************/
 
-	#define DEBUG_CPU_Scheduler_FIFO false				// Shows basic debug messages
-	#define DEBUG_MSG_CPU_Scheduler_FIFO false			// Shows all messages enterely (including all parameters)
+	#define DEBUG_CPU_Scheduler_FIFO true				// Shows basic debug messages
+	#define DEBUG_MSG_CPU_Scheduler_FIFO true			// Shows all messages enterely (including all parameters)
 	#define DEBUG_CPU_Scheduler_RR false				// Shows basic debug messages
 	#define DEBUG_MSG_CPU_Scheduler_RR false			// Shows all messages enterely (including all parameters)
 
@@ -130,7 +130,7 @@ using std::string;
 
 /************************* BASIC FILE SYSTEM *************************/
 
-	#define DEBUG_Basic_FS false							// Shows basic debug messages
+	#define DEBUG_Basic_FS true							// Shows basic debug messages
 	#define DEBUG_DETAILED_Basic_FS false					// Shows detailed debug messages
 	#define DEBUG_PARANOIC_Basic_FS false					// Shows the FS layout after each FS call
 	#define DEBUG_MSG_Basic_FS false						// Shows all messages enterely (including all parameters)
@@ -182,7 +182,7 @@ using std::string;
 
 /************************* NETWORK SERVICES *************************/
 
-	#define DEBUG_Network_Service false				// Shows basic debug messages
+	#define DEBUG_Network_Service true				// Shows basic debug messages
 	#define DEBUG_MSG_Network_Service false			// Shows all messages enterely (including all parameters)
 	#define DEBUG_TCP_Service_Client false			// Shows basic debug messages
 	#define DEBUG_TCP_Service_MSG_Client false		// Shows all messages enterely (including all parameters)
@@ -209,15 +209,15 @@ using std::string;
 	
 /************************* CLOUD SCHEDULER *************************/
 
-	#define DEBUG_CLOUD_SCHED false
+	#define DEBUG_CLOUD_SCHED true
 
 /************************* HYPERVISOR SCHEDULER *************************/
 
-	#define DEBUG_HYPERVISOR_BASE false
-	#define DEBUG_BASIC_HYPERVISOR false
-	#define DEBUG_WAITING_QUEUE false
-	#define DEBUG_H_NETMANAGER_BASE false
-	#define DEBUG_MSG_H_CPUMANAGER_Scheduler_FIFO false
+	#define DEBUG_HYPERVISOR_BASE true
+	#define DEBUG_BASIC_HYPERVISOR true
+	#define DEBUG_WAITING_QUEUE true
+	#define DEBUG_H_NETMANAGER_BASE true
+	#define DEBUG_MSG_H_CPUMANAGER_Scheduler_FIFO true
 
 
 
