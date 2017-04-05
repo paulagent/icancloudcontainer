@@ -259,9 +259,9 @@ AbstractNode* CloudSchedulerRandom::selectNode (AbstractRequest* req){
                      totalTimes++;
                  }
             }
+            if (DEBUG_CLOUD_SCHED) printf("\n Method[CloudSchedulerRandom]: -------> selectNode-----FIN----\n");
 
         return node;
-        if (DEBUG_CLOUD_SCHED) printf("\n Method[CloudSchedulerRandom]: -------> selectNode-----FIN----\n");
 
 }
 

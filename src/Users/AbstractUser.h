@@ -14,8 +14,8 @@
 #include "AbstractNode.h"
 #include "UserJob.h"
 #include "Container_UserJob.h"
-class UserJob;
-class Container_UserJob;
+//class UserJob;
+//class Container_UserJob;
 
 class AbstractUser : public userStorage {
 
@@ -52,10 +52,10 @@ protected:
 		/*
 		 * This method returns a job of the user list of jobs waiting to be executed at waiting queue.
 		 */
-	//	virtual jobBase* selectJob () = 0;
-   //     virtual Container_jobBase* selectContainerJob () = 0;
-        virtual UserJob* selectJob () = 0;
-        virtual Container_UserJob* selectContainerJob () = 0;
+		virtual jobBase* selectJob () = 0;
+        virtual Container_jobBase* selectContainerJob () = 0;
+   //     virtual UserJob* selectJob () = 0;
+  //      virtual Container_UserJob* selectContainerJob () = 0;
 		/*
 		 *  This method is invoked from the application when a job has finished.
 		 *  It is useful to extract values from the job, or the timings of the executions.

@@ -38,12 +38,12 @@ protected:
 		 * The basic behavior, the first step to do is select the VMs to startUp and the
 		 * second is to request them to the cloud manager.
 		 */
-		void userInitialization ();
+		virtual void userInitialization ();
 
 		/*
 		 * Things to do by tenant before leave the system
 		 */
-		void userFinalization ();
+		virtual void userFinalization ();
 
 
 		//------------------------ Interact with VMs -------------------------
@@ -51,7 +51,7 @@ protected:
 		/* This method request to the cloud manager the VMs to start them.
 		 *  @Param: The map of vms to calculate the request of vms.
 		 */
-		AbstractRequest* selectVMs_ToStartUp ();
+		virtual AbstractRequest* selectVMs_ToStartUp ();
 
 
 		/*
@@ -60,21 +60,21 @@ protected:
 		 * 		- add into the request VMs more than one time the same VM.
 		 * 		- get the VMs in VM_STATE_FREE and VM_STATE_RUNNING
 		 */
-		AbstractRequest* selectResourcesJob (jobBase* job);
-        AbstractRequest* selectResourcesContainerJob (Container_jobBase* job);
+		virtual AbstractRequest* selectResourcesJob (jobBase* job);
+		virtual AbstractRequest* selectResourcesContainerJob (Container_jobBase* job);
 
 		/*
 		 * When the CloudManager attends a request and creates the VMs, it notifies this fact to
 		 * the user with request attended. The parameters are a vector with pointers created to the VMs modules and
 		 * the virtual machine type which they belong.
 		 */
-		void requestAttended (AbstractRequest* req);
+		virtual void requestAttended (AbstractRequest* req);
 
         /*
          * When a request operation is unknown or it provokes an exception, this method
          * will be called by CloudManager.
          */
-		void requestErrorDeleted (AbstractRequest* req);
+		virtual void requestErrorDeleted (AbstractRequest* req);
 
 		// ------------------------- Interact with jobs --------------------------------
 
@@ -82,8 +82,8 @@ protected:
 		 * This method returns the first job of the waitingQueue structure of the user.
 		 * @param: the index is the position of the job in the vector jobList.
 		 */
-		UserJob* selectJob ();
-		Container_UserJob* selectContainerJob();
+		virtual UserJob* selectJob ();
+		virtual Container_UserJob* selectContainerJob();
 	//	Container_jobBase* selectContainerJob();
 
 		/*
@@ -92,14 +92,16 @@ protected:
 		 *  and call to schedule.
 		 */
 
-		void jobHasFinished (jobBase* job);
-        void ContainerjobHasFinished (Container_jobBase* job);
+		virtual void jobHasFinished (jobBase* job);
+		virtual void ContainerjobHasFinished (Container_jobBase* job);
+
+
 
 		/*
 		 * This method define the behavior of the user. The order of the actions and the main decisions of the user.
 		 */
-		void schedule();
+		virtual void schedule();
 
 };
 
-#endif /* HPC_USER_H_ */
+#endif /* GENERAL_USER_H_ */

@@ -1408,7 +1408,6 @@ $O/src/Architecture/Node/Node/Node.o: src/Architecture/Node/Node/Node.cc \
 	src/Management/DataCenterManagement/Base/RequestsManagement.h \
 	src/Management/DataCenterManagement/Base/StorageManagement.h \
 	src/Management/DataCenterManagement/Base/UserManagement.h \
-	src/Management/DataCenterManagement/ResourcesProvisioning/AbstractDCManager.h \
 	src/Management/MachinesStructure/ElementType.h \
 	src/Management/MachinesStructure/HeterogeneousSet.h \
 	src/Management/MachinesStructure/MachinesMap.h \
@@ -1501,7 +1500,6 @@ $O/src/Architecture/Node/NodeVL/NodeVL.o: src/Architecture/Node/NodeVL/NodeVL.cc
 	src/Management/DataCenterManagement/Base/RequestsManagement.h \
 	src/Management/DataCenterManagement/Base/StorageManagement.h \
 	src/Management/DataCenterManagement/Base/UserManagement.h \
-	src/Management/DataCenterManagement/ResourcesProvisioning/AbstractDCManager.h \
 	src/Management/MachinesStructure/ElementType.h \
 	src/Management/MachinesStructure/HeterogeneousSet.h \
 	src/Management/MachinesStructure/MachinesMap.h \
@@ -3500,7 +3498,6 @@ $O/src/Management/CloudManagement/Base/AllocationManagement.o: src/Management/Cl
 	src/Management/DataCenterManagement/Base/RequestsManagement.h \
 	src/Management/DataCenterManagement/Base/StorageManagement.h \
 	src/Management/DataCenterManagement/Base/UserManagement.h \
-	src/Management/DataCenterManagement/ResourcesProvisioning/AbstractDCManager.h \
 	src/Management/MachinesStructure/ElementType.h \
 	src/Management/MachinesStructure/HeterogeneousSet.h \
 	src/Management/MachinesStructure/MachinesMap.h \
@@ -3593,7 +3590,6 @@ $O/src/Management/CloudManagement/CloudManager/AbstractCloudManager.o: src/Manag
 	src/Management/DataCenterManagement/Base/RequestsManagement.h \
 	src/Management/DataCenterManagement/Base/StorageManagement.h \
 	src/Management/DataCenterManagement/Base/UserManagement.h \
-	src/Management/DataCenterManagement/ResourcesProvisioning/AbstractDCManager.h \
 	src/Management/MachinesStructure/ElementType.h \
 	src/Management/MachinesStructure/HeterogeneousSet.h \
 	src/Management/MachinesStructure/MachinesMap.h \
@@ -3699,7 +3695,6 @@ $O/src/Management/CloudManagement/ResourcesProvisioning/CloudSchedulerFCFS/Cloud
 	src/Management/DataCenterManagement/Base/RequestsManagement.h \
 	src/Management/DataCenterManagement/Base/StorageManagement.h \
 	src/Management/DataCenterManagement/Base/UserManagement.h \
-	src/Management/DataCenterManagement/ResourcesProvisioning/AbstractDCManager.h \
 	src/Management/MachinesStructure/ElementType.h \
 	src/Management/MachinesStructure/HeterogeneousSet.h \
 	src/Management/MachinesStructure/MachinesMap.h \
@@ -3805,7 +3800,6 @@ $O/src/Management/CloudManagement/ResourcesProvisioning/CloudSchedulerFCFS_gnup/
 	src/Management/DataCenterManagement/Base/RequestsManagement.h \
 	src/Management/DataCenterManagement/Base/StorageManagement.h \
 	src/Management/DataCenterManagement/Base/UserManagement.h \
-	src/Management/DataCenterManagement/ResourcesProvisioning/AbstractDCManager.h \
 	src/Management/MachinesStructure/ElementType.h \
 	src/Management/MachinesStructure/HeterogeneousSet.h \
 	src/Management/MachinesStructure/MachinesMap.h \
@@ -3911,7 +3905,6 @@ $O/src/Management/CloudManagement/ResourcesProvisioning/CloudSchedulerRR/CloudSc
 	src/Management/DataCenterManagement/Base/RequestsManagement.h \
 	src/Management/DataCenterManagement/Base/StorageManagement.h \
 	src/Management/DataCenterManagement/Base/UserManagement.h \
-	src/Management/DataCenterManagement/ResourcesProvisioning/AbstractDCManager.h \
 	src/Management/MachinesStructure/ElementType.h \
 	src/Management/MachinesStructure/HeterogeneousSet.h \
 	src/Management/MachinesStructure/MachinesMap.h \
@@ -4017,7 +4010,6 @@ $O/src/Management/CloudManagement/ResourcesProvisioning/CloudSchedulerRandom/Clo
 	src/Management/DataCenterManagement/Base/RequestsManagement.h \
 	src/Management/DataCenterManagement/Base/StorageManagement.h \
 	src/Management/DataCenterManagement/Base/UserManagement.h \
-	src/Management/DataCenterManagement/ResourcesProvisioning/AbstractDCManager.h \
 	src/Management/MachinesStructure/ElementType.h \
 	src/Management/MachinesStructure/HeterogeneousSet.h \
 	src/Management/MachinesStructure/MachinesMap.h \
@@ -4116,7 +4108,6 @@ $O/src/Management/DataCenterManagement/AbstractDCManager.o: src/Management/DataC
 	src/Management/DataCenterManagement/Base/RequestsManagement.h \
 	src/Management/DataCenterManagement/Base/StorageManagement.h \
 	src/Management/DataCenterManagement/Base/UserManagement.h \
-	src/Management/DataCenterManagement/ResourcesProvisioning/AbstractDCManager.h \
 	src/Management/MachinesStructure/ElementType.h \
 	src/Management/MachinesStructure/HeterogeneousSet.h \
 	src/Management/MachinesStructure/MachinesMap.h \
@@ -4391,7 +4382,6 @@ $O/src/Management/DataCenterManagement/ResourcesProvisioning/DataCenterScheduler
 	src/Management/DataCenterManagement/Base/RequestsManagement.h \
 	src/Management/DataCenterManagement/Base/StorageManagement.h \
 	src/Management/DataCenterManagement/Base/UserManagement.h \
-	src/Management/DataCenterManagement/ResourcesProvisioning/AbstractDCManager.h \
 	src/Management/DataCenterManagement/ResourcesProvisioning/DataCenterSchedulerInterface.h \
 	src/Management/DataCenterManagement/ResourcesProvisioning/DataCenterSchedulers/DataCenterSchedulerFIFO/DataCenterSchedulerFIFO.h \
 	src/Management/MachinesStructure/ElementType.h \
@@ -5790,7 +5780,6 @@ $O/src/Virtualization/Hypervisor/Hypervisors/Hypervisor.o: src/Virtualization/Hy
 	src/Management/DataCenterManagement/Base/RequestsManagement.h \
 	src/Management/DataCenterManagement/Base/StorageManagement.h \
 	src/Management/DataCenterManagement/Base/UserManagement.h \
-	src/Management/DataCenterManagement/ResourcesProvisioning/AbstractDCManager.h \
 	src/Management/MachinesStructure/ElementType.h \
 	src/Management/MachinesStructure/HeterogeneousSet.h \
 	src/Management/MachinesStructure/MachinesMap.h \

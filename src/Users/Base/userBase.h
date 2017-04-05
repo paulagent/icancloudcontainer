@@ -69,7 +69,7 @@ public:
      * This method add a job to jobList when it is parsed from the parameters defined in omnetpp.ini
      */
     virtual void addParsedJob (jobBase *job){};
-//Zahra Nikdel:
+///Zahra Nikdel:
     virtual void addParsedContainerJob (Container_jobBase *job){};
 
     /*

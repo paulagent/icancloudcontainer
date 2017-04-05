@@ -404,7 +404,7 @@ int Node_FileSystem::load_UserPreloadFiles (string preload_data, int userID){
         result = icancloud_OK;
         preloadCfg = new CfgPreloadFS();
 
-        if (!preload_data.empty() && (!userID == -1)){
+        if (!preload_data.empty() && (!(userID == -1))){
 
             existsUser = searchUser(userID);
 

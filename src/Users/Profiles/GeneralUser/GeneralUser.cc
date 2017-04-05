@@ -442,8 +442,8 @@ void GeneralUser::schedule(){
 		Container_jobBase* cJobB;
 		AbstractRequest* reqB;
         AbstractRequest* cReqB;
-
-		RequestVM* reqVM,cReqVM;
+        RequestVM* reqVM;
+		RequestVM* cReqVM;
 		vector <VM*> setToExecute;
 		unsigned int i;
 		int quantityVMFree;
@@ -536,13 +536,13 @@ void GeneralUser::schedule(){
 	        while ((cJob != NULL) && (!breakScheduling)){
 
 	             cReqB= selectResourcesContainerJob (cJob); // get first free VM
-	             reqVM = dynamic_cast<RequestVM*>(reqB);
+	             cReqVM = dynamic_cast<RequestVM*>(cReqB);
 
-	            if (reqVM->getVMQuantity() != 0){
+	            if (cReqVM->getVMQuantity() != 0){
 
 	                // Allocate the set of machines where the cJob is going to execute into the own cJob
 
-	                    vm = dynamic_cast<VM*>(reqVM->getVM(0));
+	                    vm = dynamic_cast<VM*>(cReqVM->getVM(0));
 
 	                    cJob->setMachine(vm);
 	                    cJobB = dynamic_cast<Container_jobBase*>(cJob);
@@ -552,7 +552,7 @@ void GeneralUser::schedule(){
 	                    }
 
 	                    createFSforContainerJob (cJob, cJob->getMachine()->getIP(), vm->getNodeSetName(), vm->getNodeName(), vm->getPid());
-	                    delete(reqVM);
+	                    delete(cReqVM);
 
 	            } else {
 
@@ -597,3 +597,8 @@ void GeneralUser::schedule(){
 
 	        }
 }
+
+
+
+
+
