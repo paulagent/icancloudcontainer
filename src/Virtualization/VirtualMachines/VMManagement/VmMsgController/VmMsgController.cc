@@ -61,6 +61,8 @@ void VmMsgController::initialize(){
 		fromApps = new cGateManager(this);
 		toApps = new cGateManager(this);
 
+
+
 }
 
 void VmMsgController::finish(){

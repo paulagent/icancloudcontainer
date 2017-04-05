@@ -1,5 +1,5 @@
 E # 0 t 0 m 1 ce -1 msg -1
-SB v 1030 rid General-0-20170325-21:45:34-3988 b 1000
+SB v 1030 rid General-0-20170326-00:40:40-6269 b 1000
 KF p -1 c "" s ""
 MC id 1 c cModule t icancloud.simulations.Container_A_RR.Container_A_RR n Container_A_RR cm 1
 MS id 1 d ""
@@ -8281,7 +8281,7 @@ MB sm 2 tm 505 m ""
 ME
 MB sm 2 tm 65 m ""
 ME
-- Time spent in IPv4NetworkConfigurator::extractTopology(topology): 0.001489s
+- Time spent in IPv4NetworkConfigurator::extractTopology(topology): 0.001576s
 - DEBUG: Container_A_RR.ns_0_NodeStorage_C:eth0
 - DEBUG: Container_A_RR.rc_0_Rack_A_4[0]:eth0
 - DEBUG: Container_A_RR.rc_0_Rack_A_4[1]:eth0
@@ -8322,8 +8322,8 @@ ME
 - DEBUG: Selected interface address: 192.168.0.3
 - DEBUG: Selected interface address: 192.168.0.4
 - DEBUG: Selected interface address: 192.168.0.5
-- Time spent in IPv4NetworkConfigurator::assignAddresses(topology): 0.000125s
-- Time spent in IPv4NetworkConfigurator::readMulticastGroupConfiguration(topology): 2e-06s
+- Time spent in IPv4NetworkConfigurator::assignAddresses(topology): 0.000163s
+- Time spent in IPv4NetworkConfigurator::readMulticastGroupConfiguration(topology): 3e-06s
 - DEBUG: Adding route Container_A_RR.ns_0_NodeStorage_C.eth0 -> Container_A_RR.rc_0_Rack_A_4[0].eth0 as dest:192.168.0.2  gw:*  mask:255.255.255.255  metric:0 if:eth0(<unspec>)  DIRECT MANUAL
 - DEBUG: Adding route Container_A_RR.ns_0_NodeStorage_C.eth0 -> Container_A_RR.rc_0_Rack_A_4[1].eth0 as dest:192.168.0.3  gw:*  mask:255.255.255.255  metric:0 if:eth0(<unspec>)  DIRECT MANUAL
 - DEBUG: Adding route Container_A_RR.ns_0_NodeStorage_C.eth0 -> Container_A_RR.rc_0_Rack_B_4[0].eth0 as dest:192.168.0.4  gw:*  mask:255.255.255.255  metric:0 if:eth0(<unspec>)  DIRECT MANUAL
@@ -8344,8 +8344,8 @@ ME
 - DEBUG: Adding route Container_A_RR.rc_0_Rack_B_4[1].eth0 -> Container_A_RR.rc_0_Rack_A_4[0].eth0 as dest:192.168.0.2  gw:*  mask:255.255.255.255  metric:0 if:eth0(<unspec>)  DIRECT MANUAL
 - DEBUG: Adding route Container_A_RR.rc_0_Rack_B_4[1].eth0 -> Container_A_RR.rc_0_Rack_A_4[1].eth0 as dest:192.168.0.3  gw:*  mask:255.255.255.255  metric:0 if:eth0(<unspec>)  DIRECT MANUAL
 - DEBUG: Adding route Container_A_RR.rc_0_Rack_B_4[1].eth0 -> Container_A_RR.rc_0_Rack_B_4[0].eth0 as dest:192.168.0.4  gw:*  mask:255.255.255.255  metric:0 if:eth0(<unspec>)  DIRECT MANUAL
-- Time spent in IPv4NetworkConfigurator::addStaticRoutes(topology): 0.000354s
-- Time spent in IPv4NetworkConfigurator::initialize: 0.002197s
+- Time spent in IPv4NetworkConfigurator::addStaticRoutes(topology): 0.000376s
+- Time spent in IPv4NetworkConfigurator::initialize: 0.002317s
 ME
 MB sm 1 tm 93 m initialize(2)
 MB sm 93 tm 81 m ""

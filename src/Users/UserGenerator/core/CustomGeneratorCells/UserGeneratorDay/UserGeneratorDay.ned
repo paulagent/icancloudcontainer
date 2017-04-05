@@ -11,6 +11,8 @@ package icancloud.src.Users.UserGenerator.core.CustomGeneratorCells.UserGenerato
 import icancloud.src.Users.UserGenerator.VmDefinition.VmDefinition;
 import icancloud.src.Users.UserGenerator.DistributionDefinition.DistributionDefinition;
 import icancloud.src.Users.UserGenerator.AppDefinition.AppDefinition;
+import icancloud.src.Users.UserGenerator.ContainerDefinition.ContainerDefinition;
+
 import icancloud.src.Users.UserGenerator.core.CustomGeneratorCells.IUserGenerator;
 import icancloud.src.Users.UserGenerator.core.UserGenerator_cell;
 

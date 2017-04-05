@@ -15,6 +15,8 @@ package icancloud.src.Users.UserGenerator.core;
 import icancloud.src.Users.UserGenerator.VmDefinition.VmDefinition;
 import icancloud.src.Users.UserGenerator.DistributionDefinition.DistributionDefinition;
 import icancloud.src.Users.UserGenerator.AppDefinition.AppDefinition;
+import icancloud.src.Users.UserGenerator.ContainerDefinition.ContainerDefinition;
+
 import icancloud.src.Users.UserGenerator.core.CustomGeneratorCells.IUserGenerator;
 
 module UserGenerator_cell
@@ -55,7 +57,11 @@ module UserGenerator_cell
             parameters:
                 @display("p=226,74");
         }
-
+        //Zahra_Nikdel:
+        containerDefinition: ContainerDefinition {
+            parameters:
+                @display("p=340,124");
+        }
         core: <cell_type> like IUserGenerator {
             parameters:
                 name = name;

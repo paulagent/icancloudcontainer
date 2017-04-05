@@ -25,4 +25,9 @@ simple VmMsgController
         
         output toOSApps[];
         output toApps[];
+        
+        //Added by Zahra Nikdel:
+        
+        input fromDockerEngine[];
+        output toDockerEngine[];
 }

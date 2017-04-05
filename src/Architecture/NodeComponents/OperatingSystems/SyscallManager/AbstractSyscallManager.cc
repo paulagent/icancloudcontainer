@@ -24,6 +24,10 @@ void AbstractSyscallManager::initialize(){
         toAppGates = new cGateManager(this);
         fromAppGates = new cGateManager(this);
 
+        toContainerGates = new cGateManager(this);
+        fromContainerGates = new cGateManager(this);
+
+
         fromMemoryGate = gate ("fromMemory");
         fromNetGate = gate ("fromNet");
         fromCPUGate = gate ("fromCPU");
@@ -53,7 +57,9 @@ cGate* AbstractSyscallManager::getOutGate (cMessage *msg){
 		if (msg->arrivedOn("fromApps")){
 			return (gate("toApps", msg->getArrivalGate()->getIndex()));
 		}
-
+	    if (msg->arrivedOn("fromContainers")){
+	            return (gate("toContainers", msg->getArrivalGate()->getIndex()));
+	        }
 		// If msg arrive from Memory
 		else if (msg->getArrivalGate()==fromMemoryGate){
 			if (gate("toMemory")->getNextGate()->isConnected()){
@@ -158,6 +164,26 @@ void AbstractSyscallManager::allocateJob(icancloud_Base* job, simtime_t timeToSt
         scheduleAt (simTime()+timeToStart, msg);
 
 }
+void AbstractSyscallManager::allocateContainerJob(icancloud_Base* job, simtime_t timeToStart, int uId){
+
+    // Define ..
+        icancloud_Message* msg;
+        pendingJob* p_job;
+
+        msg = new icancloud_Message ("process_job");
+
+        msg->setUid(uId);
+
+        // Creates the structure;
+        p_job = new pendingJob();
+        p_job->job = job;
+        p_job->messageId = msg->getId();
+
+        pendingJobs.push_back(p_job);
+
+        scheduleAt (simTime()+timeToStart, msg);
+
+}
 
 bool AbstractSyscallManager::isAppRunning(int pId){
 
@@ -180,7 +206,27 @@ bool AbstractSyscallManager::isAppRunning(int pId){
     return found;
 
 }
+bool AbstractSyscallManager::isContainerRunning(int pId){
 
+    bool found = false;
+
+    for (int i = 0; (i < (int)processesRunning.size()) && (!found); i++){
+        if ((*(processesRunning.begin() + i))->process->getId() == pId){
+            found = true;
+        }
+    }
+
+    if (!found){
+        for (int i = 0; (i < (int)pendingJobs.size()) && (!found); i++){
+            if ((*(pendingJobs.begin() + i))->job->getId() == pId){
+                found = true;
+            }
+        }
+    }
+
+    return found;
+
+}
 icancloud_Base* AbstractSyscallManager::deleteJobFromStructures(int jobId){
     bool found = false;
     icancloud_Base* job;

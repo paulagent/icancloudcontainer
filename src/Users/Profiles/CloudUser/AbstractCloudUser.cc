@@ -32,6 +32,7 @@ void AbstractCloudUser::initialize(){
             configMPI = NULL;
 
             jobToDelete.clear();
+            containerJobToDelete.clear();
             wastedVMs.clear();
 
             AbstractUser::initialize();
@@ -234,8 +235,41 @@ int AbstractCloudUser::allocateJob(jobBase* job){
 
         return commId;
 }
+int AbstractCloudUser::allocateContainerJob(Container_jobBase* job){
+
+    // Define ..
+        cModule* syscallManager;
+        cModule* osModule;
+        VMSyscallManager* osCore;
+        Machine* vm;
+        Container_UserJob* jobC;
+        int commId;
+
+    // Initialize..
+        jobC = check_and_cast<Container_UserJob*>(job);
+        vm = jobC->getMachine();
+
+        if (vm == NULL) throw cRuntimeError ("User profile has allocate the VM at the job before call createFS.\n");
+
+    // Begin ..
+        osModule = vm->getSubmodule("osModule");
+
+        // Get AppModule vector
+           syscallManager = osModule->getSubmodule("syscallManager");
+
+           osCore = check_and_cast <VMSyscallManager*> (syscallManager);
+
+           commId =  osCore->createProcess(jobC, this->getId());
+
+
+        return commId;
+}
 
 void AbstractCloudUser::deleteJobVM (VM* vm, UserJob* job){
+    vm->removeProcess(job->getId());
+}
+
+void AbstractCloudUser::deleteContainerJobVM (VM* vm, Container_UserJob* job){
     vm->removeProcess(job->getId());
 }
 
@@ -315,12 +349,83 @@ void AbstractCloudUser::start_up_job_execution (VM* vmToExecute, UserJob* job, J
             jobAux->startExecution ();
 
 }
+void AbstractCloudUser::start_up_container_job_execution (VM* vmToExecute, Container_UserJob* job, Container_JobQueue* qSrc, Container_JobQueue* qDst, int qDst_pos){
 
+    // Define ...
+        int jobId;
+//      cModule* startExecution;
+        Machine* vm;
+        vector<VM*>::iterator setVMit;
+        Container_jobBase* jobB;
+        Container_UserJob* jobAux;
+        int index = 0;
+        bool found = false;
+    // Initialize...
+
+        jobId = job->getId();
+
+    //move from the qSrc to the scheduler queue of running jobs
+
+        if (qSrc == NULL){
+
+            while ((index < containerWaitingQueue->size()) && (!found)){
+
+                jobB = containerWaitingQueue->getJob(index);
+
+             if (jobB->getId() == jobId){
+                    found = true;
+                    index++;
+                }
+            }
+
+            if (qDst == NULL){
+                containerWaitingQueue->move_to_qDst(index, containerRunningQueue, qDst_pos);
+            }
+            else {
+                containerWaitingQueue->move_to_qDst(index, qDst, qDst_pos);
+            }
+
+        }else{
+
+
+            while ((index < qSrc->size()) && (!found)){
+
+                jobB = qSrc->getJob(index);
+
+                if (jobB->getId() == jobId)
+                    found = true;
+                else
+                    index++;
+            }
+
+            if (qDst == NULL){
+                qSrc->move_to_qDst (index, containerRunningQueue, qDst_pos);
+            }
+            else {
+                qSrc->move_to_qDst (index, qDst, qDst_pos);
+            }
+
+        }
+
+        vm = job->getMachine();
+
+        jobAux = dynamic_cast<Container_UserJob*>(job);
+
+       // Record the job data
+        jobAux->setJob_startTime();
+
+        // Start scope and app
+            vm->changeState(MACHINE_STATE_RUNNING);
+            jobAux->startExecution ();
+
+}
 void AbstractCloudUser::executePendingJobs(){
 
     // Define..
             UserJob* jobC;
             jobBase* jobB;
+            Container_UserJob* cJobC;
+            Container_jobBase* cJobB;
             VM* vm;
             int i,j;
             bool found = false;
@@ -355,6 +460,38 @@ void AbstractCloudUser::executePendingJobs(){
                     i++;
                 }
             }
+
+            //Container Jobs
+            // Init ..
+                      i = 0;
+                  // Begin ..
+                      while (i < container_waiting_for_remote_storage_Queue->get_queue_size()){
+
+                          cJobB = container_waiting_for_remote_storage_Queue->getJob(i);
+
+                          j = 0;
+                          found = false;
+
+                          cJobC = dynamic_cast<Container_UserJob*>(cJobB);
+                          if (cJobC == NULL) throw cRuntimeError("AbstractCloudUser::executePendingJobs->container cjobB cannot be casted to CloudJob\n");
+
+                          vm = check_and_cast<VM*>(cJobC->getMachine());
+
+                          if (vmHasStorageRequests(vm)){
+                              found = true;
+                          }
+                          else{
+                              j++;
+                          }
+
+
+                          if (!found){
+                              start_up_container_job_execution (vm, cJobC, container_waiting_for_remote_storage_Queue, containerRunningQueue, containerRunningQueue->get_queue_size());
+                          }
+                          else {
+                              i++;
+                          }
+                      }
 }
 
 void AbstractCloudUser::notify_UserJobHasFinished (jobBase* job){
@@ -393,6 +530,45 @@ void AbstractCloudUser::notify_UserJobHasFinished (jobBase* job){
 	    scheduleAt(simTime(), msg);
 
 	}
+
+
+
+}
+void AbstractCloudUser::notify_UserContainerJobHasFinished (Container_jobBase* job){
+
+    string jobID;
+    int wqs = getCWQ_size();
+    // Begin ..
+
+    Container_UserJob* jobC = check_and_cast<Container_UserJob*>(job);
+
+        /* Record the instant of job's finalization */
+        job->setJob_endTime();
+
+        setContainerJobResults(job->getResults()->dup());
+        /* User virtual method */
+        ContainerjobHasFinished(job);
+
+        //Finalize the job and move it to the finish queue
+            moveFromCRQ_toCFQ(job->getJobId());
+
+        // free the virtual machine
+            VM* vm = check_and_cast<VM*>(jobC->getMachine());
+            deleteContainerJobVM(vm , jobC);
+
+
+
+    if (wqs != 0) {
+
+        Enter_Method_Silent();
+
+        cMessage* msg;
+        msg = new cMessage();
+        jobC->callFinish();
+        containerJobToDelete.push_back(jobC);
+        scheduleAt(simTime(), msg);
+
+    }
 
 
 
@@ -447,7 +623,7 @@ void AbstractCloudUser::notify_UserRequestAttendeed  (AbstractRequest* req){
 
 		requestAttended (req);
 	}
-	else if (req->getOperation() == REQUEST_FREE_RESOURCES){
+	else if ( (req->getOperation() == REQUEST_FREE_RESOURCES) || ((req->getOperation() == CONTAINER_REQUEST_FREE_RESOURCES))){
 		pending_shutdown_requests --;
 
 		 for (j = 0; j < (int)reqVM->getVectorVM().size();j++){
@@ -462,7 +638,7 @@ void AbstractCloudUser::notify_UserRequestAttendeed  (AbstractRequest* req){
 
 		requestAttended (req);
 	}
-	else if (req->getOperation() == REQUEST_REMOTE_STORAGE){
+	else if ((req->getOperation() == REQUEST_REMOTE_STORAGE)||(req->getOperation() == CONTAINER_REQUEST_REMOTE_STORAGE)){
 
 	    if (stReq == NULL) throw cRuntimeError ("AbstractCloudUser::notify_UserRequestAttendeed -> cannot cast to storage request\n");
 
@@ -471,7 +647,7 @@ void AbstractCloudUser::notify_UserRequestAttendeed  (AbstractRequest* req){
 	        if (vm == NULL) throw cRuntimeError ("AbstractCloudUser::notify_UserRequestAttendeed -> cannot cast to VM from Machine\n");
 
 			// Delete from the control structure
-			vm_erased = eraseVMFromControlVector(vm, REQUEST_REMOTE_STORAGE);
+			vm_erased = eraseVMFromControlVector(vm, req->getOperation());
 			if (!vm_erased) showErrorMessage("Trying to erase a vm from vms_waiting_for_remote_storage vector which not exists (User:%i, vm:%s[%i]",vm->getUid(), vm->getTypeName().c_str(), vm->getPid());
 
 			// Get the module and initialize it!
@@ -480,7 +656,7 @@ void AbstractCloudUser::notify_UserRequestAttendeed  (AbstractRequest* req){
 
 		        // notify to the user the vm loaded for executing jobs..
 		            reqVM = new RequestVM();
-                    reqVM->setOperation(REQUEST_REMOTE_STORAGE);
+                    reqVM->setOperation(req->getOperation());
 		            vmToNotify.push_back(vm);
 		            reqVM->setVectorVM(vmToNotify);
 
@@ -488,7 +664,7 @@ void AbstractCloudUser::notify_UserRequestAttendeed  (AbstractRequest* req){
 
 		            delete(reqVM);
 
-	}else if (req->getOperation() == REQUEST_LOCAL_STORAGE){
+	}else if ((req->getOperation() == REQUEST_LOCAL_STORAGE)||(req->getOperation() == CONTAINER_REQUEST_LOCAL_STORAGE)){
 
         stReq = dynamic_cast<StorageRequest*>(req);
 
@@ -502,7 +678,7 @@ void AbstractCloudUser::notify_UserRequestAttendeed  (AbstractRequest* req){
             if (vm == NULL) throw cRuntimeError ("AbstractCloudUser::notify_UserRequestAttendeed -> cannot cast to VM from Machine\n");
 
 			// Delete from the control structure
-			vm_erased = eraseVMFromControlVector(vm, REQUEST_LOCAL_STORAGE);
+			vm_erased = eraseVMFromControlVector(vm, req->getOperation());
 			if (!vm_erased) showErrorMessage("Trying to erase a vm from vms_waiting_for_remote_storage vector which not exists (User:%i, vm:%s[%i]",vm->getUid(), vm->getTypeName().c_str(), vm->getPid());
 
 			if (!vmHasStorageRequests(vm)){
@@ -512,7 +688,7 @@ void AbstractCloudUser::notify_UserRequestAttendeed  (AbstractRequest* req){
 
             // notify to the user the vm loaded for executing jobs..
                 reqVM = new RequestVM();
-                reqVM->setOperation(REQUEST_REMOTE_STORAGE);
+                reqVM->setOperation(req->getOperation());
                 vmToNotify.push_back(vm);
                 reqVM->setVectorVM(vmToNotify);
 
@@ -529,7 +705,7 @@ void AbstractCloudUser::notify_UserRequestAttendeed  (AbstractRequest* req){
 	 * -------------------------------------------------------------
 	 */
 		// Begin ..
-		if ((req->getOperation() == REQUEST_START_VM) && (!isEmpty_WQ())){
+		if ((req->getOperation() == REQUEST_START_VM) && ((!isEmpty_WQ()) || (!isEmpty_CWQ()))){
 
 
 		    reqVM = dynamic_cast<RequestVM*>(req);
@@ -571,6 +747,11 @@ vector<StorageRequest*> AbstractCloudUser::createFSforJob(jobBase* job, string o
     return userStorage::createFSforJob(job, opIp, nodeSetName, nodeId, optionalID);
 
 }
+vector<StorageRequest*> AbstractCloudUser::createFSforContainerJob(Container_jobBase* job, string opIp, string nodeSetName, int nodeId, int optionalID){
+
+    return userStorage::createFSforContainerJob(job, opIp, nodeSetName, nodeId, optionalID);
+
+}
 
 bool AbstractCloudUser::eraseVMFromControlVector(VM* vm, int operation){
 
@@ -587,7 +768,8 @@ bool AbstractCloudUser::eraseVMFromControlVector(VM* vm, int operation){
 	    if (pendingVmsAtStartup < 0) found = false;
 
 	} else if ((operation == REQUEST_REMOTE_STORAGE) ||
-			  (operation == REQUEST_LOCAL_STORAGE)) {
+			  (operation == REQUEST_LOCAL_STORAGE)||(operation == CONTAINER_REQUEST_REMOTE_STORAGE) ||
+              (operation == CONTAINER_REQUEST_LOCAL_STORAGE)) {
 
 		while ((!found) && (i < vms_waiting_remote_st.size())){
 
@@ -685,7 +867,8 @@ void AbstractCloudUser::send_request_to_manager (AbstractRequest* req){
 	    }
 
 	} else if ( (req->getOperation() == REQUEST_REMOTE_STORAGE) ||
-			    (req->getOperation() == REQUEST_LOCAL_STORAGE)  ){
+			    (req->getOperation() == REQUEST_LOCAL_STORAGE) ||  (req->getOperation() == CONTAINER_REQUEST_REMOTE_STORAGE) ||
+                (req->getOperation() == CONTAINER_REQUEST_LOCAL_STORAGE)  ){
 
 			machine = machinesMap->getMachineById(req->getPid());
 			vm = check_and_cast<VM*>(machine);
@@ -693,7 +876,7 @@ void AbstractCloudUser::send_request_to_manager (AbstractRequest* req){
 			vm->setPendingOperation(PENDING_STORAGE);
 			vms_waiting_remote_st.push_back(vm);
 
-	} else if (req->getOperation() == REQUEST_FREE_RESOURCES){
+	} else if  ( (req->getOperation() == REQUEST_FREE_RESOURCES) || (req->getOperation() == CONTAINER_REQUEST_FREE_RESOURCES)){
 
 		for (int i = 0; i < request->getNumberVM(); i++){
 //            machine = machinesMap->getMachineById(req->getPid());

@@ -36,7 +36,12 @@ module VM like IVM
         bool IPForward = default(false);							// IP Forward
         int namid = default(-1);									// Nam ID
         string routingFile = default("");							// Routing File
-
+        
+        // Added by Zahra Nikdel:
+        int numContainers  = default(1);	
+        string containerType=default("CPU_intensive");
+        
+        
         @dynamic(true);
         @class("VM");
         @display("i=old/telnet");

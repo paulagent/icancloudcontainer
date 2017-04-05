@@ -198,15 +198,16 @@ AbstractNode* CloudSchedulerRR::selectNode (AbstractRequest* req){
         setInitial = currentNodeType;
         positionInitial = currentNodeIndex;
         found = false;
-        if (DEBUG_CLOUD_SCHED) cout<< "vmCPU--->"<<vmCPU<<endl;
-        if (DEBUG_CLOUD_SCHED) cout<< "vmMemory--->"<<vmMemory<<endl;
+   //     if (DEBUG_CLOUD_SCHED) cout<< "vmCPU--->"<<vmCPU<<endl;
+  //      if (DEBUG_CLOUD_SCHED) cout<< "vmMemory--->"<<vmMemory<<endl;
     // Begin ..
 
         // select the node
 
             positionInitial = currentNodeIndex;
             while (!found){
-                if (DEBUG_CLOUD_SCHED) cout<< "currentNodeIndex--->"<<currentNodeIndex<<endl;
+                if (DEBUG_CLOUD_SCHED) cout<< "setInitial--->"<<setInitial<<endl;
+                if (DEBUG_CLOUD_SCHED) cout<< "positionInitial--->"<<positionInitial<<endl;
 
                  node = getNodeByIndex(setInitial,positionInitial);
 
@@ -214,11 +215,17 @@ AbstractNode* CloudSchedulerRR::selectNode (AbstractRequest* req){
 
                      NodeVL* node_vl = check_and_cast<NodeVL*>(node);
                      numProcesses = node_vl->getNumOfLinkedVMs();
+                     if (DEBUG_CLOUD_SCHED) cout<< "numProcesses--->"<<numProcesses<<endl;
+
                      if (numProcesses < maximum_number_of_processes_per_node){
                          node = check_and_cast<Node*>(node_vl);
-                     }
+                         //Zahra Nikdel:
 
-                     found = true;
+                         found = true;
+                     }
+                     //Zahra Nikdel:
+
+                   //  found = true;
                  }
 
                  currentNodeIndex++;
@@ -238,6 +245,8 @@ AbstractNode* CloudSchedulerRR::selectNode (AbstractRequest* req){
                  if ((positionInitial == currentNodeIndex) && (currentNodeType == setInitial)){
                      found = true;
                      node = NULL;
+                     if (DEBUG_CLOUD_SCHED) cout<< "node is NULL--->"<<endl;
+
                  }
             }
             if (DEBUG_CLOUD_SCHED) printf("\n Method[SCHEDULER_ROUNDROBIN]: -------> select_nodes-----FIN----\n");

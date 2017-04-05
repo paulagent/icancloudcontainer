@@ -14,8 +14,7 @@
 // 
 
 #include "GeneralUser.h"
-
-Define_Module(GeneralUser);
+//Define_Module(GeneralUser);
 
 GeneralUser::~GeneralUser() {
 
@@ -132,8 +131,10 @@ AbstractRequest* GeneralUser::selectVMs_ToStartUp (){
 
 	//Initialize...
 		size = 0;
-		maxNumVMsToRequest = getWQ_size();
+		//maxNumVMsToRequest = getWQ_size();
+		maxNumVMsToRequest = getWQ_size()+getCWQ_size();
 		setSize = vmsToBeSelected.size();
+//		cout <<"vmsToBeSelected--->"<<setsi) <<endl;
 		req = new RequestVM();
 		reqFilled = false;
 
@@ -215,6 +216,53 @@ AbstractRequest* GeneralUser::selectResourcesJob (jobBase* job){
 	return aReq;
 
 }
+AbstractRequest* GeneralUser::selectResourcesContainerJob (Container_jobBase* job){
+
+    // Define ..
+        VM* vm;
+        Machine* machine;
+        vector<VM*> selectedVMs;
+        bool found;
+        unsigned int i = 0;
+        unsigned int j = 0;
+        AbstractRequest* aReq;
+        RequestVM* reqVM;
+    // Init...
+        found = false;
+        vm = NULL;
+        found = false;
+        selectedVMs.clear();
+        reqVM = new RequestVM();
+
+    // The behavior of the selection of VMs is to get the first VM in free state.
+    for (i = 0; i < machinesMap->size() && (!found); i++){
+
+        for (j = 0; (j < (unsigned int)machinesMap->getSetQuantity(i)) && (!found); j++){
+
+            machine = machinesMap->getMachineByIndex(i,j);
+            vm = dynamic_cast<VM*>(machine);
+            if (vm->getPendingOperation() == NOT_PENDING_OPS){
+                if (vm->getState() == MACHINE_STATE_IDLE) {
+                //if ((vm->getVmState() == MACHINE_STATE_IDLE) || (vm->getVmState() == MACHINE_STATE_RUNNING)) {
+                    selectedVMs.insert(selectedVMs.begin(), vm);
+                    //selectedVMs.insert(selectedVMs.begin(), vm);
+                    found = true;
+
+                }
+            }
+        }
+    }
+
+//      machine = machinesMap->getMachineByIndex(0,0);
+//      vm = dynamic_cast<VM*>(machine);
+//      selectedVMs.insert(selectedVMs.begin(), vm);
+
+        reqVM->setVectorVM(selectedVMs);
+        aReq = dynamic_cast<AbstractRequest*>(reqVM);
+
+    return aReq;
+
+}
 
 void GeneralUser::requestAttended (AbstractRequest* req){
 
@@ -249,15 +297,16 @@ void GeneralUser::requestAttended (AbstractRequest* req){
 			}
 		}
 
-	} else if ((req->getOperation() == REQUEST_LOCAL_STORAGE) || (req->getOperation() == REQUEST_REMOTE_STORAGE)){
+	} else if ((req->getOperation() == REQUEST_LOCAL_STORAGE) || (req->getOperation() == REQUEST_REMOTE_STORAGE)||(req->getOperation() == CONTAINER_REQUEST_LOCAL_STORAGE) || (req->getOperation() == CONTAINER_REQUEST_REMOTE_STORAGE)){
 
 	    // Only execute the pending jobs that the vms of the request have assigned..
         executePendingJobs ();
 
-	} else if (req->getOperation() == REQUEST_FREE_RESOURCES){
+	} else if( (req->getOperation() == REQUEST_FREE_RESOURCES) ||( (req->getOperation() == CONTAINER_REQUEST_FREE_RESOURCES))){
 
 		// User has pending jobs | requests?
-		if ( (getWQ_size() == 0) && (getRQ_size() == 0) && (checkAllVMShutdown())){
+		//if ( (getWQ_size() == 0) && (getRQ_size() == 0) && (checkAllVMShutdown())){
+	    if ( (getWQ_size() == 0) && (getRQ_size() == 0) &&  (getCWQ_size() == 0) && (getCRQ_size() == 0) && (checkAllVMShutdown())){
 			finalizeUser();
 		}
 	}
@@ -301,6 +350,32 @@ UserJob* GeneralUser::selectJob(){
 
 	return jobC;
 }
+Container_UserJob* GeneralUser::selectContainerJob(){
+
+    // Define ..
+        Container_jobBase *job;
+        Container_UserJob* jobC;
+
+    // Init ..
+        job = NULL;
+
+    //get the job from the cloudManager
+
+        if (! isEmpty_CWQ()){
+
+            job =  getJob_CWQ_index(0);
+
+        } else {
+
+            job = NULL;
+
+        }
+
+        jobC = dynamic_cast<Container_UserJob*> (job);
+
+    return jobC;
+}
+
 
 void GeneralUser::jobHasFinished (jobBase* job){
 
@@ -314,7 +389,7 @@ void GeneralUser::jobHasFinished (jobBase* job){
 
     if (jobC == NULL) throw cRuntimeError ("GeneralUser::jobHasFinished->job can not be casted to CloudJob\n");
 
-    if ((vm->getNumProcessesRunning() == 1) && (getWQ_size() == 0)) {
+    if ((vm->getNumProcessesRunning() == 1) && (getWQ_size() == 0) && (getCWQ_size() == 0)) {
 
 
         // if the vm is not more needed, request to shutdown it
@@ -324,6 +399,31 @@ void GeneralUser::jobHasFinished (jobBase* job){
     }
 
 }
+void GeneralUser::ContainerjobHasFinished (Container_jobBase* job)
+{
+
+    Container_UserJob* jobC;
+    Machine* m;
+
+    jobC = dynamic_cast<Container_UserJob*>(job);
+    m = jobC->getMachine();
+
+    VM* vm = check_and_cast<VM*>(m);
+
+    if (jobC == NULL) throw cRuntimeError ("GeneralUser::Container jobHasFinished->job can not be casted to CloudJob\n");
+
+    if ((vm->getNumProcessesRunning() == 1) && (getCWQ_size() == 0) && (getWQ_size() == 0)) {
+
+
+        // if the vm is not more needed, request to shutdown it
+
+        shutdown_VM(vm);
+
+    }
+
+
+}
+
 
 /* --------------------------------------------------------------------
  * ------------------------- User Behavior ----------------------------
@@ -338,8 +438,12 @@ void GeneralUser::schedule(){
 
 		UserJob* job;
 		jobBase* jobB;
+		Container_UserJob* cJob;
+		Container_jobBase* cJobB;
 		AbstractRequest* reqB;
-		RequestVM* reqVM;
+        AbstractRequest* cReqB;
+
+		RequestVM* reqVM,cReqVM;
 		vector <VM*> setToExecute;
 		unsigned int i;
 		int quantityVMFree;
@@ -359,7 +463,7 @@ void GeneralUser::schedule(){
 		breakScheduling = false;
 
 		// Begin the behavior of the user.
-		job = selectJob();
+		job = selectJob();  // Job comes from waiting queue
 
 		while ((job != NULL) && (!breakScheduling)){
 
@@ -424,4 +528,72 @@ void GeneralUser::schedule(){
 		    }
 
 		}
+	    cJob = selectContainerJob();  // cJob comes from waiting queue
+        breakScheduling = false;
+        quantityVMFree = 0;
+        waitingQSize = 0;
+
+	        while ((cJob != NULL) && (!breakScheduling)){
+
+	             cReqB= selectResourcesContainerJob (cJob); // get first free VM
+	             reqVM = dynamic_cast<RequestVM*>(reqB);
+
+	            if (reqVM->getVMQuantity() != 0){
+
+	                // Allocate the set of machines where the cJob is going to execute into the own cJob
+
+	                    vm = dynamic_cast<VM*>(reqVM->getVM(0));
+
+	                    cJob->setMachine(vm);
+	                    cJobB = dynamic_cast<Container_jobBase*>(cJob);
+
+	                    if ((vm == NULL) || (cJobB == NULL)){
+	                        throw cRuntimeError ("GeneralUser::schedule() -> vm or  ContainerJob == NULL\n");
+	                    }
+
+	                    createFSforContainerJob (cJob, cJob->getMachine()->getIP(), vm->getNodeSetName(), vm->getNodeName(), vm->getPid());
+	                    delete(reqVM);
+
+	            } else {
+
+	                // check if the APP needs more VMs than existent free (to allocate smaller jobs)
+	                for (i = 0; i != machinesMap->size(); i++){
+	                    quantityVMFree += machinesMap->countONMachines(i);
+	                }
+	                cout << "quantityVMFree---->"<<quantityVMFree<<endl;
+	                waitingQSize = getCWQ_size();
+
+	                if ( (quantityVMFree > 0) && (waitingQSize >= 1) ){
+
+	                    // There are not enough VMs to execute the first cJob.
+	                    // It is moved from the first position to the last to execute other cJob that needs less resources
+	                    cJobB = dynamic_cast<Container_jobBase*>(cJob);
+	                    eraseJob_FromCWQ(cJob->getJobId());
+	                    pushBack_CWQ(cJobB);
+
+	                }
+
+	                breakScheduling = true;
+
+	            }
+
+	            cJob = selectContainerJob();
+	        }
+
+	        if ( (cJob == NULL) ){
+	            for (i = 0; i < (unsigned int)machinesMap->getMapQuantity(); i++){
+	                for (int j = 0; j < (int)machinesMap->getSetQuantity(i); j++){
+
+	                    Machine* machine = machinesMap->getMachineByIndex(i,j);
+	                    VM* vm = dynamic_cast<VM*>(machine);
+
+	                    if ( (vm->getPendingOperation() == NOT_PENDING_OPS) &&
+	                         (vm->getState() == MACHINE_STATE_IDLE) &&
+	                         (vm->getNumProcessesRunning() == 0) ){
+	                            shutdown_VM(vm);
+	                    }
+	                }
+	            }
+
+	        }
 }

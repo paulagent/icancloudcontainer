@@ -25,15 +25,26 @@ void AbstractUser::initialize(){
         // Initialize structures and parameters
             waitingQueue = new JobQueue();
             waitingQueue->clear();
+            containerWaitingQueue=new Container_JobQueue();
+            containerWaitingQueue->clear();
 
             waiting_for_system_response = new JobQueue();
             waiting_for_system_response->clear();
 
+            container_waiting_for_system_response=new Container_JobQueue();
+            container_waiting_for_system_response->clear();
+
             runningQueue = new JobQueue();
             runningQueue->clear();
 
+            containerRunningQueue = new Container_JobQueue();
+            containerRunningQueue->clear();
+
             finishQueue = new JobQueue();
             finishQueue->clear();
+
+            containerFinishQueue= new Container_JobQueue();
+            containerFinishQueue->clear();
 
             userFinalizing = false;
 
@@ -48,9 +59,10 @@ bool AbstractUser::finalizeUser (){
 
     // Define ..
         jobBase* job;
-
+        Container_jobBase* con_job;
     // Init ..
         job = NULL;
+        con_job=NULL;
 
     // Begin ..
 
@@ -69,12 +81,24 @@ bool AbstractUser::finalizeUser (){
 
                 waitingQueue->move_to_qDst(0,finishQueue,finishQueue->get_queue_size());
             }
+            // Supress all the Jobs from the Waiting Queue to the Finish Queue.
+           while (!(containerWaitingQueue->isEmpty())){
 
+               con_job = containerWaitingQueue->getJob(0);
+
+               con_job -> setJob_startTime ();
+               con_job -> setJob_endTime ();
+
+               containerWaitingQueue->move_to_qDst(0,containerFinishQueue,containerFinishQueue->get_queue_size());
+           }
 
             userFinalization();
 
             while (finishQueue->isEmpty())
                 finishQueue->removeJob(0);
+
+            while (containerFinishQueue->isEmpty())
+                containerFinishQueue->removeJob(0);
 
            abandonSystem();
 
@@ -90,6 +114,34 @@ string AbstractUser::printJobResults (JobResultsSet* resultSet){
     // Define ...
         ostringstream resString;
         JobResults* result;
+        string jobName;
+        jobName =resultSet->getJobID().c_str();
+      if (!jobName.empty())
+          resString << "JobName;" << resultSet->getJobID().c_str() << "\n";
+
+      resString << "Beginning_Time;" << resultSet->getJob_startTime ();
+      resString << ";TimeToExecute;" << resultSet->getJob_endTime() - resultSet->getJob_startTime () << "\n";
+
+
+      for (int i = 0; i < resultSet->getJobResultSize(); i++){
+
+          // Print the result of the iteration
+          result = resultSet-> getJobResultSet(i);
+
+          resString << result ->getName().c_str();
+          for (int j = 0; j < result->getValuesSize(); j++)
+              resString << ";" << result ->getValue(j) << ";";
+
+      }
+      resString << "\n";
+
+      return resString.str().c_str();
+}
+string AbstractUser::printContainerJobResults (Container_JobResultsSet* resultSet){
+
+    // Define ...
+        ostringstream resString;
+        Container_JobResults* result;
         string jobName;
         jobName =resultSet->getJobID().c_str();
       if (!jobName.empty())
@@ -129,6 +181,10 @@ void AbstractUser::initParameters(string userBehavior, string userId, string fil
 }
 
 void AbstractUser::addParsedJob (jobBase *job){waitingQueue->insert_job(job);};
+//Zahra Nikdel:
+
+void AbstractUser::addParsedContainerJob (Container_jobBase *job){containerWaitingQueue->insert_job(job);};
+
 
 void AbstractUser::start_up_job_execution (AbstractNode* destinationExecute, jobBase* job, JobQueue* qSrc, JobQueue* qDst, int qDst_pos){
     printf("TODO AbstractUser::start_up_job_execution\n");

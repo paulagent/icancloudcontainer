@@ -19,6 +19,7 @@
 #include "icancloud_types.h"
 #include "AbstractCloudUser.h"
 #include "UserJob.h"
+#include "Container_UserJob.h"
 
 #include "icancloud_Base.h"
 #include "UserManagement.h"
@@ -58,6 +59,16 @@ protected:
 
         // Structures of jobs of user
             vector <jobSelection*> userJobSet;
+
+            //Zahra Nikdel:
+            struct Container_jobSelection{
+                       string appName;                         // Application Name
+                       Container_UserJob* job;                          // Job definition
+                       int replicas;                           // Quantity
+                   };
+
+                   // Structures of jobs of user
+                       vector <Container_jobSelection*> Container_userJobSet;
 
 	// To create the remote servers
 		string remoteFileSystemType;
@@ -123,6 +134,8 @@ protected:
 
 private:
     UserJob* cloneJob (UserJob* app, cModule* userMod, string appName);
+    Container_UserJob* cloneContainerJob (Container_UserJob* app, cModule* userMod, string appName);
+
 
 public:
     virtual ~AbstractUserGenerator();

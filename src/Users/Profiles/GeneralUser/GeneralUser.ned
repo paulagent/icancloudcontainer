@@ -13,6 +13,8 @@ simple GeneralUser
     parameters:
         bool printVMs = default (true);
         bool printJobs = default (true);
+        bool printContainerJobs = default (true);
+        
         @class(GeneralUser);
         @display("i=abstract/person");
         

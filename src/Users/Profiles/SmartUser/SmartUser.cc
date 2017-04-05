@@ -15,7 +15,7 @@
 
 #include "SmartUser.h"
 
-Define_Module(SmartUser);
+//Define_Module(SmartUser);
 
 SmartUser::~SmartUser() {
 

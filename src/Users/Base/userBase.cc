@@ -25,6 +25,16 @@ void userBase::abandonSystem(){
     managerPtr->userSendRequest(request);
 }
 
+void userBase::container_abandonSystem(){
+
+    RequestBase* request;
+    request = new RequestBase();
+    request->setOperation(CONTAINER_REQUEST_ABANDON_SYSTEM);
+    request->setUid(this->getId());
+
+    managerPtr->userSendRequest(request);
+}
+
 userBase::~userBase() {
     configPreload.clear();
     configFS.clear();
@@ -33,13 +43,15 @@ userBase::~userBase() {
 void userBase::initialize(){
 
     queuesManager::initialize();
-
     pending_requests.clear();
     fsType = "LOCAL";
     configMPI = NULL;
     configPreload.clear();
     configFS.clear();
     waiting_for_system_response = new JobQueue();
+    //Zahra Nikdel
+    container_waiting_for_system_response = new Container_JobQueue();
+
     userID = this->getId();
 
     //Set up the manager
@@ -54,12 +66,12 @@ void userBase::initialize(){
 void userBase::finish(){
 
     queuesManager::finish();
-
     fsType = "LOCAL";
     configMPI = NULL;
     configPreload.clear();
     configFS.clear();
     waiting_for_system_response->clear();
+    container_waiting_for_system_response->clear();
 }
 
 void userBase::sendRequestToSystemManager (AbstractRequest* request){
@@ -72,6 +84,10 @@ void userBase::sendRequestToSystemManager (AbstractRequest* request){
      // Move the job until the request will be atendeed..
          if (request->getOperation() == REQUEST_RESOURCES)
              waitingQueue->move_to_qDst(waitingQueue->get_index_of_job(request->getUid()), waiting_for_system_response, waiting_for_system_response->get_queue_size());
+     // Move the job until the request will be atendeed..
+         if (request->getOperation() == CONTAINER_REQUEST_RESOURCES)
+             containerWaitingQueue->move_to_qDst(containerWaitingQueue->get_index_of_job(request->getUid()), container_waiting_for_system_response, container_waiting_for_system_response->get_queue_size());
+
 }
 
 void userBase::requestArrival(AbstractRequest* request){
@@ -103,6 +119,7 @@ void userBase::requestArrivalError(AbstractRequest* request){
     found = false;
 
     waiting_for_system_response->move_to_qDst(waiting_for_system_response->get_index_of_job(request->getUid()), waitingQueue, waitingQueue->get_queue_size());
+    container_waiting_for_system_response->move_to_qDst(container_waiting_for_system_response->get_index_of_job(request->getUid()), containerWaitingQueue, containerWaitingQueue->get_queue_size());
 
     for (i = 0; (i < (int)pending_requests.size()) && (!found); i++){
 

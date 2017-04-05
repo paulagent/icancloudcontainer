@@ -61,6 +61,7 @@ protected:
 		 * 		- get the VMs in VM_STATE_FREE and VM_STATE_RUNNING
 		 */
 		AbstractRequest* selectResourcesJob (jobBase* job);
+        AbstractRequest* selectResourcesContainerJob (Container_jobBase* job);
 
 		/*
 		 * When the CloudManager attends a request and creates the VMs, it notifies this fact to
@@ -82,6 +83,8 @@ protected:
 		 * @param: the index is the position of the job in the vector jobList.
 		 */
 		UserJob* selectJob ();
+		Container_UserJob* selectContainerJob();
+	//	Container_jobBase* selectContainerJob();
 
 		/*
 		 *  This method is useful to extract values from the job, or the timings of the executions.
@@ -90,6 +93,7 @@ protected:
 		 */
 
 		void jobHasFinished (jobBase* job);
+        void ContainerjobHasFinished (Container_jobBase* job);
 
 		/*
 		 * This method define the behavior of the user. The order of the actions and the main decisions of the user.

@@ -14,13 +14,17 @@
 
 
 #include "queuesManager.h"
+
 #include "cfgMPI.h"
 #include "RequestsManagement.h"
 #include "jobBase.h"
+#include "Container_jobBase.h"
+
 
 class userBase :virtual public queuesManager {
 
     friend class jobBase;
+    friend class Container_jobBase;
 
 protected:
     /** The user ID. Is the name given by the user in the configuration **/
@@ -43,8 +47,12 @@ protected:
 
     /** Aux queue for management */
         JobQueue* waiting_for_system_response;
+// Zahra Nikdel
+        Container_JobQueue* container_waiting_for_system_response;
 
         void abandonSystem();
+        void container_abandonSystem();
+
 
 public:
 
@@ -61,6 +69,8 @@ public:
      * This method add a job to jobList when it is parsed from the parameters defined in omnetpp.ini
      */
     virtual void addParsedJob (jobBase *job){};
+//Zahra Nikdel:
+    virtual void addParsedContainerJob (Container_jobBase *job){};
 
     /*
      * The method is invoked by userGeneratorCell.

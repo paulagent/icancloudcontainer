@@ -13,6 +13,9 @@
 #include "userStorage.h"
 #include "AbstractNode.h"
 #include "UserJob.h"
+#include "Container_UserJob.h"
+class UserJob;
+class Container_UserJob;
 
 class AbstractUser : public userStorage {
 
@@ -44,12 +47,15 @@ protected:
 		 * This method select a the resources to execute the given job as parameter.
 		 */
 		virtual AbstractRequest* selectResourcesJob (jobBase* job) = 0;
+        virtual AbstractRequest* selectResourcesContainerJob (Container_jobBase* job) = 0;
 
 		/*
 		 * This method returns a job of the user list of jobs waiting to be executed at waiting queue.
 		 */
-		virtual jobBase* selectJob () = 0;
-
+	//	virtual jobBase* selectJob () = 0;
+   //     virtual Container_jobBase* selectContainerJob () = 0;
+        virtual UserJob* selectJob () = 0;
+        virtual Container_UserJob* selectContainerJob () = 0;
 		/*
 		 *  This method is invoked from the application when a job has finished.
 		 *  It is useful to extract values from the job, or the timings of the executions.
@@ -58,6 +64,7 @@ protected:
          */
 
 		virtual void jobHasFinished (jobBase* job) = 0;
+        virtual void containerjobHasFinished (Container_jobBase* job) = 0;
 
 		/*
 		 * When the CloudManager attends a request and creates the VMs, it notifies this fact to
@@ -81,6 +88,7 @@ protected:
          * This method allocates the job given as parameter into the machine associated to it
          */
         virtual int allocateJob(jobBase* job) = 0;
+        virtual int allocateContainerJob(Container_jobBase* job) = 0;
 
         /*
          * This method send the request to the manager.
@@ -118,6 +126,7 @@ protected:
              * This method prints the results of the job
              */
             string printJobResults (JobResultsSet* resultSet);
+            string printContainerJobResults (Container_JobResultsSet* resultSet);
 
             /**
              * Get the out Gate to the module that sent <b>msg</b>.
@@ -166,11 +175,15 @@ public:
          * This method is invoked by UserGenerator in order to add a job to user's jobList
          */
         void addParsedJob (jobBase *job);
+//Zahra Nikdel:
+
+        void addParsedContainerJob (Container_jobBase *job);
 
          /*
           * This method starts dinamically an application.
           */
          void start_up_job_execution (AbstractNode* destinationExecute, jobBase* job, JobQueue* qSrc, JobQueue* qDst, int qDst_pos = -1);
+         void start_up_container_job_execution (AbstractNode* destinationExecute, Container_jobBase* job, Container_JobQueue* qSrc, Container_JobQueue* qDst, int qDst_pos = -1);
 
         // ---------------------------------------------------------------------------
         // ---------------- Operations to notify user (System Manager)   -------------
@@ -184,6 +197,7 @@ public:
          * The method finalizes calling to the schedule method.
          */
         virtual void notify_UserJobHasFinished (jobBase* job);
+        virtual void notify_UserContainerJobHasFinished (Container_jobBase* job);
 
         /*
          * This method is invoked by cloud manager / scheduler when a request has been attendeed.

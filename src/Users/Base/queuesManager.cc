@@ -26,6 +26,12 @@ void queuesManager::finish(){
     finishQueue->clear();
 
     jobResults.clear();
+
+    containerWaitingQueue->clear();
+    containerRunningQueue->clear();
+    containerFinishQueue->clear();
+
+    containerJobResults.clear();
 }
 
 void queuesManager::initialize(){
@@ -41,10 +47,20 @@ void queuesManager::initialize(){
             finishQueue = new JobQueue();
             finishQueue->clear();
 
+            containerWaitingQueue = new Container_JobQueue();
+            containerWaitingQueue->clear();
+
+            containerRunningQueue = new Container_JobQueue();
+            containerRunningQueue->clear();
+
+            containerFinishQueue = new Container_JobQueue();
+            containerFinishQueue->clear();
+
 }
 
 
 void queuesManager::addParsedJob (jobBase *job){waitingQueue->insert_job(job);};
+void queuesManager::addParsedContainerJob (Container_jobBase *job){containerWaitingQueue->insert_job(job);};
 
 
 int queuesManager::getWQ_size(){return waitingQueue->size();};
@@ -58,6 +74,21 @@ bool queuesManager::isEmpty_WQ(){return waitingQueue->isEmpty();};
 bool queuesManager::isEmpty_RQ(){return runningQueue->isEmpty();};
 
 bool queuesManager::isEmpty_FQ(){return finishQueue->isEmpty();};
+
+/////////////////////CONTAINER
+
+int queuesManager::getCWQ_size(){return containerWaitingQueue->size();};
+
+int queuesManager::getCRQ_size(){return containerRunningQueue->size();};
+
+int queuesManager::getCFQ_size(){return containerFinishQueue->size();};
+
+bool queuesManager::isEmpty_CWQ(){return containerWaitingQueue->isEmpty();};
+
+bool queuesManager::isEmpty_CRQ(){return containerRunningQueue->isEmpty();};
+
+bool queuesManager::isEmpty_CFQ(){return containerFinishQueue->isEmpty();};
+//////////////////////////////////////
 
 bool queuesManager::eraseJob_FromWQ (int jobID){
 
@@ -176,7 +207,7 @@ int queuesManager::getIndex_WQ (int jobID){return getIndexOfJob(jobID, waitingQu
 
 int queuesManager::getIndex_RQ (int jobID){return getIndexOfJob (jobID, runningQueue);};
 
-int queuesManager::getIndex_FQ (int jobID){return getIndexOfJob (jobID, runningQueue);};
+int queuesManager::getIndex_FQ (int jobID){return getIndexOfJob (jobID, finishQueue);};
 
 void queuesManager::moveFromWQ_toRQ (int jobID){
     //Define
@@ -353,4 +384,299 @@ int queuesManager::getIndexOfJob (int jobID, JobQueue *jq){
 		return index;
 }
 
+//////////////////Container
+bool queuesManager::eraseJob_FromCWQ (int jobID){
 
+    //Define...
+
+        unsigned int i;
+        vector <Container_jobBase*>::iterator jobIt;
+        bool found;
+
+    //Initialize...
+
+        i = 0;
+        found = false;
+
+    //Search the job into jobsList
+        for (i = 0; (containerWaitingQueue->get_queue_size()) && (!found); i++ ){
+
+            if (containerWaitingQueue->getJob(i)->getId() == jobID){
+
+                containerWaitingQueue->removeJob(i);
+                found = true;
+            }
+        }
+        return found;
+}
+
+bool queuesManager::eraseJob_FromCRQ (int jobID){
+
+    //Define...
+
+        unsigned int i;
+        vector <Container_jobBase*>::iterator jobIt;
+        bool found;
+
+    //Initialize...
+
+        i = 0;
+        found = false;
+
+    //Search the job into jobsList
+        for (i = 0; (containerRunningQueue->get_queue_size()) && (!found); i++ ){
+
+            if (containerRunningQueue->getJob(i)->getId() == jobID){
+
+                containerRunningQueue->removeJob(i);
+                found = true;
+            }
+        }
+        return found;
+}
+
+bool queuesManager::eraseJob_FromCFQ (int jobID){
+
+    //Define...
+
+        unsigned int i;
+        vector <Container_jobBase*>::iterator jobIt;
+        bool found;
+    //Initialize...
+
+        i = 0;
+        found = false;
+    //Search the job into jobsList
+        for (i = 0; (containerFinishQueue->get_queue_size()) && (!found); i++ ){
+
+            if (containerFinishQueue->getJob(i)->getId() == jobID){
+
+                containerFinishQueue->removeJob(i);
+                break;
+                found = true;
+            }
+        }
+
+        return found;
+}
+
+void queuesManager::pushBack_CWQ(Container_jobBase* job){
+    (containerWaitingQueue->insert_job(job));
+}
+
+void queuesManager::pushBack_CRQ(Container_jobBase* job){containerRunningQueue->insert_job(job);};
+
+void queuesManager::pushBack_CFQ(Container_jobBase* job){containerFinishQueue->insert_job(job);};
+
+void queuesManager::insert_CWQ(Container_jobBase* job, int position){containerWaitingQueue->insert_job(job,position);};
+
+void queuesManager::insert_CRQ(Container_jobBase* job, int position){containerRunningQueue->insert_job(job,position);};
+
+void queuesManager::insert_CFQ(Container_jobBase* job, int position){containerFinishQueue->insert_job(job,position);};
+
+void queuesManager::move_CWQ (int positionInitial, int positionFinal){containerWaitingQueue->move_job_from_to(positionInitial, positionFinal);};
+
+void queuesManager::move_CRQ (int positionInitial, int positionFinal){containerRunningQueue->move_job_from_to(positionInitial, positionFinal);};
+
+void queuesManager::move_CFQ (int positionInitial, int positionFinal){containerFinishQueue->move_job_from_to(positionInitial, positionFinal);};
+
+Container_jobBase* queuesManager::getJob_CWQ (int jobID){return get_container_job_by_ID(jobID, containerWaitingQueue);};
+
+Container_jobBase* queuesManager::getJob_CRQ (int jobID){return get_container_job_by_ID(jobID, containerRunningQueue);};
+
+Container_jobBase* queuesManager::getJob_CFQ (int jobID){return get_container_job_by_ID(jobID, containerFinishQueue);};
+
+Container_jobBase* queuesManager::getJob_CWQ_index  (int index){return get_container_job_by_index (index, containerWaitingQueue);};
+
+Container_jobBase* queuesManager::getJob_CRQ_index  (int index){return get_container_job_by_index (index, containerRunningQueue);};
+
+Container_jobBase* queuesManager::getJob_CFQ_index  (int index){return get_container_job_by_index (index, containerFinishQueue);};
+
+Container_jobBase* queuesManager::getJobByModID_CWQ (int modID){return get_container_job_by_ModID (modID, containerWaitingQueue);};
+
+Container_jobBase* queuesManager::getJobByModID_CRQ (int modID){return get_container_job_by_ModID (modID, containerRunningQueue);};
+
+Container_jobBase* queuesManager::getJobByModID_CFQ (int modID){return get_container_job_by_ModID (modID, containerFinishQueue);};
+
+int queuesManager::getIndex_CWQ (int jobID){return getIndexOfContainerJob(jobID, containerWaitingQueue);};
+
+int queuesManager::getIndex_CRQ (int jobID){return getIndexOfContainerJob (jobID, containerRunningQueue);};
+
+int queuesManager::getIndex_CFQ (int jobID){return getIndexOfContainerJob (jobID, containerFinishQueue);};
+
+void queuesManager::moveFromCWQ_toCRQ (int jobID){
+    //Define
+        Container_jobBase* job;
+        bool found;
+        int index;
+    //Initialize
+        found = false;
+        index = 0;
+    //Erase from qSrc and insert into qDst;
+
+         while ((index < containerWaitingQueue->size()) && (!found)){
+
+             job = containerWaitingQueue->getJob(index);
+                if (job->getId() == jobID){
+
+                    found = true;
+                    index++;
+                }
+            }
+
+    containerWaitingQueue->move_to_qDst(index ,containerRunningQueue, containerRunningQueue->get_queue_size());
+}
+
+void queuesManager::moveFromCRQ_toCFQ (int jobID){
+    //Define
+        Container_jobBase* job;
+        bool found;
+        int index;
+    //Initialize
+        found = false;
+        index = 0;
+    //Erase from qSrc and insert into qDst;
+
+         while ((index < containerRunningQueue->size()) && (!found)){
+             job = containerRunningQueue->getJob(index);
+             if (job->getId() == jobID){
+
+                    found = true;
+             }else{
+                    index++;
+             }
+         }
+
+    containerRunningQueue->move_to_qDst(index ,containerFinishQueue, containerFinishQueue->get_queue_size());
+}
+
+
+void queuesManager::moveFromCWQ_toCFQ (int jobID){
+    //Define
+        Container_jobBase* job;
+        bool found;
+        int index;
+    //Initialize
+        found = false;
+        index = 0;
+    //Erase from qSrc and insert into qDst;
+
+         while ((index < containerWaitingQueue->size()) && (!found)){
+
+             job = containerWaitingQueue->getJob(index);
+
+                if (job->getId() == jobID){
+                    found = true;
+                }else{
+                    index++;
+                }
+            }
+
+    containerWaitingQueue->move_to_qDst(index ,containerFinishQueue, containerFinishQueue->get_queue_size());
+}
+
+Container_jobBase* queuesManager::get_container_job_by_ID (int jobID, Container_JobQueue* jq){
+
+    //Define...
+
+        unsigned int i;
+        Container_jobBase * job;
+        vector <Container_jobBase*>::iterator jobIt;
+        bool found;
+
+    //Initialize...
+        found = false;
+        i = 0;
+
+    //Search the job into jobsList
+        for (i = 0; (jq->get_queue_size()) && !(found); i++ ){
+
+            if (jq->getJob(i)->getId() == jobID){
+
+                job = jq->getJob(i);
+                found = true;
+            }
+        }
+
+        return job;
+
+}
+
+Container_jobBase* queuesManager::get_container_job_by_index (int index, Container_JobQueue* jq){
+
+    // Define ...
+
+        Container_jobBase * job;
+
+    // Initialize...
+
+        job = NULL;
+
+    // Begin ..
+
+        if (index <= jq->get_queue_size()-1){
+
+            job = jq->getJob(index);
+
+        }
+
+        return job;
+
+}
+
+Container_jobBase* queuesManager::get_container_job_by_ModID (int modID, Container_JobQueue* jq){
+
+    // Define ...
+        Container_jobBase * job;
+        bool found;
+        int index;
+
+    // Initialize...
+        job = NULL;
+        found = false;
+        index = 0;
+
+    // Begin ..
+
+        while ((index < jq->get_queue_size() ) && (!found)){
+
+            job = jq->getJob(index);
+
+            if (job->getId() == modID){
+                found = true;
+            }
+
+            index++;
+
+        }
+
+        return job;
+}
+
+int queuesManager::getIndexOfContainerJob (int jobID, Container_JobQueue *jq){
+
+    //Define...
+        int i;
+        int index;
+        bool found;
+
+    //Initialize...
+        i = 0;
+        index = -1;
+        found = false;
+
+    //Search the job into jobsList
+
+        for (i = 0; (jq->get_queue_size()) && !(found); i++ ){
+
+            if (jq->getJob(i)->getId() == jobID){
+
+                index = i;
+                found = true;
+            }
+        }
+
+        return index;
+}
+
+///////////////////////

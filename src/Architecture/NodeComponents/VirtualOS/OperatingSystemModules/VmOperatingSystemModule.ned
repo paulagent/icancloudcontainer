@@ -18,6 +18,7 @@ import icancloud.src.Architecture.NodeComponents.OperatingSystems.Storage.Virtua
 import icancloud.src.Architecture.NodeComponents.OperatingSystems.Storage.FileSystems.FSModule;
 import icancloud.src.Architecture.NodeComponents.OperatingSystems.Storage.VolumeManagers.VolumeManagerModule;
 import icancloud.src.Virtualization.VirtualMachines.VMManagement.VmMsgController.VmMsgController;
+import icancloud.src.Virtualization.VirtualMachines.Containers.DockerEngine;
 
 module VmOperatingSystemModule like IOperatingSystem
 {
@@ -33,7 +34,7 @@ module VmOperatingSystemModule like IOperatingSystem
         string syscallManagerType = default("VMSyscallManager");
         string cpuSchedulerType = default("CPU_Scheduler_FIFO");		// CPU Service type   
 
-        @display("i=icons/OOSS;bgb=306,405");
+        @display("i=icons/OOSS;bgb=461,405");
     gates:
         input fromApps[];			// Input gates from Applications
         input fromStorageSystem[];	// Input gates from Storage Servers
@@ -50,6 +51,9 @@ module VmOperatingSystemModule like IOperatingSystem
         output toNet_TCP;			// Output gate to Network (Ethernet TCP)
         output toCPU[];				// Output gates to CPU
 
+        // Added by Zahra Nikdel:
+        input fromDockerEngine;
+        output toDockerEngine;
 
     submodules:
 
@@ -100,14 +104,29 @@ module VmOperatingSystemModule like IOperatingSystem
 
         vmMsgController: VmMsgController {
             parameters:
-                @display("p=192,147");
+                @display("p=221,147");
             gates:
                 fromOSApps[];
                 toOSApps[];
                 fromApps[];
                 toApps[];
-        }
 
+                  //Added by Zahra Nikdel:
+
+                fromDockerEngine[];
+                toDockerEngine[];
+        }
+        dockerEngine: DockerEngine {
+            parameters:
+                @display("p=343,147");
+            gates:
+
+                fromVmMsgController[];
+                toVmMsgController[];
+                
+                fromContainers[];
+                toContainers[];
+        }
     connections allowunconnected:
 
         // Connections between Service Redirector and Network
@@ -150,5 +169,6 @@ module VmOperatingSystemModule like IOperatingSystem
             cpuScheduler.toCPU[i] --> toCPU[i];
         }
 
+      
 
 }

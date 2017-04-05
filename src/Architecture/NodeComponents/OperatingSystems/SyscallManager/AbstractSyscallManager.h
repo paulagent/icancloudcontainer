@@ -5,6 +5,9 @@
   *  base system, the quantity of applications linked to the machine, and linking and unlinking tenant processes to the system.
   * @author - updated to iCanCloud by Gabriel González Castañé
   * @date 2012-05-17
+  *
+  * @author - Zahra Nikdel - updated to include container tasks
+  * @date - 2017-03-28
   */
 
 #ifndef __ABSTRACTSYSCALLMANAGER_H_
@@ -35,7 +38,8 @@ protected:
 
 		/** Input gates from Apps. */
 	    cGateManager* fromAppGates;
-		
+        cGateManager* fromContainerGates;
+
 		/** Input gate from Memory. */
 		cGate* fromMemoryGate;
 		
@@ -47,7 +51,8 @@ protected:
 
 		/** Output gates to Apps. */
 		cGateManager* toAppGates;
-		
+        cGateManager* toContainerGates;
+
 		/** Input gate to Memory. */
 		cGate* toMemoryGate;
 		
@@ -208,11 +213,14 @@ public:
          * This method will allocate the job after timeToStart seconds
          */
         void allocateJob(icancloud_Base* job, simtime_t timeToStart, int uId);
+        void allocateContainerJob(icancloud_Base* job, simtime_t timeToStart, int uId);
 
         /*
          * Check if a process is running at system
          */
         bool isAppRunning(int pId);
+        bool isContainerRunning(int pId);
+
 
 protected:
         /*

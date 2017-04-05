@@ -9,9 +9,12 @@
  *  This is an abstract class that AbstractUser inherits from. The abstract methods are:
  *    - virtual void send_request_to_manager(AbstractRequest* req);
  *    - virtual int allocateJob(jobBase* job);
+ *    allocateContainerJob
  *
  * @authors Gabriel Gonz&aacute;lez Casta&ntilde;&eacute
  * @date 2012-06-10
+ * * @author - Zahra Nikdel - updated to include container tasks
+  * @date - 2017-03-28
  */
 
 #ifndef USERSTORAGE_H_
@@ -28,6 +31,10 @@ protected:
 
         /* Aux queue for management */
         JobQueue* waiting_for_remote_storage_Queue;
+        //Zahra Nikdel
+
+        Container_JobQueue* container_waiting_for_remote_storage_Queue;
+
 
 protected:
 
@@ -52,6 +59,10 @@ protected:
      */
     virtual int allocateJob(jobBase* job) = 0;
 
+    //Zahra Nikdel
+    virtual int allocateContainerJob(Container_jobBase* job) = 0;
+
+
     /*
      * This method send the request to the manager.
      */
@@ -62,17 +73,22 @@ protected:
      * The spId parameter is subprocessId, that is the id of a virtual machine if the job will be executed inside.
     */
     virtual vector<StorageRequest*> createFSforJob (jobBase* job, string opIp, string nodeSetName, int nodeId, int optionalID = -1);
+    //Zahra Nikdel
+    virtual vector<StorageRequest*> createFSforContainerJob (Container_jobBase* job, string opIp, string nodeSetName, int nodeId, int optionalID = -1);
 
     /*
      * This method returns true if there are any pending request in waiting_for_remote_storage_Queue and
      */
-    bool hasPendingStorageRequests(){return !(waiting_for_system_response->get_queue_size() == 0);};
+    bool hasPendingStorageRequests(){return !((waiting_for_system_response->get_queue_size() == 0) || (container_waiting_for_system_response->get_queue_size()==0));};
 
    /*
     * This method generate all the storage requests by an fs configuration and the files that the job needs to execute
     * as precondition (preload).
     */
    vector<StorageRequest*> generateStorageRequests (jobBase* job, string opIp, int pId = -1);
+//Zahra Nikdel
+
+   vector<StorageRequest*> generateContainerStorageRequests (Container_jobBase* job, string opIp, int pId = -1);
 
    /*
     * This method returns a vector with the remote paths of the filesystem
@@ -112,7 +128,7 @@ protected:
    /*
     * This method set the user identification (unique) given by omnet when a module is created.
     */
-   virtual void setUserToRequest(AbstractRequest* req){req->setUid(this->getId());};
+   virtual void setUserToRequest(AbstractRequest* req){req->setUid(this->getUserId() );};
 
 };
 

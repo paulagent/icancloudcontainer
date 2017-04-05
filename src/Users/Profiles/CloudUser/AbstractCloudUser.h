@@ -34,7 +34,7 @@ protected:
     // Print results
         bool printVMs;
         bool printJobs;
-
+        bool printContainerJobs;
 
     // This structure is for allocate the resources that a user wants/has
         struct userVmType_t{
@@ -87,11 +87,16 @@ protected:
 		 * This method select a set of VMs (or one) to execute the given job as parameter.
 		 */
 		virtual AbstractRequest* selectResourcesJob (jobBase* job) = 0;
+        virtual AbstractRequest* selectResourcesContainerJob (Container_jobBase* job) = 0;
 
 		/*
 		 * This method returns a job of the user list of jobs waiting to be executed at waiting queue.
 		 */
-		virtual jobBase* selectJob () = 0;
+	//	virtual jobBase* selectJob () = 0;
+  //      virtual Container_jobBase* selectContainerJob () = 0;
+
+        virtual UserJob* selectJob () = 0;
+        virtual Container_UserJob* selectContainerJob () = 0;
 
 		/*
 		 *  This method is invoked from the application when a job has finished.
@@ -101,6 +106,7 @@ protected:
          */
 
 		virtual void jobHasFinished (jobBase* job) = 0;
+        virtual void ContainerjobHasFinished (Container_jobBase* job) = 0;
 
 		/*
 		 * When the CloudManager attends a request and creates the VMs, it notifies this fact to
@@ -214,11 +220,13 @@ public:
          * @Param: The cloud job.
          */
         int allocateJob(jobBase* job);
+        int allocateContainerJob(Container_jobBase* job);
 
         /*
         * This method deletes the cloudJob given as parameter, which it is allocated in the vm given also as parameter.-
         */
         void deleteJobVM (VM* vm, UserJob* job);
+        void deleteContainerJobVM (VM* vm, Container_UserJob* job);
 
         /*
         * This method delete all user jobs that are executing into a virtual machine
@@ -237,6 +245,7 @@ public:
          * @Param: The position of the destination vector where the job is going to allocate.
          */
         void start_up_job_execution (VM* vmToExecute, UserJob* job, JobQueue* qSrc, JobQueue* qDst, int qDst_pos = -1);
+        void start_up_container_job_execution (VM* vmToExecute, Container_UserJob* job, Container_JobQueue* qSrc, Container_JobQueue* qDst, int qDst_pos = -1);
 
         /*
          * This method execute the jobs assigned for the vms at the scheduling method.
@@ -244,6 +253,8 @@ public:
          * FS has been created for the concrete job at the vm, this method starts the pending jobs.
          */
         void executePendingJobs();
+
+        void executePendingContainerJobs();
 
         /*
          * This method check if there are any vms waiting for remote storage or shutting down.
@@ -258,6 +269,7 @@ public:
         */
         vector<StorageRequest*> createFSforJob (jobBase* job, string opIp, string nodeSetName, int nodeId, int optionalID = -1);
 
+        vector<StorageRequest*> createFSforContainerJob (Container_jobBase* job, string opIp, string nodeSetName, int nodeId, int optionalID = -1);
 
         /*******************************************************************************
          *                      methods to notify to user from external events
@@ -271,6 +283,8 @@ public:
          * The method finalizes calling to the schedule method.
          */
         virtual void notify_UserJobHasFinished (jobBase* job);
+
+        virtual void notify_UserContainerJobHasFinished (Container_jobBase* job);
 
         /*
          * This method is invoked when a request has been attendeed.
@@ -325,6 +339,7 @@ public:
 
 private:
         vector<UserJob*> jobToDelete;
+        vector<Container_UserJob*> containerJobToDelete;
 
 };
 

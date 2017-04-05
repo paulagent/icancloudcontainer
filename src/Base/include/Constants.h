@@ -28,6 +28,18 @@
 #define REQUEST_FREE_RESOURCES  5           // This is a request for free resources
 #define REQUEST_ABANDON_SYSTEM  6           // This request is invoked when a user left the system
 
+//Zahra Nikdel:
+
+ /**  ---------------- Container Requests operation -------------------*/
+#define CONTAINER_NOT_REQUEST            -11           // This is the initial value of the request
+#define CONTAINER_REQUEST_RESOURCES       10           // This is a request for resources reservation
+#define CONTAINER_REQUEST_START_JOB       11           // This is a request for start a job
+#define CONTAINER_REQUEST_STORAGE         12           // this is the general request for storage
+#define CONTAINER_REQUEST_LOCAL_STORAGE   13           // This is the concrete request for local storage
+#define CONTAINER_REQUEST_REMOTE_STORAGE  14           // This is the concrete request for remote storage
+#define CONTAINER_REQUEST_FREE_RESOURCES  15           // This is a request for free resources
+#define CONTAINER_REQUEST_ABANDON_SYSTEM  16           // This request is invoked when a user left the system
+
 // ---------------- Storage Operations -------------------
 #define FS_NFS                                   "NFS"
 #define FS_PFS                                   "PFS"

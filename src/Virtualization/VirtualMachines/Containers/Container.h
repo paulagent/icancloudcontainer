@@ -11,7 +11,9 @@
 // 
 // You should have received a copy of the GNU Lesser General Public License
 // along with this program.  If not, see http://www.gnu.org/licenses/.
-// 
+// @author Zahra Nikdel, Bing Gao
+// @date 2017-03-10
+
 
 #ifndef CONTAINER_H_
 #define CONTAINER_H_
