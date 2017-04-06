@@ -184,6 +184,11 @@ void AbstractUser::addParsedJob (jobBase *job){waitingQueue->insert_job(job);};
 //Zahra Nikdel:
 
 void AbstractUser::addParsedContainerJob (Container_jobBase *job){containerWaitingQueue->insert_job(job);};
+void AbstractUser::start_up_container_job_execution (AbstractNode* destinationExecute, Container_jobBase* job, Container_JobQueue* qSrc, Container_JobQueue* qDst, int qDst_pos)
+{
+    printf("TODO AbstractUser::start_up_container_job_execution\n");
+
+}
 
 
 void AbstractUser::start_up_job_execution (AbstractNode* destinationExecute, jobBase* job, JobQueue* qSrc, JobQueue* qDst, int qDst_pos){

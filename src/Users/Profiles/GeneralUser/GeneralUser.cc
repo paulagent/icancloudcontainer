@@ -325,11 +325,11 @@ void GeneralUser::requestErrorDeleted (AbstractRequest* req){
  * --------------------------------------------------------------------
  */
 
-UserJob* GeneralUser::selectJob(){
-
+//UserJob* GeneralUser::selectJob(){
+jobBase* GeneralUser::selectJob(){
 	// Define ..
 		jobBase *job;
-		UserJob* jobC;
+	//	UserJob* jobC;
 
     // Init ..
 		job = NULL;
@@ -346,15 +346,17 @@ UserJob* GeneralUser::selectJob(){
 
 		}
 
-		jobC = dynamic_cast<UserJob*> (job);
+	//	jobC = dynamic_cast<UserJob*> (job);
 
-	return jobC;
+	//return jobC;
+		return job;
 }
-Container_UserJob* GeneralUser::selectContainerJob(){
+//Container_UserJob* GeneralUser::selectContainerJob(){
+Container_jobBase* GeneralUser::selectContainerJob(){
 
     // Define ..
         Container_jobBase *job;
-        Container_UserJob* jobC;
+     //   Container_UserJob* jobC;
 
     // Init ..
         job = NULL;
@@ -371,9 +373,9 @@ Container_UserJob* GeneralUser::selectContainerJob(){
 
         }
 
-        jobC = dynamic_cast<Container_UserJob*> (job);
+     //  jobC = dynamic_cast<Container_UserJob*> (job);
 
-    return jobC;
+    return job;
 }
 
 
@@ -399,7 +401,7 @@ void GeneralUser::jobHasFinished (jobBase* job){
     }
 
 }
-void GeneralUser::ContainerjobHasFinished (Container_jobBase* job)
+void GeneralUser::containerjobHasFinished (Container_jobBase* job)
 {
 
     Container_UserJob* jobC;
@@ -463,7 +465,8 @@ void GeneralUser::schedule(){
 		breakScheduling = false;
 
 		// Begin the behavior of the user.
-		job = selectJob();  // Job comes from waiting queue
+		jobB=selectJob();
+		job = dynamic_cast<UserJob*> (jobB); // Job comes from waiting queue
 
 		while ((job != NULL) && (!breakScheduling)){
 
@@ -509,7 +512,8 @@ void GeneralUser::schedule(){
 
 			}
 
-			job = selectJob();
+			jobB=selectJob();
+		    job = dynamic_cast<UserJob*> (jobB); // Job comes from waiting queue
 		}
 
 		if ( (job == NULL) ){
@@ -528,7 +532,8 @@ void GeneralUser::schedule(){
 		    }
 
 		}
-	    cJob = selectContainerJob();  // cJob comes from waiting queue
+		cJobB = selectContainerJob();
+	    cJob =  dynamic_cast<Container_UserJob*> (cJobB); // cJob comes from waiting queue
         breakScheduling = false;
         quantityVMFree = 0;
         waitingQSize = 0;
@@ -577,8 +582,9 @@ void GeneralUser::schedule(){
 
 	            }
 
-	            cJob = selectContainerJob();
-	        }
+	            cJobB = selectContainerJob();
+	            cJob =  dynamic_cast<Container_UserJob*> (cJobB); // cJob comes from waiting queue
+	          }
 
 	        if ( (cJob == NULL) ){
 	            for (i = 0; i < (unsigned int)machinesMap->getMapQuantity(); i++){

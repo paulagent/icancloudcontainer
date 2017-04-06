@@ -1,5 +1,5 @@
 /**
- * @class GeneralUser GeneralUser.cc GeneralUser.h
+ * @class GeneralUser_old GeneralUser_old.cc GeneralUser_old.h
  *
  * The general user requests as VMs as jobs has defined.
  * He get each job that he want to launch, allocating it at the first VM that he found.
@@ -19,7 +19,7 @@ class GeneralUser : public AbstractCloudUser {
 protected:
 
 
-		virtual ~GeneralUser();
+		~GeneralUser();
 
 	   /**
 		* Module initialization.
@@ -82,10 +82,10 @@ protected:
 		 * This method returns the first job of the waitingQueue structure of the user.
 		 * @param: the index is the position of the job in the vector jobList.
 		 */
-		virtual UserJob* selectJob ();
-		virtual Container_UserJob* selectContainerJob();
-	//	Container_jobBase* selectContainerJob();
-
+	//	virtual UserJob* selectJob ();
+	//	virtual Container_UserJob* selectContainerJob();
+		Container_jobBase* selectContainerJob();
+		jobBase* selectJob();
 		/*
 		 *  This method is useful to extract values from the job, or the timings of the executions.
 		 *  The method notify_UserJobHasFinished is responsible for deleting the job, move it from running queue to finish queue
@@ -93,7 +93,7 @@ protected:
 		 */
 
 		virtual void jobHasFinished (jobBase* job);
-		virtual void ContainerjobHasFinished (Container_jobBase* job);
+		virtual void containerjobHasFinished (Container_jobBase* job);
 
 
 

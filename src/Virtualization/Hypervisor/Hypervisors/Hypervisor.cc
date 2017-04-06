@@ -77,5 +77,7 @@ void Hypervisor::freeResources (int uId, int pId){
     memM->freeVM(uId, pId);
     netM->freeVM(uId, pId);
     storageM->freeVM(uId, pId);
+    if (DEBUG_CLOUD_SCHED) printf("\n Method[Hypervisor]: -------> freeResources---FIN-------------\n");
+
 }
 
