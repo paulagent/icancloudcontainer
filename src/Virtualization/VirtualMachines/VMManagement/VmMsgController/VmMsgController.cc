@@ -61,7 +61,8 @@ void VmMsgController::initialize(){
 		fromApps = new cGateManager(this);
 		toApps = new cGateManager(this);
 
-
+	  fromDockerEngine = new cGateManager(this);
+	    toDockerEngine = new cGateManager(this);
 
 }
 

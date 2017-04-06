@@ -46,15 +46,20 @@ import icancloud.src.Architecture.NodeComponents.OperatingSystems.SyscallManager
 simple SyscallManager like ISyscallManager
 
 {
-    gates:
+  
+        
+         gates:
         input fromApps[];				// Input gates from Applications
+        input fromContainers[];				// Input gates from Applications
+        
         input fromMemory;				// Input gate from Memory
-        input fromNet;				// Input gate from Network
-        input fromCPU;				// Input gate from CPU
+        input fromNet;					// Input gate from Network
+        input fromCPU;					// Input gate from CPU
 
         output toApps[];				// Output gates to Applications
+        output toContainers[];
         output toMemory;				// Output gate to Memory
         output toNet;					// Output gate to Network
-        output toCPU;					// Output gate to CPU
+        output toCPU;	
 
 }

@@ -36,8 +36,11 @@ private:
 	cGateManager* toOSApps;                         // Output gate from this class to the operative system
 	cGateManager* fromApps;                         // Input gate from this class to an application
 	cGateManager* toApps;                           // Output gate from this class to an application
+	cGateManager* fromDockerEngine;
+	cGateManager* toDockerEngine;
 
 	int uId;                                        // The user identification value
+
 	int pId;                                        // The process (VM) identification value
 
 	/*

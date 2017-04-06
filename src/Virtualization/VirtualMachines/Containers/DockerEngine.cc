@@ -13,7 +13,7 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-#include <Containers/DockerEngine.h>
+#include <DockerEngine.h>
 Define_Module(DockerEngine);
 
 DockerEngine::DockerEngine()
@@ -33,10 +33,37 @@ DockerEngine::DockerEngine()
             pId = -1;
 
             // Init state to idle!
-
-            fromContainers = new cGateManager(this);
-            toContainers = new cGateManager(this);
+                  fromVmMsgController= new cGateManager(this);
+                  toVmMsgController= new cGateManager(this);
+                  fromContainers = new cGateManager(this);
+                  toContainers = new cGateManager(this);
 }
+void DockerEngine::initialize(){
+
+    icancloud_Base::initialize();
+
+        std::ostringstream osStream;
+
+        migrateActive = false;
+        pendingMessages.clear();
+        pendingCPUMsg = 0;
+        pendingNetMsg = 0;
+        pendingMemoryMsg = 0;
+        pendingIOMsg = 0;
+        uId = -1;
+        pId = -1;
+
+
+
+        // Init state to idle!
+        fromVmMsgController= new cGateManager(this);
+        toVmMsgController= new cGateManager(this);
+        fromContainers = new cGateManager(this);
+        toContainers = new cGateManager(this);
+
+
+}
+
 
 DockerEngine::~DockerEngine()
 {
@@ -379,4 +406,15 @@ void DockerEngine::updateCommId (icancloud_App_NET_Message* sm){
             }
         }
 }
+void DockerEngine::finish()
+{
 
+}
+bool DockerEngine::migrationPrepared()
+{
+    return  ( ( pendingCPUMsg == 0 ) &&
+                  ( pendingIOMsg == 0 ) &&
+                  ( pendingNetMsg == 0 ) &&
+                  ( pendingMemoryMsg == 0 )
+                );
+}

@@ -25,6 +25,8 @@
 #include "UserManagement.h"
 
 class UserJob;
+class Container_UserJob;
+
 class UserManagement;
 
 #define DEBUG false 
@@ -68,7 +70,7 @@ protected:
                    };
 
                    // Structures of jobs of user
-                       vector <Container_jobSelection*> Container_userJobSet;
+             vector <Container_jobSelection*> Container_userJobSet;
 
 	// To create the remote servers
 		string remoteFileSystemType;
