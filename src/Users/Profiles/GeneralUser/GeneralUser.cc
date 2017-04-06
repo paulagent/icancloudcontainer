@@ -14,7 +14,7 @@
 // 
 
 #include "GeneralUser.h"
-//Define_Module(GeneralUser);
+Define_Module(GeneralUser);
 
 GeneralUser::~GeneralUser() {
 

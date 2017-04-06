@@ -17,6 +17,7 @@ import icancloud.src.Architecture.NodeComponents.OperatingSystems.OperatingSyste
 import icancloud.src.EnergySystem.EnergyMeter.EnergyMeter;
 import icancloud.src.EnergySystem.PSU.IPSU;
 import icancloud.src.Virtualization.Hypervisor.IHypervisor;
+import icancloud.src.Virtualization.VirtualMachines.Containers.DockerEngine;
 import inet.base.NotificationBoard;
 import inet.linklayer.IExternalNic;
 import inet.linklayer.IWiredNic;
@@ -24,6 +25,7 @@ import inet.linklayer.loopback.LoopbackInterface;
 import inet.networklayer.common.InterfaceTable;
 import inet.networklayer.ipv4.RoutingTable;
 import inet.nodes.inet.NetworkLayer;
+import inet.nodes.xmipv6.HomeAgent6;
 import inet.transport.ITCP;
 
 
@@ -63,7 +65,7 @@ module NodeVL like INode
         // Node parameters
         int numCores;												// Number of CPU cores		
         double memorySize_MB;										// Total amount of memory of this node (in MB)
-        double memoryBlockSize_KB = default (128);
+        double memoryBlockSize_KB = default(128);
         int numStorageSystems = default(1);							// Number of Storage systems. As default, 1 storage system
         int storageSize_GB;									// Total amount of space for each storage system
         string initialState;										// state or the node  NODE_STATE_OFF | NODE_STATE_IDLE | NODE_STATE_RUNNING

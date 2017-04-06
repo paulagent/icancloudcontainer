@@ -26,6 +26,7 @@ AbstractUserGenerator::AbstractUserGenerator() {
     distributionParams.clear();
     vmSelect.clear();
     userJobSet.clear();
+    Container_userJobSet.clear();
     remoteFileSystemType.empty();
     userManagementPtr = NULL;
     logName.clear();
@@ -38,6 +39,10 @@ AbstractUserGenerator::~AbstractUserGenerator() {
 
     for (int i = 0; i < (int)userJobSet.size();){
         userJobSet.erase(userJobSet.begin());
+    }
+
+    for (int i = 0; i < (int)Container_userJobSet.size();){
+        Container_userJobSet.erase(Container_userJobSet.begin());
     }
 
     icancloud_Base::finish();
@@ -139,7 +144,6 @@ void AbstractUserGenerator::initialize(){
             // Get the app definition
                 numApps = getParentModule()->getSubmodule("appDefinition")->par("appQuantity").longValue();
                 // Zahra Nikdel:
-                numContainers = getParentModule()->getSubmodule("ContainerDefinition")->par("containerQuantity").longValue();
 
                 for (int i = 0; i < numApps;i++){
                     jobSel = new jobSelection();
@@ -173,33 +177,36 @@ void AbstractUserGenerator::initialize(){
                     }
                     userJobSet.push_back(jobSel);
                 }
+                numContainers = getParentModule()->getSubmodule("containerDefinition")->par("containerQuantity").longValue();
+              //  numContainers=1;
                 for (int i = 0; i < numContainers;i++){
                                   conjobSel = new Container_jobSelection();
-                                  conjobSel->replicas = getParentModule()->getSubmodule("ContainerDefinition")->getSubmodule("container",i)->par("copies").longValue();
-                                  conjobSel->appName = getParentModule()->getSubmodule("ContainerDefinition")->getSubmodule("container",i)->par("name").stringValue();
-                                  auxMod = getParentModule()->getSubmodule("ContainerDefinition")->getSubmodule("container",i)->getSubmodule("app");
+                                  conjobSel->replicas = getParentModule()->getSubmodule("containerDefinition")->getSubmodule("container",i)->par("copies").longValue();
+                                  conjobSel->appName = getParentModule()->getSubmodule("containerDefinition")->getSubmodule("container",i)->par("name").stringValue();
+                                  cout<<  conjobSel->appName<<endl;
+                                  auxMod = getParentModule()->getSubmodule("containerDefinition")->getSubmodule("container",i)->getSubmodule("container");
                                   conjobSel->job = dynamic_cast<Container_UserJob*> (auxMod);
 
                                   conjobSel->job->setOriginalName(conjobSel->appName);
-                                  conjobSel->job->setAppType(getParentModule()->getSubmodule("ContainerDefinition")->getSubmodule("container",i)->par("appType").stringValue());
+                                  conjobSel->job->setAppType(getParentModule()->getSubmodule("containerDefinition")->getSubmodule("container",i)->par("containerType").stringValue());
                                   conjobSel->job->setNumCopies(conjobSel->replicas);
 
                                   // Get the app and set the values..
                                   fsStructure_T* fs;
                                   preload_T* pr;
-                                  int numFSRoutes = getParentModule()->getSubmodule("ContainerDefinition")->getSubmodule("container",i)->par("numFSRoutes").longValue();
+                                  int numFSRoutes = getParentModule()->getSubmodule("containerDefinition")->getSubmodule("container",i)->par("numFSRoutes").longValue();
                                   for (int j = 0; j < numFSRoutes; j++){
                                       fs = new fsStructure_T();
-                                      fs->fsType = (getParentModule()->getSubmodule("ContainerDefinition")->getSubmodule("container",i)->getSubmodule("FSConfig",j))->par("type").stringValue();
-                                      fs->fsRoute = (getParentModule()->getSubmodule("ContainerDefinition")->getSubmodule("container",i)->getSubmodule("FSConfig",j))->par("route").stringValue();
+                                      fs->fsType = (getParentModule()->getSubmodule("containerDefinition")->getSubmodule("container",i)->getSubmodule("FSConfig",j))->par("type").stringValue();
+                                      fs->fsRoute = (getParentModule()->getSubmodule("containerDefinition")->getSubmodule("container",i)->getSubmodule("FSConfig",j))->par("route").stringValue();
                                       conjobSel->job->setFSElement(fs);
                                   }
 
-                                  int numFiles = getParentModule()->getSubmodule("ContainerDefinition")->getSubmodule("container",i)->par("numFiles").longValue();
+                                  int numFiles = getParentModule()->getSubmodule("containerDefinition")->getSubmodule("container",i)->par("numFiles").longValue();
                                   for (int j = 0; j < numFiles; j++){
                                       pr = new preload_T();
-                                      pr->fileName = (getParentModule()->getSubmodule("ContainerDefinition")->getSubmodule("container",i)->getSubmodule("preloadFiles",j))->par("name").stringValue();
-                                      pr->fileSize = (getParentModule()->getSubmodule("ContainerDefinition")->getSubmodule("container",i)->getSubmodule("preloadFiles",j))->par("size_KiB").longValue();
+                                      pr->fileName = (getParentModule()->getSubmodule("containerDefinition")->getSubmodule("container",i)->getSubmodule("preloadFiles",j))->par("name").stringValue();
+                                      pr->fileSize = (getParentModule()->getSubmodule("containerDefinition")->getSubmodule("container",i)->getSubmodule("preloadFiles",j))->par("size_KiB").longValue();
                                       conjobSel->job->setPreloadFile(pr);
 
                                   }
@@ -247,7 +254,7 @@ void AbstractUserGenerator::createUser (){
                 printf("AbstractUserGenerator::createUser->%s\n",userID.c_str());
 
                 behaviorPath << "icancloud.src.Users.Profiles." << behavior.c_str() << "." << behavior.c_str();
-
+                cout<< "icancloud.src.Users.Profiles." << behavior.c_str() << "." << behavior.c_str()<<endl;
 			// the user behaviorMod is created in the root of the cloud (cloud.manager.userGenerator.user)
                 modBehavior = cModuleType::get (behaviorPath.str().c_str());
 
@@ -263,7 +270,7 @@ void AbstractUserGenerator::createUser (){
 
                     // Get virtual machines selection
                        vmSelectionSize = vmSelect.size();
-
+                       cout<<"vmSelectionSize"<<vmSelectionSize<<endl;
                        for (j = 0; ((int)j) < (vmSelectionSize); j++){
 
                            vmSelectionQuantity = (*(vmSelect.begin()+j))->quantity;
@@ -304,6 +311,7 @@ void AbstractUserGenerator::createUser (){
                                // Clone the job
                                ostringstream appNameBuild;
                                appNameBuild << jobSelect->appName.c_str() << "_" << k << ":" << userID;
+                               cout<<jobSelect->appName.c_str() << "_" << k << ":" << userID<<endl;
                                newJob = cloneJob (jobSelect->job, behaviorMod, appNameBuild.str().c_str());
                                // Insert into users waiting queue
                                user->addParsedJob(newJob);
@@ -312,13 +320,14 @@ void AbstractUserGenerator::createUser (){
                                cout<<"newjob"<<newJob->getFullName() <<endl;
                            }
                        }
-                       for (j = 0; ((unsigned int)j)< conjobSetSize; j++){
+                       /*for (j = 0; ((unsigned int)j)< conjobSetSize; j++){
                                                 Container_jobSelection* jobSelect;
                                                 Container_UserJob* newJob;
                                                 int rep;
 
                                                  // Get the job
                                                     jobSelect = (*(Container_userJobSet.begin()+j));
+                                                    cout<<jobSelect->appName<<endl;
                                                     rep = jobSelect->replicas;
 
                                                 for (k = 0; ((int)k) < rep ;k++){
@@ -333,13 +342,13 @@ void AbstractUserGenerator::createUser (){
                                                     cout<<"newContainerjob"<<newJob->getFullName() <<endl;
                                                 }
                                             }
-
+*/
                        user->setFSType(remoteFileSystemType);
 
             // Notify to cloud manager the arrival of a new user..
             userManagementPtr->newUser (user);
 
-		}catch (exception& e){
+		}catch (exception e){
 			throw cRuntimeError("UserGenerator_cell::createUser->Error creating user %s\n",userID.c_str());
 		}
 }

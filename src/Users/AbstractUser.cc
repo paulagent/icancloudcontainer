@@ -292,6 +292,35 @@ void AbstractUser::notify_UserJobHasFinished (jobBase* job){
 	}
 
 }
+void AbstractUser::notify_UserContainerJobHasFinished (Container_jobBase* job){
+
+    string jobID;
+
+    // Begin ..
+
+        /* Record the instant of job's finalization */
+        job->setJob_endTime();
+
+        setContainerJobResults(job->getResults()->dup());
+
+        /* User virtual method */
+        containerjobHasFinished(job);
+
+        //Finalize the job and move it to the finish queue
+            moveFromCRQ_toCFQ(job->getId());
+
+        // free the resources
+//           deleteJobVM(job->getVM(), job);
+
+    if (getCWQ_size() != 0) {
+
+//      executePendingJobs();
+
+        schedule();
+
+    }
+
+}
 
 void AbstractUser::notify_UserRequestAttendeed  (AbstractRequest* req){
 
