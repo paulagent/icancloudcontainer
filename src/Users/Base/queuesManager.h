@@ -35,14 +35,14 @@ protected:
         JobQueue* finishQueue;
 
         //Zahra Nikdel:
-                Container_JobQueue* containerWaitingQueue;
-                Container_JobQueue* containerRunningQueue;
-                Container_JobQueue* containerFinishQueue;
+        Container_JobQueue* containerWaitingQueue;
+        Container_JobQueue* containerRunningQueue;
+        Container_JobQueue* containerFinishQueue;
 
         /** Structure for results */
         vector<JobResultsSet*> jobResults;
         //Zahra Nikdel:
-           vector<Container_JobResultsSet*> containerJobResults;
+        vector<Container_JobResultsSet*> containerJobResults;
 
 
         /* User finalization.. */

@@ -4,6 +4,8 @@
 	<comment></comment>
 	<projects>
 		<project>inet</project>
+		<project>queuenet</project>
+		<project>sockets</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

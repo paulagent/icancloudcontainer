@@ -117,6 +117,9 @@ void NodeVL::unlinkVM (int vmMemory, int vmNumCores, int vmStorage, string virtu
         if ((strcmp(getState().c_str(), MACHINE_STATE_RUNNING) == 0) && (instancedVMs.size() == 0))
             changeState(MACHINE_STATE_IDLE);
 
+        if (DEBUG_CLOUD_SCHED) printf("\n Method[NodeVL]: -------> unlinkVM----FIN-----\n");
+
+
 }
 
 int NodeVL::getNumOfLinkedVMs ()

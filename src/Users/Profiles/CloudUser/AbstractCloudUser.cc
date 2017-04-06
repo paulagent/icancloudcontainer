@@ -547,7 +547,7 @@ void AbstractCloudUser::notify_UserContainerJobHasFinished (Container_jobBase* j
 
         setContainerJobResults(job->getResults()->dup());
         /* User virtual method */
-        ContainerjobHasFinished(job);
+        containerjobHasFinished(job);
 
         //Finalize the job and move it to the finish queue
             moveFromCRQ_toCFQ(job->getJobId());

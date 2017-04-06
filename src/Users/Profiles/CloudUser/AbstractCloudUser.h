@@ -106,7 +106,7 @@ protected:
          */
 
 		virtual void jobHasFinished (jobBase* job) = 0;
-        virtual void ContainerjobHasFinished (Container_jobBase* job) = 0;
+        virtual void containerjobHasFinished (Container_jobBase* job) = 0;
 
 		/*
 		 * When the CloudManager attends a request and creates the VMs, it notifies this fact to
@@ -254,7 +254,7 @@ public:
          */
         void executePendingJobs();
 
-        void executePendingContainerJobs();
+    //    void executePendingContainerJobs();
 
         /*
          * This method check if there are any vms waiting for remote storage or shutting down.

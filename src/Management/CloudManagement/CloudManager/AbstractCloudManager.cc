@@ -798,6 +798,7 @@ void AbstractCloudManager::linkVMInternals (AbstractNode* node, VM* vm, bool mig
 }
 
 void  AbstractCloudManager::unlinkVMInternals (AbstractNode* node, VM* vm, bool migration){
+    if (DEBUG_CLOUD_SCHED) printf("\n Method[AbstractCloudManager]: -------> unlinkVMInternals-------------------\n");
 
     // Define ..
         std::ostringstream msgLine;
@@ -826,6 +827,7 @@ void  AbstractCloudManager::unlinkVMInternals (AbstractNode* node, VM* vm, bool 
         else {
             nodeVL->unlinkVM(vm->getMemoryCapacity(), vm->getNumCores(), vm->getStorageCapacity(), virtualIP, vm->getUid(), vm->getId());
         }
+        if (DEBUG_CLOUD_SCHED) printf("\n Method[AbstractCloudManager]: -------> unlinkVMInternals--------------FIN  -----\n");
 
 }
 
@@ -932,6 +934,7 @@ void AbstractCloudManager::notifyStorageConnectionSuccesful (int uId, int pId, i
  }
 
 void AbstractCloudManager::notifyFSFormatted(int uId, int pId, bool turnOffNode){
+    if (DEBUG_CLOUD_SCHED) printf("\n Method[AbstractCloudManager]: -------> notifyFSFormatted-------------------\n");
 
     // Define ..
         vector <PendingRemoteStorageDeletion*>::iterator pendingDelete;
@@ -1006,6 +1009,8 @@ void AbstractCloudManager::notifyFSFormatted(int uId, int pId, bool turnOffNode)
                 }
             }
         }
+        if (DEBUG_CLOUD_SCHED) printf("\n Method[AbstractCloudManager]: -------> notifyFSFormatted--------------FIN-----\n");
+
 }
 
 void AbstractCloudManager::notify_shutdown_vm (int uId, int pId, AbstractNode* node){
@@ -1051,6 +1056,7 @@ void AbstractCloudManager::notify_shutdown_vm (int uId, int pId, AbstractNode* n
 }
 
 void AbstractCloudManager::notifyVMConnectionsClosed (int uId, int pId, bool turnOff){
+    if (DEBUG_CLOUD_SCHED) printf("\n Method[AbstractCloudManager]: -------> notifyVMConnectionsClosed-------------------\n");
 
     // Define ..
         PendingConnectionDeletion* pendingConnectionUnit;
@@ -1137,5 +1143,7 @@ void AbstractCloudManager::notifyVMConnectionsClosed (int uId, int pId, bool tur
             }
 
         }
+        if (DEBUG_CLOUD_SCHED) printf("\n Method[AbstractCloudManager]: -------> notifyVMConnectionsClosed-----------FIN--------\n");
+
 }
 
