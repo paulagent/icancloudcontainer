@@ -71,11 +71,14 @@ void SyscallManager::processRequestMessage (icancloud_Message *sm){
 			(operation == SM_ITERATIVE_PRECOPY) ||
 			(operation == SM_STOP_AND_DOWN_VM)){
 
-			sendRequestMessage (sm, toAppGates->getGate(remoteStorageGate));
+		//	sendRequestMessage (sm, toAppGates->getGate(remoteStorageGate));
+		    sendRequestMessage (sm, toDockerEngineGates->getGate(remoteStorageGate));
 
 		}else {
 
-			sendRequestMessage (sm, toAppGates->getGate(sm->getNextModuleIndex()));
+		//	sendRequestMessage (sm, toAppGates->getGate(sm->getNextModuleIndex()));
+            sendRequestMessage (sm, toDockerEngineGates->getGate(sm->getNextModuleIndex()));
+
 
 		}
 	}
@@ -89,7 +92,9 @@ void SyscallManager::processRequestMessage (icancloud_Message *sm){
 	// Msg cames from Memory
 	else if (sm->getArrivalGate() == fromMemoryGate){
 			
-		sendRequestMessage (sm, toAppGates->getGate(sm->getNextModuleIndex()));
+	//	sendRequestMessage (sm, toAppGates->getGate(sm->getNextModuleIndex()));
+        sendRequestMessage (sm, toDockerEngineGates->getGate(sm->getNextModuleIndex()));
+
 	}	
 	
 	// Msg cames from applications
@@ -112,7 +117,9 @@ void SyscallManager::processRequestMessage (icancloud_Message *sm){
 					
 					unsigned int aux = remoteStorageGate;
 					if (sm->getNextModuleIndex() == aux){
-						sendRequestMessage (sm, toAppGates->getGate(remoteStorageGate));
+					//	sendRequestMessage (sm, toAppGates->getGate(remoteStorageGate));
+			            sendRequestMessage (sm, toDockerEngineGates->getGate(remoteStorageGate));
+
 					}else{
 						sendRequestMessage (sm, toNetGate);
 					}
@@ -267,9 +274,13 @@ void SyscallManager::removeProcess(int pid){
         int gateIdx = job->gate("fromOS")->getPreviousGate()->getId();
         int position = toAppGates->searchGate(gateIdx);
 
+        int cposition = toDockerEngineGates->searchGate(gateIdx);
+
         fromAppGates->freeGate(position);
         toAppGates->freeGate(position);
 
+        fromDockerEngineGates->freeGate(cposition);
+        toDockerEngineGates->freeGate(cposition);
         job->callFinish();
 
     }

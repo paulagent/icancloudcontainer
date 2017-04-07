@@ -14,7 +14,14 @@ simple StatesApplication
     gates:
         input fromOS;			// Input gate from OS (Operating System)
         output toOS;			// Output gate to OS (Operating System)
-
+        
+       	input fromOSfromCon;
+		output toOStoContainers;
+//		input fromContainers;
+	//	output toContainers;
+		
+	//	input fromDockerEngine;
+	//	output toDockerEngine;
 }
 
 

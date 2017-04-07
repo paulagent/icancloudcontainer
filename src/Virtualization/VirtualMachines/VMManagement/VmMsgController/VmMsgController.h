@@ -36,6 +36,7 @@ private:
 	cGateManager* toOSApps;                         // Output gate from this class to the operative system
 	cGateManager* fromApps;                         // Input gate from this class to an application
 	cGateManager* toApps;                           // Output gate from this class to an application
+
 	cGateManager* fromDockerEngine;
 	cGateManager* toDockerEngine;
 	cGateManager* fromOSContainers;
@@ -98,9 +99,9 @@ public:
 	 */
 	void setId(int userId, int vmId);
 
-	void linkNewContainer(cModule* jobDockerModule, cGate* scToDocker, cGate* scFromDocker);
+	void linkNewDocker(cModule* jobDockerModule, cGate* scToDocker, cGate* scFromDocker);
 
-	void unlinkContainer(cModule* jobDockerModule, cGate* scToDocker, cGate* scFromDocker);
+	int unlinkDocker(cModule* jobDockerModule);
 
 protected:
 

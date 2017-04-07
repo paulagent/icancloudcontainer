@@ -313,6 +313,14 @@ void VmMsgController::sendPendingMessage (icancloud_Message* msg){
 			updateCounters(msg,1);
 			sendRequestMessage(msg, toOSApps->getGate(smIndex));
 		}
+	    if (msg->arrivedOn("fromOSContainers")){
+	            sendRequestMessage(msg, toDockerEngine->getGate(smIndex));
+	        }
+
+	        else if (msg->arrivedOn("fromDockerEngine")){
+	            updateCounters(msg,1);
+	            sendRequestMessage(msg, toOSContainers->getGate(smIndex));
+	        }
 
 	}
 }
@@ -395,7 +403,7 @@ int VmMsgController::unlinkApplication(cModule* jobAppModule){
    return position;
 
 }
-void VmMsgController::linkNewContainer(cModule* jobDockerModule, cGate* scToDocker, cGate* scFromDocker){
+void VmMsgController::linkNewDocker(cModule* jobDockerModule, cGate* scToDocker, cGate* scFromDocker){
 
     // Connections to Container
        int idxToDocker = toDockerEngine->newGate("toDockerEngine");
@@ -413,7 +421,7 @@ void VmMsgController::linkNewContainer(cModule* jobDockerModule, cGate* scToDock
 
 }
 
-int VmMsgController::unlinkContainer(cModule* jobDockerModule){
+int VmMsgController::unlinkDocker(cModule* jobDockerModule){
 
     int gateIdx = jobDockerModule->gate("fromOS")->getPreviousGate()->getId();
     int position = toDockerEngine->searchGate(gateIdx);

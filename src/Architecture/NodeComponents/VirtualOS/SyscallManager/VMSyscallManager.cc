@@ -41,13 +41,17 @@ void VMSyscallManager::processRequestMessage (icancloud_Message *sm){
         msg_mpi = dynamic_cast<icancloud_MPI_Message_Base*> (sm);
 
         if (msg_mpi == NULL){
-            sendRequestMessage (sm, toAppGates->getGate(sm->getNextModuleIndex()));
+        //   sendRequestMessage (sm, toAppGates->getGate(sm->getNextModuleIndex()));
+            sendRequestMessage (sm, toDockerEngineGates->getGate(sm->getNextModuleIndex()));
+
         } else {
             for (cModule::SubmoduleIterator i(getParentModule()); !i.end() && !found; i++)
                  {
                      cModule* currentApp = i();
 
-                     if (strcmp(currentApp->getFullName(), "app" ) == 0) // if submod() is in the same vector as this module
+          //           if (strcmp(currentApp->getFullName(), "app" ) == 0) // if submod() is in the same vector as this module
+
+                      if (strcmp(currentApp->getFullName(), "container" ) == 0)
                      {
 
                          if (currentApp->hasPar("myRank")){
@@ -58,7 +62,9 @@ void VMSyscallManager::processRequestMessage (icancloud_Message *sm){
 
                                  for (int j = 0; (j < (int)processesRunning.size()) && !found;j++){
                                      if ((*(processesRunning.begin() + j)) -> process->getId() == currentApp->getId()){
-                                         sendRequestMessage(sm, toAppGates->getGate((*(processesRunning.begin() + j))->toGateIdx));
+                                     //    sendRequestMessage(sm, toAppGates->getGate((*(processesRunning.begin() + j))->toGateIdx));
+                                         sendRequestMessage (sm, toDockerEngineGates->getGate((*(processesRunning.begin() + j))->toGateIdx));
+
                                          found = true;
                                      }
                                  }
@@ -78,7 +84,9 @@ void VMSyscallManager::processRequestMessage (icancloud_Message *sm){
 	// Msg cames from Memory
 	else if (sm->getArrivalGate() == fromMemoryGate){
 			
-		sendRequestMessage (sm, toAppGates->getGate(sm->getNextModuleIndex()));
+	//	sendRequestMessage (sm, toAppGates->getGate(sm->getNextModuleIndex()));
+        sendRequestMessage (sm, toDockerEngineGates->getGate(sm->getNextModuleIndex()));
+
 	}	
 	
 	// Msg cames from applications
@@ -198,10 +206,11 @@ int VMSyscallManager::createProcess(icancloud_Base* j, int uid){
         int newIndexTo = toDockerEngineGates->newGate("toDockerEngine");
 
    //     mControllerPtr->linkNewApplication(jobAppModule, toAppGates->getGate(newIndexTo), fromAppGates->getGate(newIndexFrom));
-        mControllerPtr->linkNewContainer(jobDockerModule, toDockerEngineGates->getGate(newIndexTo), fromDockerEngineGates->getGate(newIndexFrom));
+        mControllerPtr->linkNewDocker(jobDockerModule, toDockerEngineGates->getGate(newIndexTo), fromDockerEngineGates->getGate(newIndexFrom));
         processRunning* proc;
         proc = new processRunning();
-        proc->process = job;
+        //proc->process = job;
+        proc->process = cJob;
         proc->uid = uid;
         proc->toGateIdx = newIndexTo;
 
@@ -225,7 +234,8 @@ void VMSyscallManager::removeProcess(int pId){
         icancloud_Base* cJob = deleteJobFromStructures(pId);
 
         if (cJob != NULL){
-            int position = mControllerPtr->unlinkContainer(cJob);
+
+            int position = mControllerPtr->unlinkDocker(cJob);
             fromDockerEngineGates->freeGate(position);
             toDockerEngineGates->freeGate(position);
         }
