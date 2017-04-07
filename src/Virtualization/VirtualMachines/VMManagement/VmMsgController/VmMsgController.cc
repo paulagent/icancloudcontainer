@@ -61,9 +61,11 @@ void VmMsgController::initialize(){
 		fromApps = new cGateManager(this);
 		toApps = new cGateManager(this);
 
-	  fromDockerEngine = new cGateManager(this);
+	    fromDockerEngine = new cGateManager(this);
 	    toDockerEngine = new cGateManager(this);
 
+	    fromOSContainers= new cGateManager(this);
+	    toOSContainers= new cGateManager(this);
 }
 
 void VmMsgController::finish(){
@@ -151,6 +153,33 @@ void VmMsgController::processRequestMessage (icancloud_Message *msg){
 				sendRequestMessage(msg, toOSApps->getGate(msg->getCommId()));
 			}
 
+		    if (msg->arrivedOn("fromOSContainers")){
+
+		                sendRequestMessage(msg, toDockerEngine->getGate(msg->getArrivalGate()->getIndex()));
+		            }
+
+
+            else if (msg->arrivedOn("fromDockerEngine")){
+                updateCounters(msg,1);
+
+                 msg->setCommId(msg->getArrivalGate()->getIndex());
+
+                if (sm_net != NULL){
+                    // If the message is a net message and the destination user is null
+                    if (sm_net->getVirtual_user() == -1){
+                        // Filter the name of the user
+                        sm_net->setVirtual_user(msg->getUid());
+                    }
+
+                    sm_net->setVirtual_destinationIP(sm_net->getDestinationIP());
+                    sm_net->setVirtual_destinationPort(sm_net->getDestinationPort());
+                    sm_net->setVirtual_localIP(sm_net->getLocalIP());
+                    sm_net->setVirtual_localPort(sm_net->getLocalPort());
+                }
+
+                sendRequestMessage(msg, toOSContainers->getGate(msg->getCommId()));
+            }
+
 		}
 
 	}
@@ -215,7 +244,28 @@ cGate* VmMsgController::getOutGate (cMessage *msg){
 			}
 
 		}
+	    if (msg->arrivedOn("fromOSContainers")){
 
+	            while ((i < gateCount()) && (!found)){
+	                if (msg->arrivedOn ("fromOSContainers", i)){
+	                    return_gate = (gate("toOSContainers", i));
+	                    found = true;
+	                }
+	                i++;
+	            }
+
+	        }
+	    else if (msg->arrivedOn("fromDockerEngine")){
+
+	            while ((i < gateCount()) && (!found)){
+	                if (msg->arrivedOn ("fromDockerEngine", i)){
+	                    return_gate = (gate("toDockerEngine", i));
+	                    found = true;
+	                }
+	                i++;
+	            }
+
+	        }
 		return return_gate;
 }
 
