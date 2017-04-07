@@ -207,6 +207,7 @@ bool AbstractCloudUser::checkAllVMShutdown(){
 }
 
 int AbstractCloudUser::allocateJob(jobBase* job){
+    cout<<"allocateJob-----------------"<<endl;
 
     // Define ..
         cModule* syscallManager;
@@ -236,7 +237,7 @@ int AbstractCloudUser::allocateJob(jobBase* job){
         return commId;
 }
 int AbstractCloudUser::allocateContainerJob(Container_jobBase* job){
-
+cout<<"allocateContainerJob-----------------"<<endl;
     // Define ..
         cModule* syscallManager;
         cModule* osModule;
