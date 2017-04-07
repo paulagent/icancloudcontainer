@@ -38,6 +38,7 @@ module OperatingSystemModule
 
     gates:
         input fromApps[];			// Input gates from Applications
+        input fromDockerEngine[];
         input fromStorageSystem[];	// Input gates from Block Servers
         input fromNet_TCP;			// Input gate from Network (Ethernet TCP)
         input fromCPU[];			// Input gates from CPU
@@ -48,6 +49,7 @@ module OperatingSystemModule
         output toOutputMemory;		// Output gate to output
 
         output toApps[];			// Output gates to Applications
+        output toDockerEngine[];
         output toStorageSystem[];	// Output gates to Block Servers
         output toNet_TCP;			// Output gate to Network (Ethernet TCP)
         output toCPU[];				// Output gates to CPU
@@ -60,6 +62,7 @@ module OperatingSystemModule
                 @display("p=74,147");
             gates:
                 fromApps[];
+                fromDockerEngine[];
         }
 
         cpuScheduler: <cpuSchedulerType> like ICPU_Scheduler {
@@ -101,6 +104,10 @@ module OperatingSystemModule
             gates:
                 fromOS;
                 toOS;
+                fromOSfromCon;
+				toOStoContainers;
+          // //     fromContainers;
+          //      toContainers;
         }
 
         remoteStorage: RemoteStorageApp {
@@ -108,6 +115,10 @@ module OperatingSystemModule
             gates:
                 fromOS;
                 toOS;
+                fromOSfromCon;
+				toOStoContainers;
+        //        fromOSContainers;
+         //       toOSContainers;
         }
 
     connections allowunconnected:
@@ -115,11 +126,17 @@ module OperatingSystemModule
         // to the remoteStorageApp
         syscallManager.fromApps++ <-- remoteStorage.toOS;
         syscallManager.toApps++ --> remoteStorage.fromOS;
+        
+        syscallManager.fromDockerEngine++ <-- remoteStorage.toOStoContainers;
+        syscallManager.toDockerEngine++ --> remoteStorage.fromOSfromCon;
 
         // Connections between Service Redirector and Applications
         // to the statesApp
         syscallManager.fromApps++ <-- nodeStates.toOS;
         syscallManager.toApps++ --> nodeStates.fromOS;
+        
+        syscallManager.fromDockerEngine++ <--  nodeStates.toOStoContainers;
+        syscallManager.toDockerEngine++ --> nodeStates.fromOSfromCon;
 
         // Connections between Service Redirector and Network
         syscallManager.fromNet <-- fromNet_TCP;//networkService.toicancloud.src.PI;

@@ -320,7 +320,7 @@ void AbstractUserGenerator::createUser (){
                                cout<<"newjob"<<newJob->getFullName() <<endl;
                            }
                        }
-                       /*for (j = 0; ((unsigned int)j)< conjobSetSize; j++){
+                       for (j = 0; ((unsigned int)j)< conjobSetSize; j++){
                                                 Container_jobSelection* jobSelect;
                                                 Container_UserJob* newJob;
                                                 int rep;
@@ -342,7 +342,7 @@ void AbstractUserGenerator::createUser (){
                                                     cout<<"newContainerjob"<<newJob->getFullName() <<endl;
                                                 }
                                             }
-*/
+
                        user->setFSType(remoteFileSystemType);
 
             // Notify to cloud manager the arrival of a new user..

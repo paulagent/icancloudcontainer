@@ -115,7 +115,8 @@ module VmOperatingSystemModule like IOperatingSystem
                 toApps[];
 
                   //Added by Zahra Nikdel:
-
+ 				fromOSContainers[];
+ 				toOSContainers[];
                 fromDockerEngine[];
                 toDockerEngine[];
         }
