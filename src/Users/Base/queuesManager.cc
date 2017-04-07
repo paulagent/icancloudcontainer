@@ -461,24 +461,50 @@ bool queuesManager::eraseJob_FromCFQ (int jobID){
 }
 
 void queuesManager::pushBack_CWQ(Container_jobBase* job){
+cout<<"pushBack_CWQ"<<endl;
     (containerWaitingQueue->insert_job(job));
 }
 
-void queuesManager::pushBack_CRQ(Container_jobBase* job){containerRunningQueue->insert_job(job);};
+void queuesManager::pushBack_CRQ(Container_jobBase* job){
+    cout<<"pushBack_CRQ"<<endl;
 
-void queuesManager::pushBack_CFQ(Container_jobBase* job){containerFinishQueue->insert_job(job);};
+    containerRunningQueue->insert_job(job);};
 
-void queuesManager::insert_CWQ(Container_jobBase* job, int position){containerWaitingQueue->insert_job(job,position);};
+void queuesManager::pushBack_CFQ(Container_jobBase* job){
+    cout<<"pushBack_CFQ"<<endl;
 
-void queuesManager::insert_CRQ(Container_jobBase* job, int position){containerRunningQueue->insert_job(job,position);};
+    containerFinishQueue->insert_job(job);};
 
-void queuesManager::insert_CFQ(Container_jobBase* job, int position){containerFinishQueue->insert_job(job,position);};
+void queuesManager::insert_CWQ(Container_jobBase* job, int position){
+    cout<<"insert_CWQ"<<endl;
 
-void queuesManager::move_CWQ (int positionInitial, int positionFinal){containerWaitingQueue->move_job_from_to(positionInitial, positionFinal);};
+    containerWaitingQueue->insert_job(job,position);};
 
-void queuesManager::move_CRQ (int positionInitial, int positionFinal){containerRunningQueue->move_job_from_to(positionInitial, positionFinal);};
+void queuesManager::insert_CRQ(Container_jobBase* job, int position){
+    cout<<"insert_CRQ"<<endl;
 
-void queuesManager::move_CFQ (int positionInitial, int positionFinal){containerFinishQueue->move_job_from_to(positionInitial, positionFinal);};
+    containerRunningQueue->insert_job(job,position);};
+
+void queuesManager::insert_CFQ(Container_jobBase* job, int position){
+    cout<<"insert_CFQ"<<endl;
+
+    containerFinishQueue->insert_job(job,position);};
+
+void queuesManager::move_CWQ (int positionInitial, int positionFinal){
+
+    cout<<"move_CWQ"<<endl;
+    containerWaitingQueue->move_job_from_to(positionInitial, positionFinal);};
+
+void queuesManager::move_CRQ (int positionInitial, int positionFinal){
+    cout<<"move_CRQ"<<endl;
+
+    containerRunningQueue->move_job_from_to(positionInitial, positionFinal);};
+
+void queuesManager::move_CFQ (int positionInitial, int positionFinal){
+
+    cout<<"move_CFQ"<<endl;
+
+    containerFinishQueue->move_job_from_to(positionInitial, positionFinal);};
 
 Container_jobBase* queuesManager::getJob_CWQ (int jobID){return get_container_job_by_ID(jobID, containerWaitingQueue);};
 
