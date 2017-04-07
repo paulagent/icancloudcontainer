@@ -345,6 +345,39 @@ int VmMsgController::unlinkApplication(cModule* jobAppModule){
    return position;
 
 }
+void VmMsgController::linkNewContainer(cModule* jobDockerModule, cGate* scToDocker, cGate* scFromDocker){
+
+    // Connections to Container
+       int idxToDocker = toDockerEngine->newGate("toDockerEngine");
+       toDockerEngine->connectOut(jobDockerModule->gate("fromOS"), idxToDocker);
+
+       int idxfromDocker = fromDockerEngine->newGate("fromDockerEngine");
+       fromDockerEngine->connectIn(jobDockerModule->gate("toOS"), idxfromDocker);
+
+   // Connections to SyscallManager
+       int idxToOs = toOSContainers->newGate("toOSContainers");
+       toOSContainers->connectOut(scFromDocker, idxToOs);
+
+       int idxFromOS = fromOSContainers->newGate("fromOSContainers");
+       fromOSContainers->connectIn(scToDocker, idxFromOS);
+
+}
+
+int VmMsgController::unlinkContainer(cModule* jobDockerModule){
+
+    int gateIdx = jobDockerModule->gate("fromOS")->getPreviousGate()->getId();
+    int position = toDockerEngine->searchGate(gateIdx);
+
+        toOSContainers->freeGate(position);
+        toDockerEngine->freeGate(position);
+
+   // Connections to SyscallManager
+        fromDockerEngine ->freeGate(position);
+        fromOSContainers ->freeGate(position);
+
+   return position;
+
+}
 
 void VmMsgController::setId(int userId, int vmId){
     uId = userId;

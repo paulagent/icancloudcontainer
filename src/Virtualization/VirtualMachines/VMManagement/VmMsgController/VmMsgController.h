@@ -38,6 +38,8 @@ private:
 	cGateManager* toApps;                           // Output gate from this class to an application
 	cGateManager* fromDockerEngine;
 	cGateManager* toDockerEngine;
+	cGateManager* fromOSContainers;
+	cGateManager* toOSContainers;
 
 	int uId;                                        // The user identification value
 
@@ -95,6 +97,10 @@ public:
 	 * This method set the user identification and the VM identification to be setted at each message from app to the OS
 	 */
 	void setId(int userId, int vmId);
+
+	void linkNewContainer(cModule* jobDockerModule, cGate* scToDocker, cGate* scFromDocker);
+
+	void unlinkContainer(cModule* jobDockerModule, cGate* scToDocker, cGate* scFromDocker);
 
 protected:
 

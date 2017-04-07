@@ -174,23 +174,31 @@ void VMSyscallManager::processRequestMessage (icancloud_Message *sm){
 
 int VMSyscallManager::createProcess(icancloud_Base* j, int uid){
 
-    cModule* jobAppModule;
+ //   cModule* jobAppModule;
+    cModule* jobDockerModule;
     UserJob* job;
-
-    job = dynamic_cast <UserJob*>(j);
-
-    if (job == NULL) throw cRuntimeError("SyscallManager::createJob, error with dynamic casting. Entry parameter cannot cast to jobBase.\n");
+    Container_UserJob* cJob;
+  //  job = dynamic_cast <UserJob*>(j);
+    cJob= dynamic_cast <Container_UserJob*>(j);
+ //   if (job == NULL) throw cRuntimeError("SyscallManager::createJob, error with dynamic casting. Entry parameter cannot cast to jobBase.\n");
+    if (cJob == NULL) throw cRuntimeError("SyscallManager::createJob, error with dynamic casting. Entry parameter cannot cast to jobBase.\n");
 
     //get the app previously created
-        jobAppModule = check_and_cast <cModule*> (job);
-        jobAppModule->changeParentTo(getParentModule());
+  //      jobAppModule = check_and_cast <cModule*> (job);
+   //     jobAppModule->changeParentTo(getParentModule());
+
+    jobDockerModule = check_and_cast <cModule*> (cJob);
+    jobDockerModule->changeParentTo(getParentModule());
 
     //Connect the modules (app created and node selected)
-        int newIndexFrom = fromAppGates->newGate("fromApps");
-        int newIndexTo = toAppGates->newGate("toApps");
+   //     int newIndexFrom = fromAppGates->newGate("fromApps");
+   //     int newIndexTo = toAppGates->newGate("toApps");
 
-        mControllerPtr->linkNewApplication(jobAppModule, toAppGates->getGate(newIndexTo), fromAppGates->getGate(newIndexFrom));
+        int newIndexFrom = fromDockerEngineGates->newGate("fromDockerEngine");
+        int newIndexTo = toDockerEngineGates->newGate("toDockerEngine");
 
+   //     mControllerPtr->linkNewApplication(jobAppModule, toAppGates->getGate(newIndexTo), fromAppGates->getGate(newIndexFrom));
+        mControllerPtr->linkNew(jobDockerModule, toDockerEngineGates->getGate(newIndexTo), fromDockerEngineGates->getGate(newIndexFrom));
         processRunning* proc;
         proc = new processRunning();
         proc->process = job;
@@ -205,12 +213,21 @@ int VMSyscallManager::createProcess(icancloud_Base* j, int uid){
 
 void VMSyscallManager::removeProcess(int pId){
 
-        icancloud_Base* job = deleteJobFromStructures(pId);
+  /*      icancloud_Base* job = deleteJobFromStructures(pId);
 
         if (job != NULL){
             int position = mControllerPtr->unlinkApplication(job);
             fromAppGates->freeGate(position);
             toAppGates->freeGate(position);
+        }
+
+*/
+        icancloud_Base* cJob = deleteJobFromStructures(pId);
+
+        if (cJob != NULL){
+            int position = mControllerPtr->unlinkContainer(cJob);
+            fromDockerEngineGates->freeGate(position);
+            toDockerEngineGates->freeGate(position);
         }
 
 }

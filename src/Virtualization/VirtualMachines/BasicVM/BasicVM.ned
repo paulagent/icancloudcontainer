@@ -44,6 +44,10 @@ module BasicVM extends VM like IVM
 
                 fromNet_TCP;						 // Input gate from Network (Ethernet TCP)
                 toNet_TCP;							 // Output gate to Network (Ethernet TCP)
+                
+                fromDockerEngine[];
+        		toDockerEngine[];
+                
         }     
 
     connections allowunconnected:
