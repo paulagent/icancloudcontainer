@@ -52,8 +52,8 @@ module VmOperatingSystemModule like IOperatingSystem
         output toCPU[];				// Output gates to CPU
 
         // Added by Zahra Nikdel:
-        input fromDockerEngine;
-        output toDockerEngine;
+        input fromDockerEngine[];
+        output toDockerEngine[];
 
     submodules:
 
@@ -63,6 +63,9 @@ module VmOperatingSystemModule like IOperatingSystem
             gates:
                 fromApps[];
                 toApps[];
+                
+                fromDockerEngine[];
+                toDockerEngine[];
         }
 
         cpuScheduler: <cpuSchedulerType> like ICPU_Scheduler {

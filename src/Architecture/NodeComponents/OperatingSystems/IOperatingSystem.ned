@@ -42,4 +42,7 @@ moduleinterface IOperatingSystem
         input  fromOutputMemory;	// Input gate from output
         output toInputMemory;		// Output gates to inputs
         output toOutputMemory;		// Output gate to output
+        
+        input fromDockerEngine[]; // Input gates from Containers
+        output toDockerEngine[];  // Output gates to Containers
 }

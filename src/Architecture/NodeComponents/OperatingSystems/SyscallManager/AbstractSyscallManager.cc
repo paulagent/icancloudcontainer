@@ -54,12 +54,13 @@ void AbstractSyscallManager::finish(){
 cGate* AbstractSyscallManager::getOutGate (cMessage *msg){
 
         // If msg arrive from Applications
-		if (msg->arrivedOn("fromApps")){
+	/*	if (msg->arrivedOn("fromApps")){
 			return (gate("toApps", msg->getArrivalGate()->getIndex()));
-		}
-	    if (msg->arrivedOn("fromContainers")){
-	            return (gate("toContainers", msg->getArrivalGate()->getIndex()));
+		}*/
+	    if (msg->arrivedOn("fromDockerEngine")){
+	            return (gate("toDockerEngine", msg->getArrivalGate()->getIndex()));
 	        }
+
 		// If msg arrive from Memory
 		else if (msg->getArrivalGate()==fromMemoryGate){
 			if (gate("toMemory")->getNextGate()->isConnected()){
