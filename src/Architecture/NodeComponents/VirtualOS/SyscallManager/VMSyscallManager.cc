@@ -198,7 +198,7 @@ int VMSyscallManager::createProcess(icancloud_Base* j, int uid){
         int newIndexTo = toDockerEngineGates->newGate("toDockerEngine");
 
    //     mControllerPtr->linkNewApplication(jobAppModule, toAppGates->getGate(newIndexTo), fromAppGates->getGate(newIndexFrom));
-        mControllerPtr->linkNew(jobDockerModule, toDockerEngineGates->getGate(newIndexTo), fromDockerEngineGates->getGate(newIndexFrom));
+        mControllerPtr->linkNewContainer(jobDockerModule, toDockerEngineGates->getGate(newIndexTo), fromDockerEngineGates->getGate(newIndexFrom));
         processRunning* proc;
         proc = new processRunning();
         proc->process = job;
