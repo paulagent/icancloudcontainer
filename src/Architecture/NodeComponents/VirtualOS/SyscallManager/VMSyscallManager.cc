@@ -225,9 +225,9 @@ void VMSyscallManager::removeProcess(int pId){
         icancloud_Base* cJob = deleteJobFromStructures(pId);
 
         if (cJob != NULL){
-            int position = mControllerPtr->unlinkContainer(cJob);
-            fromDockerEngineGates->freeGate(position);
-            toDockerEngineGates->freeGate(position);
+           // int position = mControllerPtr->unlinkContainer(cJob);
+            //fromDockerEngineGates->freeGate(position);
+           // toDockerEngineGates->freeGate(position);
         }
 
 }

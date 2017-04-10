@@ -100,7 +100,7 @@ public:
 
 	void linkNewContainer(cModule* jobDockerModule, cGate* scToDocker, cGate* scFromDocker);
 
-	void unlinkContainer(cModule* jobDockerModule, cGate* scToDocker, cGate* scFromDocker);
+	int unlinkContainer(cModule* jobDockerModule);
 
 protected:
 
