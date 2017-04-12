@@ -101,7 +101,9 @@ public:
 
 	void linkNewDocker(cModule* jobDockerModule, cGate* scToDocker, cGate* scFromDocker);
 
+
 	int unlinkDocker(cModule* jobDockerModule);
+
 
 protected:
 

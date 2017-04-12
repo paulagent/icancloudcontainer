@@ -235,9 +235,11 @@ void VMSyscallManager::removeProcess(int pId){
 
         if (cJob != NULL){
 
+
             int position = mControllerPtr->unlinkDocker(cJob);
             fromDockerEngineGates->freeGate(position);
             toDockerEngineGates->freeGate(position);
+
         }
 
 }
