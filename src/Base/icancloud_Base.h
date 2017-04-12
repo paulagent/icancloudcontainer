@@ -6,6 +6,13 @@
 #include "icancloud_App_CPU_Message.h"
 #include "icancloud_App_MEM_Message.h"
 #include "icancloud_App_NET_Message.h"
+/*add container msg
+
+*/
+#include "icancloud_Container_IO_Message.h"
+#include "icancloud_Container_CPU_Message.h"
+#include "icancloud_Container_MEM_Message.h"
+#include "icancloud_Container_NET_Message.h"
 #include "icancloud_MPI_Message.h"
 #include "icancloud_Migration_Message.h"
 #include "icancloud_BlockList_Message.h"
