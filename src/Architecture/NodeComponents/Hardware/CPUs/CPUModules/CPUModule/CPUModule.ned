@@ -28,6 +28,9 @@ module CPU_Module like ICPU_Module
     gates:
         input fromOS[];		// Input gates from Operating System
         output toOS[];		// Output gates to Operating System
+        
+    //     input fromOSfromCon[];		// Input gates from Operating System
+    //    output toOStoCon[];		// Output gates to Operating System
 
 
     submodules:
@@ -47,7 +50,10 @@ module CPU_Module like ICPU_Module
 
         // Connections between all CPU cores and outside
         for i=0..numCPUs-1 {
-            CPUcore[i].in <-- fromOS[i];
-            CPUcore[i].out --> toOS[i];
+           CPUcore[i].in <-- fromOS[i];
+           CPUcore[i].out --> toOS[i];
+            
+   //         CPUcore[i].cin <-- fromOSfromCon[i];
+   //         CPUcore[i].cout --> toOStoCon[i];
         }
 }

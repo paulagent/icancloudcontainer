@@ -37,7 +37,7 @@ module BasicVM extends VM like IVM
                 fromStorageSystem[numStorageSystems];
                 toStorageSystem[numStorageSystems];
                 //***/
-                fromInputMemory;   				 // Input gates from imputs
+                fromInputMemory;   				 // Input gates from inputs
                 fromOutputMemory;					 // Input gate from output
                 toInputMemory;					 // Output gates to inputs
                 toOutputMemory;						 // Output gate to output
@@ -47,6 +47,9 @@ module BasicVM extends VM like IVM
                 
                 fromDockerEngine[];
         		toDockerEngine[];
+        		
+        		fromOSContainers[];
+        		toOSContainers[];
                 
         }     
 
@@ -77,5 +80,12 @@ module BasicVM extends VM like IVM
 
         osModule.fromNet_TCP <-- fromNodeNet;
         osModule.toNet_TCP --> toNodeNet;
-
+        
+   //     osModule.fromOSContainers++ <-- fromOSContainers++;
+    //    osModule.toOSContainers++ --> toOSContainers++;
+    
+    osModule.fromDockerEngine++ <-- fromDockerEngine++;
+    osModule.toDockerEngine++ --> toDockerEngine++;
+		
+		
 }

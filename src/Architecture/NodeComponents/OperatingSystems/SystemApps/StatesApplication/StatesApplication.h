@@ -46,16 +46,20 @@ class StatesApplication: virtual public icancloud_Base{
 		int numNetworkDevices;
 
         /** Input gate from OS. */
-        cGate* fromOSGate;
+		cGate* fromOSGate;
 
         /** Output gate to OS. */
-        cGate* toOSGate;
+		cGate* toOSGate;
 
         /** Network type */
         string netType;
 
         // The actual state of the node
         string actualState;
+
+    //    cGate* fromOSfromConGate;
+   //     cGate* toOStoConGate;
+
 
 
 	   /**

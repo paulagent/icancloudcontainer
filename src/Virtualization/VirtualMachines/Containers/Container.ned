@@ -20,21 +20,27 @@ import icancloud.src.Virtualization.VirtualMachines.Containers.IContainer;
 import icancloud.src.Users.UserGenerator.PreloadFilesDefinition.PreloadFilesDefinition;
 import icancloud.src.Users.UserGenerator.FSUserDefinition.FSUserDefinition;
 
-module Container
+module Container 
 {
     parameters:
-        string containerType;					// The name of ned / folder / class of the application
+        string containerType=default("Container_CPU_Intensive");					// The name of ned / folder / class of the application
         string name;					// A name for the application
         int copies = default(1);		// Number of replicas that will be launched at system 
         int numFSRoutes;				// Number of different routes that applications will need  
         int numFiles;					// Number of different files that applications will need 
-
-    submodules:
-
-        container: <containerType> like IContainer {
-            @display("p=65,103");
-        }
-
+gates:
+    
+      input fromDockerEngine[] @loose;			// Input gate from OS (Operating System)
+      output toDockerEngine[] @loose;			
+  
+      
+  submodules:
+              
+		container: <containerType> like IContainer{
+		                @display("p=65,103");
+		    
+		}
+     
         FSConfig[numFSRoutes]: FSUserDefinition {
             @display("p=417,103");
         }

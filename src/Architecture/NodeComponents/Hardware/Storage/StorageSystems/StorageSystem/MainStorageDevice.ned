@@ -25,6 +25,8 @@ module MainStorageDevice
     gates:
         input fromOS;		// Input gate from Operating System	
         output toOS;		// Output gate to Operating System	
+ //	 	input fromOSfromCon;		// Input gate from Operating System	
+ //       output toOStoCon;		// Output gate to Operating System	
 
 
     submodules:
@@ -43,6 +45,8 @@ module MainStorageDevice
             gates:
                 fromInput[1];
                 toInput[1];
+                fromOutput;
+                toOutput;
         }
 
     connections allowunconnected:
@@ -50,9 +54,15 @@ module MainStorageDevice
         // Conections with Operating System
         fromOS --> cache.fromInput[0];
         toOS <-- cache.toInput[0];
+        
+ //       fromOSfromCon --> cache.fromInput[1];
+  //      toOStoCon <-- cache.toInput[1];
 
         // Conections between Cache and Storage Device
         cache.fromOutput <-- device.out;
         cache.toOutput --> device.in;
+        
+    //    cache.fromOutput[1] <-- device.cout;
+     //   cache.toOutput[1] --> device.cin;
 
 }

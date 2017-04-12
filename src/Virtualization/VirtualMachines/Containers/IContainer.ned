@@ -19,7 +19,7 @@ moduleinterface IContainer
     parameters:
 		
     gates:
-        input fromDockerEngine;			// Input gate from OS (Operating System)
-        output toDockerEngine;			// Output gate to OS (Operating System)
+        input fromDockerEngine[];			// Input gate from OS (Operating System)
+        output toDockerEngine[];			// Output gate to OS (Operating System)
            
 }

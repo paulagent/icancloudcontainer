@@ -178,12 +178,13 @@ void AbstractUserGenerator::initialize(){
                     userJobSet.push_back(jobSel);
                 }
                 numContainers = getParentModule()->getSubmodule("containerDefinition")->par("containerQuantity").longValue();
+                cout <<"numContainers"<<numContainers<<endl;
               //  numContainers=1;
                 for (int i = 0; i < numContainers;i++){
                                   conjobSel = new Container_jobSelection();
                                   conjobSel->replicas = getParentModule()->getSubmodule("containerDefinition")->getSubmodule("container",i)->par("copies").longValue();
                                   conjobSel->appName = getParentModule()->getSubmodule("containerDefinition")->getSubmodule("container",i)->par("name").stringValue();
-                                  cout<<  conjobSel->appName<<endl;
+                                  cout<< " conjobSel->appName"<<  conjobSel->appName<<endl;
                                   auxMod = getParentModule()->getSubmodule("containerDefinition")->getSubmodule("container",i)->getSubmodule("container");
                                   conjobSel->job = dynamic_cast<Container_UserJob*> (auxMod);
 

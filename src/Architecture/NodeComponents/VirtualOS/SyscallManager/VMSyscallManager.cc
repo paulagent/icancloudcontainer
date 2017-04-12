@@ -201,7 +201,7 @@ int VMSyscallManager::createProcess(icancloud_Base* j, int uid){
     //Connect the modules (app created and node selected)
    //     int newIndexFrom = fromAppGates->newGate("fromApps");
    //     int newIndexTo = toAppGates->newGate("toApps");
-
+cout << " VMSyscallManager::createProcess before new docker gate"<<endl;
         int newIndexFrom = fromDockerEngineGates->newGate("fromDockerEngine");
         int newIndexTo = toDockerEngineGates->newGate("toDockerEngine");
 
