@@ -173,6 +173,8 @@ module NodeVL like INode
                 toOutputMemory;
                 fromNet_TCP;
                 toNet_TCP;
+                fromDockerEngine[];
+                toDockerEngine[];
         }
 
         cpuModule: <cpuModuleType> like ICPU_Module {

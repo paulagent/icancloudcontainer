@@ -23,6 +23,9 @@ module StorageSystem
     gates:
         input fromHypervisor[];		// Input gate from Operating System	
         output toDevice[];			// Output gate to Operating System	
+        
+  //    input fromHypervisorCon[];		// Input gate from Operating System	
+  //      output toDeviceCon[];			// Output gate to Operating System	
 
 
     submodules:
@@ -45,5 +48,11 @@ module StorageSystem
             fromHypervisor[i] --> device[i].fromOS;
             toDevice[i] <-- device[i].toOS;
         }
+        
+        
+ //       for i=0..numStorageSystems-1 {
+ //           fromHypervisorCon[i] --> device[i].fromOSfromCon;
+ //           toDeviceCon[i] <-- device[i].toOStoCon;
+ //       }
 
 }

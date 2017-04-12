@@ -25,6 +25,9 @@ moduleinterface ICPU_Module
     gates:
         input fromOS[];					// Input gates from Operating System
         output toOS[];					// Output gates to Operating System
+        
+  //      input fromOSfromCon[];					// Input gates from Operating System
+  //      output toOStoCon[];					// Output gates to Operating System
 
 }
 

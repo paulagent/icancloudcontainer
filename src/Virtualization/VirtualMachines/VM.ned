@@ -64,6 +64,11 @@ module VM like IVM
         // network 
         input fromNodeNet@loose;
         output toNodeNet@loose;
+        
+        input fromOSContainers[] @loose;
+        output toOSContainers[] @loose;
+        input fromDockerEngine[] @loose;
+        output toDockerEngine[] @loose;
          
  	connections allowunconnected:
 }

@@ -28,6 +28,10 @@ void StatesApplication::initialize(){
 	// Init the super-class
 	fromOSGate = gate ("fromOS");
 	toOSGate = gate ("toOS");
+//	fromOSGate = new cGateManager(this);
+//	toOSGate =new cGateManager(this);
+	//fromOSfromConGate = gate ("fromOSfromCon");
+    //toOStoConGate = gate ("toOStoCon");
 
 	// Load the parameters of the node;
 	numCPUs = getParentModule()->getParentModule()->par("numCores");
@@ -76,12 +80,12 @@ void StatesApplication::processResponseMessage (icancloud_Message *sm){
 }
 
 void StatesApplication::initState (string newState){
- //   if (DEBUG_CLOUD_SCHED) printf("\n Method[StatesApplication]: ------->initState\n");
+    if (DEBUG_CLOUD_SCHED) printf("\n Method[StatesApplication]: ------->initState\n");
 
     actualState = newState;        // A null state
     sendToNetwork = sendToDisk = sendToMemory = sendToCpu = true;
     send_msg_to_change_states(sendToCpu,sendToMemory,sendToNetwork,sendToDisk);
- //   if (DEBUG_CLOUD_SCHED) printf("\n Method[StatesApplication]: ------->initState----FIN---------------\n");
+    if (DEBUG_CLOUD_SCHED) printf("\n Method[StatesApplication]: ------->initState----FIN---------------\n");
 
 }
 
@@ -167,7 +171,7 @@ void StatesApplication::changeState(string newState){
 
 
 void StatesApplication::send_msg_to_change_states (bool cpu, bool memory, bool network, bool disk){
-//    if (DEBUG_CLOUD_SCHED) printf("\n Method[StatesApplication]: ------->send_msg_to_change_states\n");
+    if (DEBUG_CLOUD_SCHED) printf("\n Method[StatesApplication]: ------->send_msg_to_change_states\n");
 
 	vector<int> devicesIndexToChange;
 	int i;
@@ -178,7 +182,7 @@ void StatesApplication::send_msg_to_change_states (bool cpu, bool memory, bool n
 						devicesIndexToChange.insert(devicesIndexToChange.end(), i);
 		sendToNetwork = false;
 		icancloud_request_changeState_network (actualState, devicesIndexToChange);
-	//    if (DEBUG_CLOUD_SCHED) printf("\n Method[StatesApplication]: ------->icancloud_request_changeState_network\n");
+	    if (DEBUG_CLOUD_SCHED) printf("\n Method[StatesApplication]: ------->icancloud_request_changeState_network\n");
 
 	}
 
@@ -189,7 +193,7 @@ void StatesApplication::send_msg_to_change_states (bool cpu, bool memory, bool n
 
 		sendToDisk = false;
 		icancloud_request_changeState_IO (actualState, devicesIndexToChange);
-	//    if (DEBUG_CLOUD_SCHED) printf("\n Method[StatesApplication]: ------->icancloud_request_changeState_IO\n");
+	    if (DEBUG_CLOUD_SCHED) printf("\n Method[StatesApplication]: ------->icancloud_request_changeState_IO\n");
 
 	}
 
@@ -197,7 +201,7 @@ void StatesApplication::send_msg_to_change_states (bool cpu, bool memory, bool n
 	if (sendToMemory){
 		sendToMemory = false;
 		icancloud_request_changeState_memory (actualState);
-	//    if (DEBUG_CLOUD_SCHED) printf("\n Method[StatesApplication]: ------->icancloud_request_changeState_memory\n");
+	    if (DEBUG_CLOUD_SCHED) printf("\n Method[StatesApplication]: ------->icancloud_request_changeState_memory\n");
 
 	}
 
@@ -211,7 +215,7 @@ void StatesApplication::send_msg_to_change_states (bool cpu, bool memory, bool n
 	//    if (DEBUG_CLOUD_SCHED) printf("\n Method[StatesApplication]: ------->icancloud_request_changeState_cpu\n");
 
 	}
-   // if (DEBUG_CLOUD_SCHED) printf("\n Method[StatesApplication]: ------->send_msg_to_change_states----FIN----------\n");
+    if (DEBUG_CLOUD_SCHED) printf("\n Method[StatesApplication]: ------->send_msg_to_change_states----FIN----------\n");
 
 
 }
@@ -303,7 +307,7 @@ void StatesApplication::icancloud_request_changeState_cpu (string newState, vect
 void StatesApplication::icancloud_request_changeState_network (string newState, vector<int> devicesIndexToChange){
 
     Enter_Method_Silent();
-  //  if (DEBUG_CLOUD_SCHED) printf("\n Method[StatesApplication]: ------->icancloud_request_changeState_network\n");
+    if (DEBUG_CLOUD_SCHED) printf("\n Method[StatesApplication]: ------->icancloud_request_changeState_network\n");
 
     icancloud_App_NET_Message *sm_net;                  // Request message!
     unsigned int i;
@@ -327,7 +331,7 @@ void StatesApplication::icancloud_request_changeState_network (string newState, 
 
     // Send the request message to Network Service module
     sendRequestMessage (sm_net, toOSGate);
-  //  if (DEBUG_CLOUD_SCHED) printf("\n Method[StatesApplication]: ------->icancloud_request_changeState_network---FIN----\n");
+    if (DEBUG_CLOUD_SCHED) printf("\n Method[StatesApplication]: ------->icancloud_request_changeState_network---FIN----\n");
 
 }
 

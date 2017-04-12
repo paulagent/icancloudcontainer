@@ -2,7 +2,7 @@
 # OMNeT++/OMNEST Makefile for libiCanCloud
 #
 # This file was generated with the command:
-#  opp_makemake -f --deep --make-so -O out -I../inet/src/transport/tcp_common -I../inet/src/util -I../inet/src/linklayer/ieee80211/mac -I../inet/src/linklayer/ieee80211/radio/errormodel -I../inet/src/util/headerserializers -I../inet/src/transport/sctp -I../inet/src/networklayer/icmpv6 -I../inet/src/linklayer/radio/propagation -I../inet/src/world/radio -I../inet/src/linklayer/contract -I../inet/src/util/headerserializers/udp -I../inet/src/util/headerserializers/tcp -I../inet/src/networklayer/common -I../inet/src/networklayer/arp -I../inet/src -I../inet/src/util/headerserializers/sctp -I../inet/src/networklayer/autorouting/ipv4 -I../inet/src/mobility/contract -I../inet/src/base -I../inet/src/transport/udp -I../inet/src/linklayer/ieee80211/radio -I../inet/src/status -I../inet/src/transport/contract -I../inet/src/networklayer/ipv6tunneling -I../inet/src/linklayer/radio -I../inet/src/world/obstacles -I../inet/src/networklayer/ipv6 -I../inet/src/networklayer/routing/aodv -I../inet/src/networklayer/contract -I../inet/src/networklayer/xmipv6 -I../inet/src/util/headerserializers/ipv6 -I../inet/src/battery/models -I../inet/src/networklayer/ipv4 -I../inet/src/applications/pingapp -I../inet/src/linklayer/common -I../inet/src/util/headerserializers/ipv4 -L../inet/out/$$\(CONFIGNAME\)/src -lz -linet -DINET_IMPORT -KINET_PROJ=../inet
+#  opp_makemake -f --deep --make-so -O out -I../inet/src/transport/tcp_common -I../inet/src/util -I../inet/src/linklayer/ieee80211/mac -I../inet/src/linklayer/ieee80211/radio/errormodel -I../inet/src/util/headerserializers -I../inet/src/world/httptools -I../inet/src/transport/sctp -I../inet/src/networklayer/icmpv6 -I../inet/src/linklayer/radio/propagation -I../inet/src/world/radio -I../inet/src/linklayer/contract -I../inet/src/util/headerserializers/udp -I../inet/src/util/headerserializers/tcp -I../inet/src/networklayer/common -I../inet/src/networklayer/arp -I../inet/src -I../inet/src/util/headerserializers/sctp -I../inet/src/networklayer/autorouting/ipv4 -I../inet/src/mobility/contract -I../inet/src/base -I../inet/src/transport/udp -I../inet/src/linklayer/ieee80211/radio -I../inet/src/applications/httptools -I../inet/src/status -I../inet/src/transport/contract -I../inet/src/networklayer/ipv6tunneling -I../inet/src/linklayer/radio -I../inet/src/world/obstacles -I../inet/src/networklayer/ipv6 -I../inet/src/networklayer/routing/aodv -I../inet/src/networklayer/contract -I../inet/src/networklayer/xmipv6 -I../inet/src/util/headerserializers/ipv6 -I../inet/src/battery/models -I../inet/src/networklayer/ipv4 -I../inet/src/applications/pingapp -I/home/zahra/omnetpp-4.6/samples/sockets -I../inet/src/linklayer/common -I../inet/src/util/headerserializers/ipv4 -L../inet/out/$$\(CONFIGNAME\)/src -lz -linet -DINET_IMPORT -KINET_PROJ=../inet -KQUEUENET_PROJ=/home/zahra/omnetpp-4.6/samples/queuenet -KSOCKETS_PROJ=/home/zahra/omnetpp-4.6/samples/sockets
 #
 
 # Name of target to be created (-o option)
@@ -15,6 +15,7 @@ INCLUDE_PATH = \
     -I../inet/src/linklayer/ieee80211/mac \
     -I../inet/src/linklayer/ieee80211/radio/errormodel \
     -I../inet/src/util/headerserializers \
+    -I../inet/src/world/httptools \
     -I../inet/src/transport/sctp \
     -I../inet/src/networklayer/icmpv6 \
     -I../inet/src/linklayer/radio/propagation \
@@ -31,6 +32,7 @@ INCLUDE_PATH = \
     -I../inet/src/base \
     -I../inet/src/transport/udp \
     -I../inet/src/linklayer/ieee80211/radio \
+    -I../inet/src/applications/httptools \
     -I../inet/src/status \
     -I../inet/src/transport/contract \
     -I../inet/src/networklayer/ipv6tunneling \
@@ -44,6 +46,7 @@ INCLUDE_PATH = \
     -I../inet/src/battery/models \
     -I../inet/src/networklayer/ipv4 \
     -I../inet/src/applications/pingapp \
+    -I$(SOCKETS_PROJ) \
     -I../inet/src/linklayer/common \
     -I../inet/src/util/headerserializers/ipv4 \
     -I. \
@@ -427,6 +430,8 @@ MSGFILES = \
 
 # Other makefile variables (-K)
 INET_PROJ=../inet
+QUEUENET_PROJ=/home/zahra/omnetpp-4.6/samples/queuenet
+SOCKETS_PROJ=/home/zahra/omnetpp-4.6/samples/sockets
 
 #------------------------------------------------------------------------------
 
@@ -5893,7 +5898,39 @@ $O/src/Virtualization/VirtualMachines/VM.o: src/Virtualization/VirtualMachines/V
 	$(INET_PROJ)/src/transport/contract/TCPCommand_m.h \
 	$(INET_PROJ)/src/transport/contract/TCPSocket.h
 $O/src/Virtualization/VirtualMachines/Containers/Container.o: src/Virtualization/VirtualMachines/Containers/Container.cc \
-	src/Virtualization/VirtualMachines/Containers/Container.h
+	src/Base/Messages/icancloud_App_CPU_Message.h \
+	src/Base/Messages/icancloud_App_CPU_Message_m.h \
+	src/Base/Messages/icancloud_App_IO_Message.h \
+	src/Base/Messages/icancloud_App_IO_Message_m.h \
+	src/Base/Messages/icancloud_App_MEM_Message.h \
+	src/Base/Messages/icancloud_App_MEM_Message_m.h \
+	src/Base/Messages/icancloud_App_NET_Message.h \
+	src/Base/Messages/icancloud_App_NET_Message_m.h \
+	src/Base/Messages/icancloud_BlockList_Message.h \
+	src/Base/Messages/icancloud_BlockList_Message_m.h \
+	src/Base/Messages/icancloud_File.h \
+	src/Base/Messages/icancloud_MPI_Message.h \
+	src/Base/Messages/icancloud_MPI_Message_m.h \
+	src/Base/Messages/icancloud_Message.h \
+	src/Base/Messages/icancloud_Message_m.h \
+	src/Base/Messages/icancloud_Migration_Message.h \
+	src/Base/Messages/icancloud_Migration_Message_m.h \
+	src/Base/Util/Log/ICCLog.h \
+	src/Base/cGateManager.h \
+	src/Base/icancloud_Base.h \
+	src/Base/include/Constants.h \
+	src/Base/include/icancloud_debug.h \
+	src/Base/include/icancloud_types.h \
+	src/EnergySystem/EnergyMeter/EnergyMeterUnit/Memorization/Memoization_uthash.h \
+	src/EnergySystem/EnergyMeter/EnergyMeterUnit/Memorization/uthash.h \
+	src/Virtualization/VirtualMachines/Containers/Container.h \
+	$(INET_PROJ)/src/base/Compat.h \
+	$(INET_PROJ)/src/base/INETDefs.h \
+	$(INET_PROJ)/src/networklayer/contract/IPv4Address.h \
+	$(INET_PROJ)/src/networklayer/contract/IPv6Address.h \
+	$(INET_PROJ)/src/networklayer/contract/IPvXAddress.h \
+	$(INET_PROJ)/src/transport/contract/TCPCommand_m.h \
+	$(INET_PROJ)/src/transport/contract/TCPSocket.h
 $O/src/Virtualization/VirtualMachines/Containers/DockerEngine.o: src/Virtualization/VirtualMachines/Containers/DockerEngine.cc \
 	src/Base/Messages/icancloud_App_CPU_Message.h \
 	src/Base/Messages/icancloud_App_CPU_Message_m.h \

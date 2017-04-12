@@ -66,6 +66,8 @@ module VolumeManagerModule
             gates:
                 fromInput[numFS];
                 toInput[numFS];
+                fromOutput;
+                toOutput;
         }
     connections allowunconnected:
 
@@ -77,8 +79,8 @@ module VolumeManagerModule
 
         // Conections between Cache and Scheduler
         cache.fromOutput <-- scheduler.toInput;
-        cache.toOutput --> scheduler.fromInput;
-
+        cache.toOutput  --> scheduler.fromInput;
+        
         // Conections between Scheduler and Storage Manager
         scheduler.fromOutput <-- storageManager.toScheduler;
         scheduler.toOutput --> storageManager.fromScheduler;

@@ -51,13 +51,14 @@ simple SyscallManager like ISyscallManager
          gates:
         input fromApps[];				// Input gates from Applications
         input fromDockerEngine[];				// Input gates from Applications
-        
+        input fromOSContainers[];
         input fromMemory;				// Input gate from Memory
         input fromNet;					// Input gate from Network
         input fromCPU;					// Input gate from CPU
 
         output toApps[];				// Output gates to Applications
         output toDockerEngine[];
+        output toOSContainers[];
         output toMemory;				// Output gate to Memory
         output toNet;					// Output gate to Network
         output toCPU;	

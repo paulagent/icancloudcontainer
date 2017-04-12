@@ -18,8 +18,8 @@ simple RemoteStorageApp
     gates:
         input fromOS;							// Input gate from OS (Operating System)
         output toOS;							// Output gate to OS (Operating System)
-		input fromOSfromCon;
-		output toOStoContainers;
+//		input fromOSfromCon;
+//		output toOStoCon;
 		
 //		input fromDockerEngine;
 ///		output toDockerEngine;

@@ -15,6 +15,9 @@ void RemoteStorageApp::initialize(){
 	fromOSGate = gate ("fromOS");
 	toOSGate = gate ("toOS");
 
+	//toOStoConGate = gate ("toOStoCon");
+	//fromOSfromConGate = gate ("fromOSfromCon");
+
 	localStoragePort = -1;
     storageConnectionType.clear();
     sm_ior_creation.clear();

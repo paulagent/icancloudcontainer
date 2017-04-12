@@ -25,6 +25,9 @@ class RemoteStorageApp : virtual public icancloud_Base {
 	/** Output gate to OS. */
 	cGate* toOSGate;
 
+	cGate* fromOSfromConGate;
+	cGate* toOStoConGate;
+
 	cMessage* selfProcessingMsg;
 
 	struct preloadCreation{

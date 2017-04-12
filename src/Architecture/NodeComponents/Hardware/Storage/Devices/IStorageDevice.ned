@@ -13,6 +13,9 @@ moduleinterface IStorageDevice
     gates:
         input in;					// Input gate.		
         output out;					// Output gate.
+        
+    //    input cin;					// Input gate.		
+    //    output cout;					// Output gate.
 
 }
 
