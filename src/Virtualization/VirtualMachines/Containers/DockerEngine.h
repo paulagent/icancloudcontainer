@@ -124,7 +124,7 @@ class DockerEngine : public icancloud_Base
     private:
 
         /*
-         * Migration methods // TODO: Those methods are not done. To the next version of iCAnCloud
+         * Migration methods // TODO: Those methods are not done. To the next version of iCanCloud
          */
 
         void notifyVMPreparedToMigrate();
