@@ -26,12 +26,12 @@ class Container : public icancloud_Base
     private:
 
         bool migrateActive;                             // If the migration is active or not.
-              vector<icancloud_Message*> pendingMessages;     // Vector to storage the pending messages
-              int pendingCPUMsg;                              // Quantity of pending cpu messages
-              int pendingNetMsg;                              // Quantity of pending net messages
-              int pendingMemoryMsg;                           // Quantity of pending memory messages
-              int pendingIOMsg;
-        cGateManager* fromDockerEngine;                         // Input gate from this class to an application
+        vector<icancloud_Message*> pendingMessages;     // Vector to storage the pending messages
+        int pendingCPUMsg;                              // Quantity of pending cpu messages
+        int pendingNetMsg;                              // Quantity of pending net messages
+        int pendingMemoryMsg;                           // Quantity of pending memory messages
+        int pendingIOMsg;
+        cGateManager* fromDockerEngine;                         // Input gate from this class to an application in docker
         cGateManager* toDockerEngine;
 
         int uId;                                        // The user identification value

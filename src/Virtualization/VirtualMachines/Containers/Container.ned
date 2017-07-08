@@ -25,13 +25,13 @@ module Container
     parameters:
         string containerType=default("Container_CPU_Intensive");					// The name of ned / folder / class of the application
         string name;					// A name for the application
-        int copies = default(1);		// Number of replicas that will be launched at system 
+        int copies = default(0);		// Number of replicas that will be launched at system 
         int numFSRoutes;				// Number of different routes that applications will need  
         int numFiles;					// Number of different files that applications will need 
 gates:
     
-      input fromDockerEngine[] @loose;			// Input gate from OS (Operating System)
-      output toDockerEngine[] @loose;			
+  //    input fromDockerEngine[] @loose;			// Input gate from OS (Operating System)
+  //     output toDockerEngine[] @loose;			
   
       
   submodules:
