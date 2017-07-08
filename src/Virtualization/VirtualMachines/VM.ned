@@ -38,8 +38,8 @@ module VM like IVM
         string routingFile = default("");							// Routing File
         
         // Added by Zahra Nikdel:
-        int numContainers  = default(1);	
-        string containerType=default("CPU_intensive");
+    //    int numContainers  = default(1);	
+     //   string containerType=default("CPU_intensive");
         
         
         @dynamic(true);
@@ -65,10 +65,10 @@ module VM like IVM
         input fromNodeNet@loose;
         output toNodeNet@loose;
         
-        input fromOSContainers[] @loose;
-        output toOSContainers[] @loose;
-        input fromDockerEngine[] @loose;
-        output toDockerEngine[] @loose;
+      //  input fromOSContainers[] @loose;
+      //  output toOSContainers[] @loose;
+      //  input fromDockerEngine[] @loose;
+      //  output toDockerEngine[] @loose;
          
  	connections allowunconnected:
 }

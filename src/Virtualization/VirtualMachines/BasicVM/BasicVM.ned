@@ -48,8 +48,8 @@ module BasicVM extends VM like IVM
                 fromDockerEngine[];
         		toDockerEngine[];
         		
-        		fromOSContainers[];
-        		toOSContainers[];
+        //		fromOSContainers[];
+        //		toOSContainers[];
                 
         }     
 
@@ -81,11 +81,11 @@ module BasicVM extends VM like IVM
         osModule.fromNet_TCP <-- fromNodeNet;
         osModule.toNet_TCP --> toNodeNet;
         
-   //     osModule.fromOSContainers++ <-- fromOSContainers++;
-    //    osModule.toOSContainers++ --> toOSContainers++;
+//        osModule.fromOSContainers++ <-- fromOSContainers++;
+//        osModule.toOSContainers++ --> toOSContainers++;
     
-    osModule.fromDockerEngine++ <-- fromDockerEngine++;
-    osModule.toDockerEngine++ --> toDockerEngine++;
+//    osModule.fromDockerEngine++ <-- fromDockerEngine++;
+//    osModule.toDockerEngine++ --> toDockerEngine++;
 		
 		
 }

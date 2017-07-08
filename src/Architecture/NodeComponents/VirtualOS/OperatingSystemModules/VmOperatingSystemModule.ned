@@ -61,8 +61,8 @@ module VmOperatingSystemModule like IOperatingSystem
         input fromDockerEngine[];
         output toDockerEngine[];
         
-        input fromOSContainers[];
-        output toOSContainers[];
+   //     input fromOSContainers[];
+    //    output toOSContainers[];
 
     submodules:
 	containers:Container {		    
@@ -74,8 +74,8 @@ module VmOperatingSystemModule like IOperatingSystem
                gates:
           
 		        
-                fromDockerEngine[];
-                toDockerEngine[];
+     //           fromDockerEngine[];
+      //          toDockerEngine[];
 		}
 		
         syscallManager: <syscallManagerType> like ISyscallManager {
@@ -88,8 +88,8 @@ module VmOperatingSystemModule like IOperatingSystem
                 fromDockerEngine[];
                 toDockerEngine[];
         //        
-                fromOSContainers[];
-                toOSContainers[];
+         //       fromOSContainers[];
+           //     toOSContainers[];
         }
 
         cpuScheduler: <cpuSchedulerType> like ICPU_Scheduler {
@@ -203,11 +203,11 @@ module VmOperatingSystemModule like IOperatingSystem
       vmMsgController.toDockerEngine++ --> dockerEngine.fromVmMsgController++;
       vmMsgController.fromDockerEngine++ <-- dockerEngine.toVmMsgController++;
       
-      dockerEngine.fromContainers++ <-- containers.toDockerEngine++;
-      dockerEngine.toContainers++ --> containers.fromDockerEngine++;
+//      dockerEngine.fromContainers++ <-- containers.toDockerEngine++;
+  //    dockerEngine.toContainers++ --> containers.fromDockerEngine++;
       
-      syscallManager.toOSContainers++ --> toOSContainers++;
-      syscallManager.fromOSContainers++ <-- fromOSContainers++;
+ //     syscallManager.toOSContainers++ --> toOSContainers++;
+   //   syscallManager.fromOSContainers++ <-- fromOSContainers++;
       
       
 
