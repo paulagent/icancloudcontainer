@@ -47,7 +47,7 @@ moduleinterface ISyscallManager
     gates:
         input fromApps[];				// Input gates from Applications
         input fromDockerEngine[];    // Input gates from Containers
-  //      input fromOSContainers[];
+        input fromOSContainers[];
         
         input fromMemory;				// Input gate from Memory
         input fromNet;					// Input gate from Network
@@ -58,6 +58,6 @@ moduleinterface ISyscallManager
         output toMemory;				// Output gate to Memory
         output toNet;					// Output gate to Network
         output toCPU;					// Output gate to CPU
-    //    output toOSContainers[];
+        output toOSContainers[];
    
                 }

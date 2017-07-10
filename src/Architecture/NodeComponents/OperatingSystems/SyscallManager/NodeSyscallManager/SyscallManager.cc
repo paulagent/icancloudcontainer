@@ -71,13 +71,13 @@ void SyscallManager::processRequestMessage (icancloud_Message *sm){
 			(operation == SM_ITERATIVE_PRECOPY) ||
 			(operation == SM_STOP_AND_DOWN_VM)){
 
-		//	sendRequestMessage (sm, toAppGates->getGate(remoteStorageGate));
-		    sendRequestMessage (sm, toDockerEngineGates->getGate(remoteStorageGate));
+			sendRequestMessage (sm, toAppGates->getGate(remoteStorageGate));
+		//    sendRequestMessage (sm, toDockerEngineGates->getGate(remoteStorageGate));
 
 		}else {
 
-		//	sendRequestMessage (sm, toAppGates->getGate(sm->getNextModuleIndex()));
-            sendRequestMessage (sm, toDockerEngineGates->getGate(sm->getNextModuleIndex()));
+			sendRequestMessage (sm, toAppGates->getGate(sm->getNextModuleIndex()));
+        //    sendRequestMessage (sm, toDockerEngineGates->getGate(sm->getNextModuleIndex()));
 
 
 		}
@@ -92,8 +92,8 @@ void SyscallManager::processRequestMessage (icancloud_Message *sm){
 	// Msg cames from Memory
 	else if (sm->getArrivalGate() == fromMemoryGate){
 			
-	//	sendRequestMessage (sm, toAppGates->getGate(sm->getNextModuleIndex()));
-        sendRequestMessage (sm, toDockerEngineGates->getGate(sm->getNextModuleIndex()));
+		sendRequestMessage (sm, toAppGates->getGate(sm->getNextModuleIndex()));
+   //     sendRequestMessage (sm, toDockerEngineGates->getGate(sm->getNextModuleIndex()));
 
 	}	
 	
@@ -117,8 +117,8 @@ void SyscallManager::processRequestMessage (icancloud_Message *sm){
 					
 					unsigned int aux = remoteStorageGate;
 					if (sm->getNextModuleIndex() == aux){
-					//	sendRequestMessage (sm, toAppGates->getGate(remoteStorageGate));
-			            sendRequestMessage (sm, toDockerEngineGates->getGate(remoteStorageGate));
+						sendRequestMessage (sm, toAppGates->getGate(remoteStorageGate));
+			        //    sendRequestMessage (sm, toDockerEngineGates->getGate(remoteStorageGate));
 
 					}else{
 						sendRequestMessage (sm, toNetGate);
@@ -272,14 +272,16 @@ void SyscallManager::removeProcess(int pid){
 
     if (job != NULL){
         int gateIdx = job->gate("fromOS")->getPreviousGate()->getId();
+        cout<<"SyscallManager::removeProcess--->gate(fromOS)->getPreviousGate()--->"<<job->gate("fromOS")->getPreviousGate()->getFullName()<<endl;
+        cout<<"SyscallManager::removeProcess--->gate index"<<gateIdx<<endl;
    //     int cgateIdx = job->gate("fromOSfromCon")->getPreviousGate()->getId();
 
-        int position = toAppGates->searchGate(gateIdx);
+       // int position = toAppGates->searchGate(gateIdx);
 
-     //   int cposition = toDockerEngineGates->searchGate(cgateIdx);
+        int position = toDockerEngineGates->searchGate(gateIdx);
 
     //    fromAppGates->freeGate(position);
-    //    toAppGates->freeGate(position);
+     //   toAppGates->freeGate(position);
 
         fromDockerEngineGates->freeGate(position);
         toDockerEngineGates->freeGate(position);
@@ -296,32 +298,34 @@ int SyscallManager::createProcess(icancloud_Base* job, int uid){
     int newIndexFrom = fromAppGates->newGate("fromApps");
     int newIndexTo = toAppGates->newGate("toApps");
 cout <<" SyscallManager::createProcess"<<endl;
-    int cnewIndexFrom = fromDockerEngineGates->newGate("fromDockerEngine");
-    int cnewIndexTo = toDockerEngineGates->newGate("toDockerEngine");
+ //   int cnewIndexFrom = fromDockerEngineGates->newGate("fromDockerEngine");
+//    int cnewIndexTo = toDockerEngineGates->newGate("toDockerEngine");
     //get the app previously created
     job->changeParentTo(this);
 
     //Connect the modules (app created and node selected)
-   //     fromAppGates->connectIn(job->gate("fromOS"), newIndexFrom);
-  //     toAppGates->connectOut(job->gate("toOS"), newIndexTo);
+        fromAppGates->connectIn(job->gate("fromOS"), newIndexFrom);
+       toAppGates->connectOut(job->gate("toOS"), newIndexTo);
 
 
-    fromDockerEngineGates->connectIn(job->gate("fromOS"), cnewIndexFrom);
-    toDockerEngineGates->connectOut(job->gate("toOS"), cnewIndexTo);
+ //   fromDockerEngineGates->connectIn(job->gate("fromOS"), cnewIndexFrom);
+//    toDockerEngineGates->connectOut(job->gate("toOS"), cnewIndexTo);
         processRunning* proc;
         proc = new processRunning();
         proc->process = job;
         proc->uid = uid;
         processesRunning.push_back(proc);
 
-    return cnewIndexTo;
+      return newIndexTo;
+
+ //   return cnewIndexTo;
 
 }
 
 void SyscallManager::initializeSystemApps(int storagePort, string state){
   //  if (DEBUG_CLOUD_SCHED) printf("\n Method[SyscallManager]: ------->initializeSystemApps\n");
   //  if (DEBUG_CLOUD_SCHED) printf("\n Method[SyscallManager]: ------->initializeSystemApps------------storagePort----%i\n",storagePort);
-  //  if (DEBUG_CLOUD_SCHED) printf("\n Method[SyscallManager]: ------->initializeSystemApps------------state----%s\n",state);
+    if (DEBUG_CLOUD_SCHED) printf("\n Method[SyscallManager]: ------->initializeSystemApps------------state----%s\n",state);
 
     statesAppPtr->initState(state);
     // Initialize the local port if this is a storage node..

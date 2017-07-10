@@ -61,6 +61,10 @@ void AbstractCloudUser::processSelfMessage (cMessage *msg){
         (*(jobToDelete.begin()+i))->deleteModule();
         jobToDelete.erase(jobToDelete.begin()+i);
     }
+    for (int i = 0; i < (int)containerJobToDelete.size();) {
+            (*(containerJobToDelete.begin()+i))->deleteModule();
+            containerJobToDelete.erase(containerJobToDelete.begin()+i);
+        }
 
     executePendingJobs();
     schedule();
@@ -207,6 +211,8 @@ bool AbstractCloudUser::checkAllVMShutdown(){
 }
 
 int AbstractCloudUser::allocateJob(jobBase* job){
+
+
     cout<<"allocateJob-----------------"<<endl;
 
     // Define ..
@@ -219,7 +225,10 @@ int AbstractCloudUser::allocateJob(jobBase* job){
 
     // Initialize..
         jobC = check_and_cast<UserJob*>(job);
+        cout<<"allocateJob-----------------"<<  jobC->getFullName() <<endl;
+
         vm = jobC->getMachine();
+        cout<<"allocateJob-----------------"<<  vm->getFullName() <<endl;
 
         if (vm == NULL) throw cRuntimeError ("User profile has allocate the VM at the job before call createFS.\n");
 
