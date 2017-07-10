@@ -79,11 +79,10 @@ void DockerEngine::processSelfMessage (cMessage *msg){
 void DockerEngine::processRequestMessage (icancloud_Message *msg){
 
     icancloud_App_NET_Message *sm_net;
-    int operation;
 
     sm_net = dynamic_cast<icancloud_App_NET_Message *>(msg);
 
-    operation = msg->getOperation();
+    int operation = msg->getOperation();
 
 
         // Set the id of the message (the vm id)
@@ -282,9 +281,10 @@ void DockerEngine::linkNewContainer(cModule* jobAppModule, cGate* scToContainer,
     // Connections to Container
        int idxToContainer = toContainers->newGate("toContainers");
        toContainers->connectOut(jobAppModule->gate("fromOS"), idxToContainer);
-
+       cout<<"idxToContainer"<<idxToContainer<<endl;
        int idxFromContainers = fromContainers->newGate("fromContainers");
        fromContainers->connectIn(jobAppModule->gate("toOS"), idxFromContainers);
+       cout<<"idxFromContainers"<<idxFromContainers<<endl;
 
    // Connections to VmMsgController
        int idxToVmMsg = toVmMsgController->newGate("toVmMsgController");
@@ -299,13 +299,15 @@ int DockerEngine::unlinkContainer(cModule* jobAppModule){
 cout<<"DockerEngine::unlinkContainer"<<endl;
     int gateIdx = jobAppModule->gate("fromOS")->getPreviousGate()->getId();
     int position = toContainers->searchGate(gateIdx);
+
     cout<<"position"<<position<<endl;
 
     toVmMsgController->freeGate(position);
-    fromVmMsgController ->freeGate(position);
+    fromVmMsgController->freeGate(position);
 
     toContainers->freeGate(position);
-    fromContainers ->freeGate(position);
+    fromContainers->freeGate(position);
+
 
    return position;
 

@@ -22,7 +22,7 @@ void API_OS::finish(){
 
 void API_OS::startExecution(){
 
-    cout<<"API_OS::startExecution"<<endl;
+//    cout<<"API_OS::startExecution"<<endl;
     fromOSGate = gate ("fromOS");
     toOSGate = gate ("toOS");
 }
@@ -30,7 +30,7 @@ void API_OS::startExecution(){
 
 
 cGate* API_OS::getOutGate (cMessage *msg){
-    cout<<"API_OS::getOutGate"<<endl;
+   // cout<<"API_OS::getOutGate"<<endl;
 
 	// If msg arrive from IOR
 	if (msg->getArrivalGate()==fromOSGate){

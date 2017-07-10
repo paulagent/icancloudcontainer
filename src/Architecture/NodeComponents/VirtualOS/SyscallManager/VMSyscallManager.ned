@@ -50,7 +50,7 @@ simple VMSyscallManager like ISyscallManager
     gates:
         input fromApps[];				// Input gates from Applications
         input fromDockerEngine[];				// Input gates from Applications
-        input fromOSContainers[];
+   //     input fromOSContainers[];
         
         input fromMemory;				// Input gate from Memory
         input fromNet;					// Input gate from Network
@@ -58,7 +58,7 @@ simple VMSyscallManager like ISyscallManager
 
         output toApps[];				// Output gates to Applications
         output toDockerEngine[];
-        output toOSContainers[];
+ //       output toOSContainers[];
         
         output toMemory;				// Output gate to Memory
         output toNet;					// Output gate to Network

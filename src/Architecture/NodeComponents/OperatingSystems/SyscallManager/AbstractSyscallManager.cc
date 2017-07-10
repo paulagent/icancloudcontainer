@@ -24,8 +24,8 @@ void AbstractSyscallManager::initialize(){
         toAppGates = new cGateManager(this);
         fromAppGates = new cGateManager(this);
 
-        toContainerGates = new cGateManager(this);
-        fromContainerGates = new cGateManager(this);
+    //    toOSContainerGates = new cGateManager(this);
+   //     fromOSContainerGates = new cGateManager(this);
         toDockerEngineGates= new cGateManager(this);
         fromDockerEngineGates= new cGateManager(this);
 

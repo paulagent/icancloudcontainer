@@ -38,7 +38,7 @@ protected:
 
 		/** Input gates from Apps. */
 	    cGateManager* fromAppGates;
-        cGateManager* fromContainerGates;
+    //    cGateManager* fromOSContainerGates;
         cGateManager* fromDockerEngineGates;
 		/** Input gate from Memory. */
 		cGate* fromMemoryGate;
@@ -51,7 +51,7 @@ protected:
 
 		/** Output gates to Apps. */
 		cGateManager* toAppGates;
-        cGateManager* toContainerGates;
+      //  cGateManager* toOSContainerGates;
         cGateManager* toDockerEngineGates;
 
 		/** Input gate to Memory. */

@@ -75,8 +75,8 @@ module VmOperatingSystemModule like IOperatingSystem
                 fromDockerEngine[];
                 toDockerEngine[];
         //        
-                fromOSContainers[];
-                toOSContainers[];
+       //         fromOSContainers[];
+         //       toOSContainers[];
         }
 
         cpuScheduler: <cpuSchedulerType> like ICPU_Scheduler {

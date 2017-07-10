@@ -197,8 +197,8 @@ int VMSyscallManager::createProcess(icancloud_Base* j, int uid){
 
     //get the app previously created
         jobAppModule = check_and_cast <cModule*> (job);
-        cout<<"jobappmodule parent--->"<<jobAppModule->getParentModule()->getFullName()<<endl;
-        cout<<"new parent--->"<<getParentModule()->getFullName()<<endl;
+    //    cout<<"jobappmodule parent--->"<<jobAppModule->getParentModule()->getFullName()<<endl;
+    //    cout<<"new parent--->"<<getParentModule()->getFullName()<<endl;
         jobAppModule->changeParentTo(getParentModule());
 
   //  jobDockerModule = check_and_cast <cModule*> (cJob);
@@ -207,7 +207,7 @@ int VMSyscallManager::createProcess(icancloud_Base* j, int uid){
     //Connect the modules (app created and node selected)
    //     int newIndexFrom = fromAppGates->newGate("fromApps");
    //     int newIndexTo = toAppGates->newGate("toApps");
-        cout << " VMSyscallManager::createProcess before new docker gate"<<endl;
+    //    cout << " VMSyscallManager::createProcess before new docker gate"<<endl;
         int newIndexFrom = fromDockerEngineGates->newGate("fromDockerEngine");
         int newIndexTo = toDockerEngineGates->newGate("toDockerEngine");
 
@@ -246,6 +246,8 @@ void VMSyscallManager::removeProcess(int pId){
             int position = mControllerPtr->unlinkDocker(cJob);
             fromDockerEngineGates->freeGate(position);
             toDockerEngineGates->freeGate(position);
+      //      fromOSContainerGates->freeGate(position);
+      //      toOSContainerGates->freeGate(position);
 
         }
 
