@@ -18,7 +18,7 @@
 #define VMMSGCONTROLLER_H_
 
 #include "icancloud_Base.h"
-
+#include "DockerEngine.h"
 class VmMsgController : public icancloud_Base {
 
 private:
@@ -45,7 +45,7 @@ private:
 	int uId;                                        // The user identification value
 
 	int pId;                                        // The process (VM) identification value
-
+	DockerEngine* dockerEnginePtr;
 	/*
 	 * Data structures to control the communication identificators
 	 */

@@ -532,6 +532,7 @@ void GeneralUser::schedule(){
 		    }
 
 		}
+		/*
 		cJobB = selectContainerJob();
 	    cJob =  dynamic_cast<Container_UserJob*> (cJobB); // cJob comes from waiting queue
         breakScheduling = false;
@@ -602,6 +603,7 @@ void GeneralUser::schedule(){
 	            }
 
 	        }
+*/
 }
 
 

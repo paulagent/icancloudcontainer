@@ -38,8 +38,8 @@ module VmOperatingSystemModule like IOperatingSystem
         string cpuSchedulerType = default("CPU_Scheduler_FIFO");		// CPU Service type   
         string containerType = default("Container_CPU_Intensive");
     //    string containerType;					// The name of ned / folder / class of the application
-      
-    
+
+
         @display("i=icons/OOSS;bgb=461,405");
     gates:
         input fromApps[];			// Input gates from Applications
@@ -60,36 +60,23 @@ module VmOperatingSystemModule like IOperatingSystem
         // Added by Zahra Nikdel:
         input fromDockerEngine[];
         output toDockerEngine[];
-        
-   //     input fromOSContainers[];
-    //    output toOSContainers[];
+
+        input fromOSContainers[];
+        output toOSContainers[];
 
     submodules:
-	containers:Container {		    
-         parameters:
-                @display("p=343,62");
-   //      containerType=containerType;			// The name of ned / folder / class of the application
-  		// Number of different files that applications will need 
-                
-               gates:
-          
-		        
-     //           fromDockerEngine[];
-      //          toDockerEngine[];
-		}
-		
         syscallManager: <syscallManagerType> like ISyscallManager {
             parameters:
                 @display("p=74,147");
             gates:
                 fromApps[];
                 toApps[];
-      //          
+                //          
                 fromDockerEngine[];
                 toDockerEngine[];
         //        
-         //       fromOSContainers[];
-           //     toOSContainers[];
+                fromOSContainers[];
+                toOSContainers[];
         }
 
         cpuScheduler: <cpuSchedulerType> like ICPU_Scheduler {
@@ -138,9 +125,9 @@ module VmOperatingSystemModule like IOperatingSystem
                 fromApps[];
                 toApps[];
 
-                  //Added by Zahra Nikdel:
- 				fromOSContainers[];
- 				toOSContainers[];
+                //Added by Zahra Nikdel:
+                fromOSContainers[];
+                toOSContainers[];
                 fromDockerEngine[];
                 toDockerEngine[];
         }
@@ -151,7 +138,7 @@ module VmOperatingSystemModule like IOperatingSystem
 
                 fromVmMsgController[];
                 toVmMsgController[];
-                
+
                 fromContainers[];
                 toContainers[];
         }
@@ -197,18 +184,18 @@ module VmOperatingSystemModule like IOperatingSystem
             cpuScheduler.toCPU[i] --> toCPU[i];
         }
 
-      syscallManager.fromDockerEngine++ <-- vmMsgController.toOSContainers++;
-      syscallManager.toDockerEngine++ --> vmMsgController.fromOSContainers++;
-      
-      vmMsgController.toDockerEngine++ --> dockerEngine.fromVmMsgController++;
-      vmMsgController.fromDockerEngine++ <-- dockerEngine.toVmMsgController++;
-      
+    //    syscallManager.fromDockerEngine++ <-- vmMsgController.toOSContainers++;
+     //   syscallManager.toDockerEngine++ --> vmMsgController.fromOSContainers++;
+
+    //    vmMsgController.toDockerEngine++ --> dockerEngine.fromVmMsgController++;
+     //   vmMsgController.fromDockerEngine++ <-- dockerEngine.toVmMsgController++;
+
 //      dockerEngine.fromContainers++ <-- containers.toDockerEngine++;
   //    dockerEngine.toContainers++ --> containers.fromDockerEngine++;
-      
+
  //     syscallManager.toOSContainers++ --> toOSContainers++;
    //   syscallManager.fromOSContainers++ <-- fromOSContainers++;
-      
-      
+
+
 
 }

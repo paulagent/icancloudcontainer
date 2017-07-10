@@ -1561,6 +1561,7 @@ $O/src/Architecture/Node/Node/Node.o: src/Architecture/Node/Node/Node.cc \
 	src/Virtualization/VirtualMachines/Containers/Container_Management/Container_JobResultsSet.h \
 	src/Virtualization/VirtualMachines/Containers/Container_Management/Container_UserJob.h \
 	src/Virtualization/VirtualMachines/Containers/Container_Management/Container_jobBase.h \
+	src/Virtualization/VirtualMachines/Containers/DockerEngine.h \
 	src/Virtualization/VirtualMachines/VM.h \
 	src/Virtualization/VirtualMachines/VMManagement/VmMsgController/VmMsgController.h \
 	$(INET_PROJ)/src/base/Compat.h \
@@ -1672,6 +1673,7 @@ $O/src/Architecture/Node/NodeVL/NodeVL.o: src/Architecture/Node/NodeVL/NodeVL.cc
 	src/Virtualization/VirtualMachines/Containers/Container_Management/Container_JobResultsSet.h \
 	src/Virtualization/VirtualMachines/Containers/Container_Management/Container_UserJob.h \
 	src/Virtualization/VirtualMachines/Containers/Container_Management/Container_jobBase.h \
+	src/Virtualization/VirtualMachines/Containers/DockerEngine.h \
 	src/Virtualization/VirtualMachines/VM.h \
 	src/Virtualization/VirtualMachines/VMManagement/VmMsgController/VmMsgController.h \
 	$(INET_PROJ)/src/base/Compat.h \
@@ -2902,6 +2904,7 @@ $O/src/Architecture/NodeComponents/VirtualOS/SyscallManager/VMSyscallManager.o: 
 	src/Virtualization/VirtualMachines/Containers/Container_Management/Container_JobResultsSet.h \
 	src/Virtualization/VirtualMachines/Containers/Container_Management/Container_UserJob.h \
 	src/Virtualization/VirtualMachines/Containers/Container_Management/Container_jobBase.h \
+	src/Virtualization/VirtualMachines/Containers/DockerEngine.h \
 	src/Virtualization/VirtualMachines/VM.h \
 	src/Virtualization/VirtualMachines/VMManagement/VmMsgController/VmMsgController.h \
 	$(INET_PROJ)/src/base/Compat.h \
@@ -3517,6 +3520,7 @@ $O/src/Base/Request/RequestVM/RequestVM.o: src/Base/Request/RequestVM/RequestVM.
 	src/Virtualization/VirtualMachines/Containers/Container_Management/Container_JobResultsSet.h \
 	src/Virtualization/VirtualMachines/Containers/Container_Management/Container_UserJob.h \
 	src/Virtualization/VirtualMachines/Containers/Container_Management/Container_jobBase.h \
+	src/Virtualization/VirtualMachines/Containers/DockerEngine.h \
 	src/Virtualization/VirtualMachines/VM.h \
 	src/Virtualization/VirtualMachines/VMManagement/VmMsgController/VmMsgController.h \
 	$(INET_PROJ)/src/base/Compat.h \
@@ -3600,6 +3604,7 @@ $O/src/Base/VMID/VMID.o: src/Base/VMID/VMID.cc \
 	src/Virtualization/VirtualMachines/Containers/Container_Management/Container_JobResultsSet.h \
 	src/Virtualization/VirtualMachines/Containers/Container_Management/Container_UserJob.h \
 	src/Virtualization/VirtualMachines/Containers/Container_Management/Container_jobBase.h \
+	src/Virtualization/VirtualMachines/Containers/DockerEngine.h \
 	src/Virtualization/VirtualMachines/VM.h \
 	src/Virtualization/VirtualMachines/VMManagement/VmMsgController/VmMsgController.h \
 	$(INET_PROJ)/src/base/Compat.h \
@@ -4081,6 +4086,7 @@ $O/src/Management/CloudManagement/Base/AllocationManagement.o: src/Management/Cl
 	src/Virtualization/VirtualMachines/Containers/Container_Management/Container_JobResultsSet.h \
 	src/Virtualization/VirtualMachines/Containers/Container_Management/Container_UserJob.h \
 	src/Virtualization/VirtualMachines/Containers/Container_Management/Container_jobBase.h \
+	src/Virtualization/VirtualMachines/Containers/DockerEngine.h \
 	src/Virtualization/VirtualMachines/VM.h \
 	src/Virtualization/VirtualMachines/VMManagement/VmMsgController/VmMsgController.h \
 	$(INET_PROJ)/src/base/Compat.h \
@@ -4192,6 +4198,7 @@ $O/src/Management/CloudManagement/CloudManager/AbstractCloudManager.o: src/Manag
 	src/Virtualization/VirtualMachines/Containers/Container_Management/Container_JobResultsSet.h \
 	src/Virtualization/VirtualMachines/Containers/Container_Management/Container_UserJob.h \
 	src/Virtualization/VirtualMachines/Containers/Container_Management/Container_jobBase.h \
+	src/Virtualization/VirtualMachines/Containers/DockerEngine.h \
 	src/Virtualization/VirtualMachines/VM.h \
 	src/Virtualization/VirtualMachines/VMManagement/VmMsgController/VmMsgController.h \
 	$(INET_PROJ)/src/base/Compat.h \
@@ -4305,6 +4312,7 @@ $O/src/Management/CloudManagement/ResourcesProvisioning/CloudSchedulerFCFS/Cloud
 	src/Virtualization/VirtualMachines/Containers/Container_Management/Container_JobResultsSet.h \
 	src/Virtualization/VirtualMachines/Containers/Container_Management/Container_UserJob.h \
 	src/Virtualization/VirtualMachines/Containers/Container_Management/Container_jobBase.h \
+	src/Virtualization/VirtualMachines/Containers/DockerEngine.h \
 	src/Virtualization/VirtualMachines/VM.h \
 	src/Virtualization/VirtualMachines/VMManagement/VmMsgController/VmMsgController.h \
 	$(INET_PROJ)/src/base/Compat.h \
@@ -4418,6 +4426,7 @@ $O/src/Management/CloudManagement/ResourcesProvisioning/CloudSchedulerFCFS_gnup/
 	src/Virtualization/VirtualMachines/Containers/Container_Management/Container_JobResultsSet.h \
 	src/Virtualization/VirtualMachines/Containers/Container_Management/Container_UserJob.h \
 	src/Virtualization/VirtualMachines/Containers/Container_Management/Container_jobBase.h \
+	src/Virtualization/VirtualMachines/Containers/DockerEngine.h \
 	src/Virtualization/VirtualMachines/VM.h \
 	src/Virtualization/VirtualMachines/VMManagement/VmMsgController/VmMsgController.h \
 	$(INET_PROJ)/src/base/Compat.h \
@@ -4531,6 +4540,7 @@ $O/src/Management/CloudManagement/ResourcesProvisioning/CloudSchedulerRR/CloudSc
 	src/Virtualization/VirtualMachines/Containers/Container_Management/Container_JobResultsSet.h \
 	src/Virtualization/VirtualMachines/Containers/Container_Management/Container_UserJob.h \
 	src/Virtualization/VirtualMachines/Containers/Container_Management/Container_jobBase.h \
+	src/Virtualization/VirtualMachines/Containers/DockerEngine.h \
 	src/Virtualization/VirtualMachines/VM.h \
 	src/Virtualization/VirtualMachines/VMManagement/VmMsgController/VmMsgController.h \
 	$(INET_PROJ)/src/base/Compat.h \
@@ -4644,6 +4654,7 @@ $O/src/Management/CloudManagement/ResourcesProvisioning/CloudSchedulerRandom/Clo
 	src/Virtualization/VirtualMachines/Containers/Container_Management/Container_JobResultsSet.h \
 	src/Virtualization/VirtualMachines/Containers/Container_Management/Container_UserJob.h \
 	src/Virtualization/VirtualMachines/Containers/Container_Management/Container_jobBase.h \
+	src/Virtualization/VirtualMachines/Containers/DockerEngine.h \
 	src/Virtualization/VirtualMachines/VM.h \
 	src/Virtualization/VirtualMachines/VMManagement/VmMsgController/VmMsgController.h \
 	$(INET_PROJ)/src/base/Compat.h \
@@ -4739,6 +4750,7 @@ $O/src/Management/DataCenterManagement/AbstractDCManager.o: src/Management/DataC
 	src/Virtualization/VirtualMachines/Containers/Container_Management/Container_JobResultsSet.h \
 	src/Virtualization/VirtualMachines/Containers/Container_Management/Container_UserJob.h \
 	src/Virtualization/VirtualMachines/Containers/Container_Management/Container_jobBase.h \
+	src/Virtualization/VirtualMachines/Containers/DockerEngine.h \
 	src/Virtualization/VirtualMachines/VM.h \
 	src/Virtualization/VirtualMachines/VMManagement/VmMsgController/VmMsgController.h \
 	$(INET_PROJ)/src/base/Compat.h \
@@ -4963,6 +4975,7 @@ $O/src/Management/DataCenterManagement/Base/UserManagement.o: src/Management/Dat
 	src/Virtualization/VirtualMachines/Containers/Container_Management/Container_JobResultsSet.h \
 	src/Virtualization/VirtualMachines/Containers/Container_Management/Container_UserJob.h \
 	src/Virtualization/VirtualMachines/Containers/Container_Management/Container_jobBase.h \
+	src/Virtualization/VirtualMachines/Containers/DockerEngine.h \
 	src/Virtualization/VirtualMachines/VM.h \
 	src/Virtualization/VirtualMachines/VMManagement/VmMsgController/VmMsgController.h \
 	$(INET_PROJ)/src/base/Compat.h \
@@ -5055,6 +5068,7 @@ $O/src/Management/DataCenterManagement/ResourcesProvisioning/DataCenterScheduler
 	src/Virtualization/VirtualMachines/Containers/Container_Management/Container_JobResultsSet.h \
 	src/Virtualization/VirtualMachines/Containers/Container_Management/Container_UserJob.h \
 	src/Virtualization/VirtualMachines/Containers/Container_Management/Container_jobBase.h \
+	src/Virtualization/VirtualMachines/Containers/DockerEngine.h \
 	src/Virtualization/VirtualMachines/VM.h \
 	src/Virtualization/VirtualMachines/VMManagement/VmMsgController/VmMsgController.h \
 	$(INET_PROJ)/src/base/Compat.h \
@@ -5511,6 +5525,7 @@ $O/src/Users/Profiles/CloudUser/AbstractCloudUser.o: src/Users/Profiles/CloudUse
 	src/Virtualization/VirtualMachines/Containers/Container_Management/Container_JobResultsSet.h \
 	src/Virtualization/VirtualMachines/Containers/Container_Management/Container_UserJob.h \
 	src/Virtualization/VirtualMachines/Containers/Container_Management/Container_jobBase.h \
+	src/Virtualization/VirtualMachines/Containers/DockerEngine.h \
 	src/Virtualization/VirtualMachines/VM.h \
 	src/Virtualization/VirtualMachines/VMManagement/VmMsgController/VmMsgController.h \
 	$(INET_PROJ)/src/base/Compat.h \
@@ -5585,6 +5600,7 @@ $O/src/Users/Profiles/GeneralUser/GeneralUser.o: src/Users/Profiles/GeneralUser/
 	src/Virtualization/VirtualMachines/Containers/Container_Management/Container_JobResultsSet.h \
 	src/Virtualization/VirtualMachines/Containers/Container_Management/Container_UserJob.h \
 	src/Virtualization/VirtualMachines/Containers/Container_Management/Container_jobBase.h \
+	src/Virtualization/VirtualMachines/Containers/DockerEngine.h \
 	src/Virtualization/VirtualMachines/VM.h \
 	src/Virtualization/VirtualMachines/VMManagement/VmMsgController/VmMsgController.h \
 	$(INET_PROJ)/src/base/Compat.h \
@@ -5659,6 +5675,7 @@ $O/src/Users/Profiles/SmartUser/SmartUser.o: src/Users/Profiles/SmartUser/SmartU
 	src/Virtualization/VirtualMachines/Containers/Container_Management/Container_JobResultsSet.h \
 	src/Virtualization/VirtualMachines/Containers/Container_Management/Container_UserJob.h \
 	src/Virtualization/VirtualMachines/Containers/Container_Management/Container_jobBase.h \
+	src/Virtualization/VirtualMachines/Containers/DockerEngine.h \
 	src/Virtualization/VirtualMachines/VM.h \
 	src/Virtualization/VirtualMachines/VMManagement/VmMsgController/VmMsgController.h \
 	$(INET_PROJ)/src/base/Compat.h \
@@ -5742,6 +5759,7 @@ $O/src/Users/UserGenerator/core/AbstractUserGenerator.o: src/Users/UserGenerator
 	src/Virtualization/VirtualMachines/Containers/Container_Management/Container_JobResultsSet.h \
 	src/Virtualization/VirtualMachines/Containers/Container_Management/Container_UserJob.h \
 	src/Virtualization/VirtualMachines/Containers/Container_Management/Container_jobBase.h \
+	src/Virtualization/VirtualMachines/Containers/DockerEngine.h \
 	src/Virtualization/VirtualMachines/VM.h \
 	src/Virtualization/VirtualMachines/VMManagement/VmMsgController/VmMsgController.h \
 	$(INET_PROJ)/src/base/Compat.h \
@@ -5818,6 +5836,7 @@ $O/src/Users/UserGenerator/core/CustomGeneratorCells/UserGeneratorDay/UserGenera
 	src/Virtualization/VirtualMachines/Containers/Container_Management/Container_JobResultsSet.h \
 	src/Virtualization/VirtualMachines/Containers/Container_Management/Container_UserJob.h \
 	src/Virtualization/VirtualMachines/Containers/Container_Management/Container_jobBase.h \
+	src/Virtualization/VirtualMachines/Containers/DockerEngine.h \
 	src/Virtualization/VirtualMachines/VM.h \
 	src/Virtualization/VirtualMachines/VMManagement/VmMsgController/VmMsgController.h \
 	$(INET_PROJ)/src/base/Compat.h \
@@ -6686,6 +6705,7 @@ $O/src/Virtualization/Hypervisor/Hypervisors/Hypervisor.o: src/Virtualization/Hy
 	src/Virtualization/VirtualMachines/Containers/Container_Management/Container_JobResultsSet.h \
 	src/Virtualization/VirtualMachines/Containers/Container_Management/Container_UserJob.h \
 	src/Virtualization/VirtualMachines/Containers/Container_Management/Container_jobBase.h \
+	src/Virtualization/VirtualMachines/Containers/DockerEngine.h \
 	src/Virtualization/VirtualMachines/VM.h \
 	src/Virtualization/VirtualMachines/VMManagement/VmMsgController/VmMsgController.h \
 	$(INET_PROJ)/src/base/Compat.h \
@@ -6764,6 +6784,7 @@ $O/src/Virtualization/VirtualMachines/VM.o: src/Virtualization/VirtualMachines/V
 	src/Virtualization/VirtualMachines/Containers/Container_Management/Container_JobResultsSet.h \
 	src/Virtualization/VirtualMachines/Containers/Container_Management/Container_UserJob.h \
 	src/Virtualization/VirtualMachines/Containers/Container_Management/Container_jobBase.h \
+	src/Virtualization/VirtualMachines/Containers/DockerEngine.h \
 	src/Virtualization/VirtualMachines/VM.h \
 	src/Virtualization/VirtualMachines/VMManagement/VmMsgController/VmMsgController.h \
 	$(INET_PROJ)/src/base/Compat.h \
@@ -7162,6 +7183,7 @@ $O/src/Virtualization/VirtualMachines/VMManagement/VmMsgController/VmMsgControll
 	src/Base/include/icancloud_types.h \
 	src/EnergySystem/EnergyMeter/EnergyMeterUnit/Memorization/Memoization_uthash.h \
 	src/EnergySystem/EnergyMeter/EnergyMeterUnit/Memorization/uthash.h \
+	src/Virtualization/VirtualMachines/Containers/DockerEngine.h \
 	src/Virtualization/VirtualMachines/VMManagement/VmMsgController/VmMsgController.h \
 	$(INET_PROJ)/src/base/Compat.h \
 	$(INET_PROJ)/src/base/INETDefs.h \

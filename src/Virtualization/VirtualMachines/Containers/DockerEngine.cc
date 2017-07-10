@@ -281,10 +281,10 @@ void DockerEngine::linkNewContainer(cModule* jobAppModule, cGate* scToContainer,
 
     // Connections to Container
        int idxToContainer = toContainers->newGate("toContainers");
-       toContainers->connectOut(jobAppModule->gate("fromVmMsgController"), idxToContainer);
+       toContainers->connectOut(jobAppModule->gate("fromOS"), idxToContainer);
 
        int idxFromContainers = fromContainers->newGate("fromContainers");
-       fromContainers->connectIn(jobAppModule->gate("toVmMsgController"), idxFromContainers);
+       fromContainers->connectIn(jobAppModule->gate("toOS"), idxFromContainers);
 
    // Connections to VmMsgController
        int idxToVmMsg = toVmMsgController->newGate("toVmMsgController");
@@ -296,16 +296,16 @@ void DockerEngine::linkNewContainer(cModule* jobAppModule, cGate* scToContainer,
 }
 
 int DockerEngine::unlinkContainer(cModule* jobAppModule){
-
-    int gateIdx = jobAppModule->gate("fromVmMsgController")->getPreviousGate()->getId();
+cout<<"DockerEngine::unlinkContainer"<<endl;
+    int gateIdx = jobAppModule->gate("fromOS")->getPreviousGate()->getId();
     int position = toContainers->searchGate(gateIdx);
+    cout<<"position"<<position<<endl;
 
     toVmMsgController->freeGate(position);
-        toContainers->freeGate(position);
+    fromVmMsgController ->freeGate(position);
 
-   // Connections to VmMsgController
-        fromContainers ->freeGate(position);
-        fromVmMsgController ->freeGate(position);
+    toContainers->freeGate(position);
+    fromContainers ->freeGate(position);
 
    return position;
 

@@ -41,7 +41,8 @@ void VMSyscallManager::processRequestMessage (icancloud_Message *sm){
         msg_mpi = dynamic_cast<icancloud_MPI_Message_Base*> (sm);
 
         if (msg_mpi == NULL){
-        //   sendRequestMessage (sm, toAppGates->getGate(sm->getNextModuleIndex()));
+       //    sendRequestMessage (sm, toAppGates->getGate(sm->getNextModuleIndex()));
+            cout<< "VMSyscallManager::processRequestMessage---->Sending msg to toDockerEngineGates"<<endl;
             sendRequestMessage (sm, toDockerEngineGates->getGate(sm->getNextModuleIndex()));
 
         } else {
@@ -49,15 +50,15 @@ void VMSyscallManager::processRequestMessage (icancloud_Message *sm){
                  {
                      cModule* currentApp = i();
 
-          //           if (strcmp(currentApp->getFullName(), "app" ) == 0) // if submod() is in the same vector as this module
+                     if (strcmp(currentApp->getFullName(), "app" ) == 0) // if submod() is in the same vector as this module
 
-                      if (strcmp(currentApp->getFullName(), "container" ) == 0)
+          //            if (strcmp(currentApp->getFullName(), "container" ) == 0)
                      {
 
                          if (currentApp->hasPar("myRank")){
 
                              int currentRank = currentApp->par("myRank");
-
+                             cout<< "VMSyscallManager::processRequestMessage---->current rank--->"<< currentRank<<endl;
                              if ((int)msg_mpi->getDestRank() == currentRank){
 
                                  for (int j = 0; (j < (int)processesRunning.size()) && !found;j++){
@@ -85,6 +86,8 @@ void VMSyscallManager::processRequestMessage (icancloud_Message *sm){
 	else if (sm->getArrivalGate() == fromMemoryGate){
 			
 	//	sendRequestMessage (sm, toAppGates->getGate(sm->getNextModuleIndex()));
+        cout<< "VMSyscallManager::processRequestMessage---->Sending msg from memGateto toDockerEngineGates"<<endl;
+
         sendRequestMessage (sm, toDockerEngineGates->getGate(sm->getNextModuleIndex()));
 
 	}	
@@ -182,35 +185,38 @@ void VMSyscallManager::processRequestMessage (icancloud_Message *sm){
 
 int VMSyscallManager::createProcess(icancloud_Base* j, int uid){
 
- //   cModule* jobAppModule;
-    cModule* jobDockerModule;
+    cModule* jobAppModule;
+  //  cModule* jobDockerModule;
     UserJob* job;
-    Container_UserJob* cJob;
-  //  job = dynamic_cast <UserJob*>(j);
-    cJob= dynamic_cast <Container_UserJob*>(j);
- //   if (job == NULL) throw cRuntimeError("SyscallManager::createJob, error with dynamic casting. Entry parameter cannot cast to jobBase.\n");
-    if (cJob == NULL) throw cRuntimeError("SyscallManager::createJob, error with dynamic casting. Entry parameter cannot cast to jobBase.\n");
+   // Container_UserJob* cJob;
+    job = dynamic_cast <UserJob*>(j);
+    cout<< "VMSysCallMgr-->job"<< job->getFullName()<<endl;
+  //  cJob= dynamic_cast <Container_UserJob*>(j);
+    if (job == NULL) throw cRuntimeError("SyscallManager::createJob, error with dynamic casting. Entry parameter cannot cast to jobBase.\n");
+  //  if (cJob == NULL) throw cRuntimeError("SyscallManager::createJob, error with dynamic casting. Entry parameter cannot cast to jobBase.\n");
 
     //get the app previously created
-  //      jobAppModule = check_and_cast <cModule*> (job);
-   //     jobAppModule->changeParentTo(getParentModule());
+        jobAppModule = check_and_cast <cModule*> (job);
+        cout<<"jobappmodule parent--->"<<jobAppModule->getParentModule()->getFullName()<<endl;
+        cout<<"new parent--->"<<getParentModule()->getFullName()<<endl;
+        jobAppModule->changeParentTo(getParentModule());
 
-    jobDockerModule = check_and_cast <cModule*> (cJob);
-    jobDockerModule->changeParentTo(getParentModule());
+  //  jobDockerModule = check_and_cast <cModule*> (cJob);
+  //  jobDockerModule->changeParentTo(getParentModule());
 
     //Connect the modules (app created and node selected)
    //     int newIndexFrom = fromAppGates->newGate("fromApps");
    //     int newIndexTo = toAppGates->newGate("toApps");
-cout << " VMSyscallManager::createProcess before new docker gate"<<endl;
+        cout << " VMSyscallManager::createProcess before new docker gate"<<endl;
         int newIndexFrom = fromDockerEngineGates->newGate("fromDockerEngine");
         int newIndexTo = toDockerEngineGates->newGate("toDockerEngine");
 
-   //     mControllerPtr->linkNewApplication(jobAppModule, toAppGates->getGate(newIndexTo), fromAppGates->getGate(newIndexFrom));
-        mControllerPtr->linkNewDocker(jobDockerModule, toDockerEngineGates->getGate(newIndexTo), fromDockerEngineGates->getGate(newIndexFrom));
+    //    mControllerPtr->linkNewApplication(jobAppModule, toAppGates->getGate(newIndexTo), fromAppGates->getGate(newIndexFrom));
+        mControllerPtr->linkNewDocker(jobAppModule, toDockerEngineGates->getGate(newIndexTo), fromDockerEngineGates->getGate(newIndexFrom));
         processRunning* proc;
         proc = new processRunning();
-        //proc->process = job;
-        proc->process = cJob;
+        proc->process = job;
+    //    proc->process = cJob;
         proc->uid = uid;
         proc->toGateIdx = newIndexTo;
 
@@ -222,7 +228,7 @@ cout << " VMSyscallManager::createProcess before new docker gate"<<endl;
 
 void VMSyscallManager::removeProcess(int pId){
 
-  /*      icancloud_Base* job = deleteJobFromStructures(pId);
+ /*      icancloud_Base* job = deleteJobFromStructures(pId);
 
         if (job != NULL){
             int position = mControllerPtr->unlinkApplication(job);
@@ -231,10 +237,11 @@ void VMSyscallManager::removeProcess(int pId){
         }
 
 */
-        icancloud_Base* cJob = deleteJobFromStructures(pId);
+       icancloud_Base* cJob = deleteJobFromStructures(pId);
+       cout<<"VMSyscallManager::removeProcess-->pId-->"<<pId<<endl;
+       cout<<"VMSyscallManager::removeProcess-->Job-->"<<cJob->getFullName()<<endl;
 
         if (cJob != NULL){
-
 
             int position = mControllerPtr->unlinkDocker(cJob);
             fromDockerEngineGates->freeGate(position);

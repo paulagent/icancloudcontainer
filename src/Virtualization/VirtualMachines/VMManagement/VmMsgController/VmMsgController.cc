@@ -55,6 +55,7 @@ void VmMsgController::initialize(){
 		pId = -1;
 
 		// Init state to idle!
+		dockerEnginePtr = dynamic_cast<DockerEngine*> (this->getParentModule()->getSubmodule("dockerEngine"));
 
 		fromOSApps  = new cGateManager(this);
 		toOSApps = new cGateManager(this);
@@ -129,7 +130,8 @@ void VmMsgController::processRequestMessage (icancloud_Message *msg){
 			// If msg arrive from OS
 			if (msg->arrivedOn("fromOSApps")){
 
-			    sendRequestMessage(msg, toApps->getGate(msg->getArrivalGate()->getIndex()));
+                sendRequestMessage(msg, toDockerEngine->getGate(msg->getArrivalGate()->getIndex()));
+			 //   sendRequestMessage(msg, toApps->getGate(msg->getArrivalGate()->getIndex()));
 			}
 
 			else if (msg->arrivedOn("fromApps")){
@@ -178,6 +180,8 @@ void VmMsgController::processRequestMessage (icancloud_Message *msg){
                 }
 
                 sendRequestMessage(msg, toOSContainers->getGate(msg->getCommId()));
+             //   sendRequestMessage(msg, toOSApps->getGate(msg->getCommId()));
+
             }
 
 		}
@@ -372,6 +376,7 @@ void VmMsgController::updateCounters (icancloud_Message* msg, int quantity){
 
 void VmMsgController::linkNewApplication(cModule* jobAppModule, cGate* scToApp, cGate* scFromApp){
 
+    cout << "VmMsgController::linkNewApplication"<<endl;
     // Connections to App
        int idxToApps = toApps->newGate("toApps");
        toApps->connectOut(jobAppModule->gate("fromOS"), idxToApps);
@@ -404,14 +409,15 @@ int VmMsgController::unlinkApplication(cModule* jobAppModule){
 
 }
 void VmMsgController::linkNewDocker(cModule* jobDockerModule, cGate* scToDocker, cGate* scFromDocker){
+    cout << "VmMsgController::linkNewDocker"<<endl;
 
-    // Connections to Container
+    // Connections to Docker Engine
        int idxToDocker = toDockerEngine->newGate("toDockerEngine");
-       toDockerEngine->connectOut(jobDockerModule->gate("fromOS"), idxToDocker);
-
+  //     toDockerEngine->connectOut(jobDockerModule->gate("fromOS"), idxToDocker);
+//dockerEnginePtr->get
        int idxfromDocker = fromDockerEngine->newGate("fromDockerEngine");
-       fromDockerEngine->connectIn(jobDockerModule->gate("toOS"), idxfromDocker);
-
+   //    fromDockerEngine->connectIn(jobDockerModule->gate("toOS"), idxfromDocker);
+       dockerEnginePtr->linkNewContainer(jobDockerModule,toDockerEngine->getGate(idxToDocker),fromDockerEngine->getGate(idxfromDocker));
    // Connections to SyscallManager
        int idxToOs = toOSContainers->newGate("toOSContainers");
        toOSContainers->connectOut(scFromDocker, idxToOs);
@@ -419,17 +425,26 @@ void VmMsgController::linkNewDocker(cModule* jobDockerModule, cGate* scToDocker,
        int idxFromOS = fromOSContainers->newGate("fromOSContainers");
        fromOSContainers->connectIn(scToDocker, idxFromOS);
 
+    //   dockerEnginePtr->linkNewContainer(jobDockerModule,)
 }
 
 int VmMsgController::unlinkDocker(cModule* jobDockerModule){
 
-    int gateIdx = jobDockerModule->gate("fromOS")->getPreviousGate()->getId();
-    int position = toDockerEngine->searchGate(gateIdx);
+    cout<<"VmMsgController::unlinkDocker"<<endl;
+    int position=dockerEnginePtr->unlinkContainer(jobDockerModule);
+
+ //   int gateIdx = jobDockerModule->gate("fromOS")->getPreviousGate()->getPreviousGate()->getId();
+ //   int gateIdx = jobDockerModule->gate("fromOS")->getPreviousGate()->getId();
+ //   cout<<"VmMsgController::unlinkDocker--->gate(fromOS)->getPreviousGate()--->"<<jobDockerModule->gate("fromOS")->getPreviousGate()->getName()<<endl;
+
+   // cout<<"gateIdx"<<gateIdx<<endl;
+
+//int position = toDockerEngine->searchGate(gateIdx);
+    cout<<"position"<<position<<endl;
 
         toOSContainers->freeGate(position);
         toDockerEngine->freeGate(position);
 
-   // Connections to SyscallManager
         fromDockerEngine ->freeGate(position);
         fromOSContainers ->freeGate(position);
 
