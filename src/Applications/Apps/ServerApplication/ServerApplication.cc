@@ -61,6 +61,8 @@ void ServerApplication::initialize(){
 void ServerApplication::startExecution (){
 
     API_OS::startExecution();
+    Enter_Method_Silent();
+
 	// Create SM_WAIT_TO_EXECUTE message for delaying the execution of this application
     // Initialize ..
     newIntervalEvent = new cMessage ("intervalEvent");
@@ -71,6 +73,12 @@ void ServerApplication::startExecution (){
 void ServerApplication::finish(){
 
 	// Finish the super-class
+    cout<<"Server Application finished for ";
+    cout<< moduleIdName.c_str()<<" Simulation time:"<< (simTime() -simStartTime)<<endl;
+  //  cout<<"simEndTime:"<<simEndTime<<"             simStartTime:"<<simStartTime<<endl;
+    cout<<"total_service_CPU:"<<total_service_CPU<<"           total_service_IO:"<<total_service_IO<<endl;
+
+ //   printResults();
 	UserJob::finish();
 
 }
@@ -181,7 +189,7 @@ void ServerApplication::processResponseMessage (icancloud_Message *sm){
 
 			// CPU!
 			if (operation == SM_CPU_EXEC){
-
+cout<<"pendingHits-->"<<pendingHits;
 				pendingHits--;
 				if ((pendingHits == 0) && (uptimeLimit == -1)){
                     printResults();
@@ -280,7 +288,8 @@ void ServerApplication::executeCPUrequest(){
 
 void ServerApplication::printResults (){
 
-	std::ostringstream osStream;
+cout<< moduleIdName.c_str()<<" Simulation time:"<< (simEndTime-simStartTime)<<endl;
+    /*	std::ostringstream osStream;
 
 	//Init..
 		simEndTime = simTime();
@@ -311,7 +320,8 @@ void ServerApplication::printResults (){
 
         addResults(jobResults);
     //Send results list to the cloudManager
-        userPtr->notify_UserJobHasFinished(this);
+  */
+    userPtr->notify_UserJobHasFinished(this);
 
 }
 

@@ -178,13 +178,13 @@ void AbstractUserGenerator::initialize(){
                     userJobSet.push_back(jobSel);
                 }
                 numContainers = getParentModule()->getSubmodule("containerDefinition")->par("containerQuantity").longValue();
-                cout <<"numContainers"<<numContainers<<endl;
+            //    cout <<"numContainers"<<numContainers<<endl;
               //  numContainers=1;
                 for (int i = 0; i < numContainers;i++){
                                   conjobSel = new Container_jobSelection();
                                   conjobSel->replicas = getParentModule()->getSubmodule("containerDefinition")->getSubmodule("container",i)->par("copies").longValue();
                                   conjobSel->appName = getParentModule()->getSubmodule("containerDefinition")->getSubmodule("container",i)->par("name").stringValue();
-                                  cout<< " conjobSel->appName"<<  conjobSel->appName<<endl;
+                           //       cout<< " conjobSel->appName"<<  conjobSel->appName<<endl;
                                   auxMod = getParentModule()->getSubmodule("containerDefinition")->getSubmodule("container",i)->getSubmodule("container");
                                   conjobSel->job = dynamic_cast<Container_UserJob*> (auxMod);
 
@@ -255,7 +255,7 @@ void AbstractUserGenerator::createUser (){
                 printf("AbstractUserGenerator::createUser->%s\n",userID.c_str());
 
                 behaviorPath << "icancloud.src.Users.Profiles." << behavior.c_str() << "." << behavior.c_str();
-                cout<< "icancloud.src.Users.Profiles." << behavior.c_str() << "." << behavior.c_str()<<endl;
+             //   cout<< "icancloud.src.Users.Profiles." << behavior.c_str() << "." << behavior.c_str()<<endl;
 			// the user behaviorMod is created in the root of the cloud (cloud.manager.userGenerator.user)
                 modBehavior = cModuleType::get (behaviorPath.str().c_str());
 
@@ -271,16 +271,16 @@ void AbstractUserGenerator::createUser (){
 
                     // Get virtual machines selection
                        vmSelectionSize = vmSelect.size();
-                       cout<<"vmSelectionSize"<<vmSelectionSize<<endl;
+                   //    cout<<"vmSelectionSize"<<vmSelectionSize<<endl;
                        for (j = 0; ((int)j) < (vmSelectionSize); j++){
 
                            vmSelectionQuantity = (*(vmSelect.begin()+j))->quantity;
                            vmSelectionType = (*(vmSelect.begin()+j))->vmtype;
-
+//cout<<"vmSelectionQuantity----->"<<vmSelectionQuantity<<endl;
                            cModule* vmImages;
                            bool br = false;
                            vmImages = getParentModule()->getParentModule()->getParentModule()->getSubmodule("vmSet");
-
+//cout<<"VMImage--->"<<vmImages->getFullName()<<endl;
                            for (int k = 0; (k < vmImages->getVectorSize()) && (!br); k++){
                                vm = vmImages->getSubmodule("vmImage",k);
                                if ( strcmp(vm->par("id").stringValue(), vmSelectionType.c_str()) == 0 ){
@@ -298,6 +298,7 @@ void AbstractUserGenerator::createUser (){
 
                    // Clone job definitions to be linked to user's waiting queue
                        jobSetSize = userJobSet.size();
+               //        cout<<"jobSetSize--->"<<jobSetSize<<endl;
                        conjobSetSize=Container_userJobSet.size();
                        for (j = 0; ((unsigned int)j)< jobSetSize; j++){
                            jobSelection* jobSelect;
@@ -307,18 +308,18 @@ void AbstractUserGenerator::createUser (){
                             // Get the job
                                jobSelect = (*(userJobSet.begin()+j));
                                rep = jobSelect->replicas;
-
+//cout<<"rep---->"<<rep<< endl;
                            for (k = 0; ((int)k) < rep ;k++){
                                // Clone the job
                                ostringstream appNameBuild;
                                appNameBuild << jobSelect->appName.c_str() << "_" << k << ":" << userID;
-                               cout<<jobSelect->appName.c_str() << "_" << k << ":" << userID<<endl;
+  //                             cout<<"jobSelect->appName"<<jobSelect->appName.c_str() << "_" << k << ":" << userID<<endl;
                                newJob = cloneJob (jobSelect->job, behaviorMod, appNameBuild.str().c_str());
                                // Insert into users waiting queue
                                user->addParsedJob(newJob);
-                               cout<<"user"<<user->getFullName() <<endl;
+    //                           cout<<"user--->"<<user->getFullName() <<endl;
 
-                               cout<<"newjob"<<newJob->getFullName() <<endl;
+      //                         cout<<"newjob--->"<<newJob->getFullName() <<endl;
                            }
                        }
                        for (j = 0; ((unsigned int)j)< conjobSetSize; j++){
@@ -338,9 +339,9 @@ void AbstractUserGenerator::createUser (){
                                                     newJob = cloneContainerJob (jobSelect->job, behaviorMod, appNameBuild.str().c_str());
                                                     // Insert into users waiting queue
                                                     user->addParsedContainerJob(newJob);
-                                                    cout<<"user"<<user->getFullName() <<endl;
+   //                                                 cout<<"user--->"<<user->getFullName() <<endl;
 
-                                                    cout<<"newContainerjob"<<newJob->getFullName() <<endl;
+     //                                               cout<<"newContainerjob--->"<<newJob->getFullName() <<endl;
                                                 }
                                             }
 

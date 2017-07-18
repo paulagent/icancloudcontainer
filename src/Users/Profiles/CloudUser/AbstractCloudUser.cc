@@ -213,7 +213,7 @@ bool AbstractCloudUser::checkAllVMShutdown(){
 int AbstractCloudUser::allocateJob(jobBase* job){
 
 
-    cout<<"allocateJob-----------------"<<endl;
+  //  cout<<"allocateJob-----------------"<<endl;
 
     // Define ..
         cModule* syscallManager;
@@ -225,10 +225,10 @@ int AbstractCloudUser::allocateJob(jobBase* job){
 
     // Initialize..
         jobC = check_and_cast<UserJob*>(job);
-        cout<<"allocateJob-----------------"<<  jobC->getFullName() <<endl;
+    //    cout<<"allocateJob-----------------"<<  jobC->getFullName() <<endl;
 
         vm = jobC->getMachine();
-        cout<<"allocateJob-----------------"<<  vm->getFullName() <<endl;
+      //  cout<<"allocateJob-----------------"<<  vm->getFullName() <<endl;
 
         if (vm == NULL) throw cRuntimeError ("User profile has allocate the VM at the job before call createFS.\n");
 
@@ -246,7 +246,7 @@ int AbstractCloudUser::allocateJob(jobBase* job){
         return commId;
 }
 int AbstractCloudUser::allocateContainerJob(Container_jobBase* job){
-cout<<"allocateContainerJob-----------------"<<endl;
+//cout<<"allocateContainerJob-----------------"<<endl;
     // Define ..
         cModule* syscallManager;
         cModule* osModule;

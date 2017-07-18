@@ -42,7 +42,7 @@ void VMSyscallManager::processRequestMessage (icancloud_Message *sm){
 
         if (msg_mpi == NULL){
        //    sendRequestMessage (sm, toAppGates->getGate(sm->getNextModuleIndex()));
-            cout<< "VMSyscallManager::processRequestMessage---->Sending msg to toDockerEngineGates"<<endl;
+      //      cout<< "VMSyscallManager::processRequestMessage---->Sending msg to toDockerEngineGates"<<endl;
             sendRequestMessage (sm, toDockerEngineGates->getGate(sm->getNextModuleIndex()));
 
         } else {
@@ -58,7 +58,7 @@ void VMSyscallManager::processRequestMessage (icancloud_Message *sm){
                          if (currentApp->hasPar("myRank")){
 
                              int currentRank = currentApp->par("myRank");
-                             cout<< "VMSyscallManager::processRequestMessage---->current rank--->"<< currentRank<<endl;
+        //                     cout<< "VMSyscallManager::processRequestMessage---->current rank--->"<< currentRank<<endl;
                              if ((int)msg_mpi->getDestRank() == currentRank){
 
                                  for (int j = 0; (j < (int)processesRunning.size()) && !found;j++){
@@ -86,7 +86,7 @@ void VMSyscallManager::processRequestMessage (icancloud_Message *sm){
 	else if (sm->getArrivalGate() == fromMemoryGate){
 			
 	//	sendRequestMessage (sm, toAppGates->getGate(sm->getNextModuleIndex()));
-        cout<< "VMSyscallManager::processRequestMessage---->Sending msg from memGateto toDockerEngineGates"<<endl;
+    //    cout<< "VMSyscallManager::processRequestMessage---->Sending msg from memGateto toDockerEngineGates"<<endl;
 
         sendRequestMessage (sm, toDockerEngineGates->getGate(sm->getNextModuleIndex()));
 
@@ -190,7 +190,7 @@ int VMSyscallManager::createProcess(icancloud_Base* j, int uid){
     UserJob* job;
    // Container_UserJob* cJob;
     job = dynamic_cast <UserJob*>(j);
-    cout<< "VMSysCallMgr-->job"<< job->getFullName()<<endl;
+ //   cout<< "VMSysCallMgr-->"<< job->getFullName()<<endl;
   //  cJob= dynamic_cast <Container_UserJob*>(j);
     if (job == NULL) throw cRuntimeError("SyscallManager::createJob, error with dynamic casting. Entry parameter cannot cast to jobBase.\n");
   //  if (cJob == NULL) throw cRuntimeError("SyscallManager::createJob, error with dynamic casting. Entry parameter cannot cast to jobBase.\n");
@@ -238,8 +238,8 @@ void VMSyscallManager::removeProcess(int pId){
 
 */
        icancloud_Base* cJob = deleteJobFromStructures(pId);
-       cout<<"VMSyscallManager::removeProcess-->pId-->"<<pId<<endl;
-       cout<<"VMSyscallManager::removeProcess-->Job-->"<<cJob->getFullName()<<endl;
+    //   cout<<"VMSyscallManager::removeProcess-->pId-->"<<pId<<endl;
+     //  cout<<"VMSyscallManager::removeProcess-->Job-->"<<cJob->getFullName()<<endl;
 
         if (cJob != NULL){
 

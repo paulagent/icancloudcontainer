@@ -70,7 +70,6 @@ void CloudSchedulerRR::schedule (){
 
 
     if (DEBUG_CLOUD_SCHED) printf("\n Method[CLOUD_SCHEDULER_RR]: -------> schedule\n");
-
        //Define ...
            vector<AbstractNode*> selectedNodes;
            vector<VM*> attendedRequest_vms;

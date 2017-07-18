@@ -59,7 +59,9 @@ protected:
 		/*
 		 *  This method is invoked from the application when a job has finished.
 		 *  It is useful to extract values from the job, or the timings of the executions.
-         *  The method notify_UserJobHasFinished is responsible for deleting the job, move it from running queue to finish queue
+		 *
+         *  The method notify_UserJobHasFinished is responsible for deleting the job, move it from running queue
+         *   to finish queue
          *  and call to schedule.
          */
 

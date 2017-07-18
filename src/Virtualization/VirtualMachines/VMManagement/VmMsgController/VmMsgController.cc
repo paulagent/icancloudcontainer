@@ -40,7 +40,7 @@ bool VmMsgController::migrationPrepared (){
 }
 
 void VmMsgController::initialize(){
-    cout << " VmMsgController::initialize"<<endl;
+ //   cout << " VmMsgController::initialize"<<endl;
 
 	icancloud_Base::initialize();
 		std::ostringstream osStream;
@@ -376,7 +376,7 @@ void VmMsgController::updateCounters (icancloud_Message* msg, int quantity){
 
 void VmMsgController::linkNewApplication(cModule* jobAppModule, cGate* scToApp, cGate* scFromApp){
 
-    cout << "VmMsgController::linkNewApplication"<<endl;
+//    cout << "VmMsgController::linkNewApplication"<<endl;
     // Connections to App
        int idxToApps = toApps->newGate("toApps");
        toApps->connectOut(jobAppModule->gate("fromOS"), idxToApps);
@@ -409,7 +409,7 @@ int VmMsgController::unlinkApplication(cModule* jobAppModule){
 
 }
 void VmMsgController::linkNewDocker(cModule* jobDockerModule, cGate* scToDocker, cGate* scFromDocker){
-    cout << "VmMsgController::linkNewDocker"<<endl;
+  //  cout << "VmMsgController::linkNewDocker"<<endl;
 
     // Connections to Docker Engine
        int idxToDocker = toDockerEngine->newGate("toDockerEngine");
@@ -430,7 +430,7 @@ void VmMsgController::linkNewDocker(cModule* jobDockerModule, cGate* scToDocker,
 
 int VmMsgController::unlinkDocker(cModule* jobDockerModule){
 
-    cout<<"VmMsgController::unlinkDocker"<<endl;
+    //cout<<"VmMsgController::unlinkDocker"<<endl;
     int position=dockerEnginePtr->unlinkContainer(jobDockerModule);
 
  //   int gateIdx = jobDockerModule->gate("fromOS")->getPreviousGate()->getPreviousGate()->getId();
@@ -440,7 +440,7 @@ int VmMsgController::unlinkDocker(cModule* jobDockerModule){
    // cout<<"gateIdx"<<gateIdx<<endl;
 
 //int position = toDockerEngine->searchGate(gateIdx);
-    cout<<"position"<<position<<endl;
+    //cout<<"position"<<position<<endl;
 
         toOSContainers->freeGate(position);
         toDockerEngine->freeGate(position);

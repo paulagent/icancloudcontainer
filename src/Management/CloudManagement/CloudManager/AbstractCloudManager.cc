@@ -68,7 +68,7 @@ void AbstractCloudManager::initialize(){
         if (topology == NULL) throw cRuntimeError ("AbstractCloudManager::initialize() -> Error during initialization. There is no topology\n");
 
         int computeSize = topology->par("computeNodeQuantity").longValue();
-        cout << "computeSize"<<computeSize<<endl;
+    //    cout << "computeSize"<<computeSize<<endl;
         for (int i = 0; i < computeSize; i++){
             cModule* computeNodeMod = topology->getSubmodule("computeNode",i);
             dataCenterConfig->setNodeType(computeNodeMod->par("id").stringValue(), computeNodeMod->par("quantity").longValue());

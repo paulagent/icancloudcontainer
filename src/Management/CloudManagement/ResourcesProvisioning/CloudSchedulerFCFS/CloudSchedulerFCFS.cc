@@ -191,13 +191,13 @@ AbstractNode* CloudSchedulerFCFS::selectNode (AbstractRequest* req){
         set.clear();
         node = NULL;
         el = reqVm->getSingleRequestType();
-   //     if (DEBUG_CLOUD_SCHED) cout<< "el Type--->"<<el->getType()<<endl;
+        if (DEBUG_CLOUD_SCHED) cout<< "el Type--->"<<el->getType()<<endl;
 
         vmCPU = el->getNumCores();
         vmMemory = el->getMemorySize();
         numProcesses = 0;
- //       if (DEBUG_CLOUD_SCHED) cout<< "vmCPU--->"<<vmCPU<<endl;
- //       if (DEBUG_CLOUD_SCHED) cout<< "vmMemory--->"<<vmMemory<<endl;
+        if (DEBUG_CLOUD_SCHED) cout<< "vmCPU--->"<<vmCPU<<endl;
+        if (DEBUG_CLOUD_SCHED) cout<< "vmMemory--->"<<vmMemory<<endl;
 
     // Begin ..
 
@@ -205,25 +205,25 @@ AbstractNode* CloudSchedulerFCFS::selectNode (AbstractRequest* req){
             vector<HeterogeneousSet*>::iterator setIt;
 
         // Begin ..
-    //        if (DEBUG_CLOUD_SCHED) cout<< "getMapSize()--->"<<getMapSize()<<endl;
+            if (DEBUG_CLOUD_SCHED) cout<< "getMapSize()--->"<<getMapSize()<<endl;
 
             // Push in the set the different heterogeneous node types where it is possible allocate the vm
                 for (i = 0; i < getMapSize(); i++){
 
-         //           if (DEBUG_CLOUD_SCHED) cout<< "getSetName()--->"<<getSetName(i, false)<<endl;
+                    if (DEBUG_CLOUD_SCHED) cout<< "getSetName()--->"<<getSetName(i, false)<<endl;
 
                     if ( (getSetMemorySize(i, false) >= vmMemory) && (getSetNumCores(i,false) >= vmCPU) ){
-          //              if (DEBUG_CLOUD_SCHED) cout<< "getSetMemorySize(i, false)--->"<<getSetMemorySize(i, false)<<endl;
-         //               if (DEBUG_CLOUD_SCHED) cout<< "getSetNumCores(i,false)--->"<<getSetNumCores(i,false)<<endl;
-         //               if (DEBUG_CLOUD_SCHED) cout<< "vmCPU--->"<<vmCPU<<endl;
-         //               if (DEBUG_CLOUD_SCHED) cout<< "vmMemory--->"<<vmMemory<<endl;
+                        if (DEBUG_CLOUD_SCHED) cout<< "getSetMemorySize(i, false)--->"<<getSetMemorySize(i, false)<<endl;
+                        if (DEBUG_CLOUD_SCHED) cout<< "getSetNumCores(i,false)--->"<<getSetNumCores(i,false)<<endl;
+                        if (DEBUG_CLOUD_SCHED) cout<< "vmCPU--->"<<vmCPU<<endl;
+                        if (DEBUG_CLOUD_SCHED) cout<< "vmMemory--->"<<vmMemory<<endl;
 
                         set.push_back(i);
                         //Zahra Nikdel:
                       //  break;
                     }
                 }
-         //       if (DEBUG_CLOUD_SCHED) cout<< "set.size()--->"<<set.size()<<endl;
+                if (DEBUG_CLOUD_SCHED) cout<< "set.size()--->"<<set.size()<<endl;
                 //Zahra Nikdel:
                 int found=false;
             // select the first set
@@ -232,22 +232,22 @@ AbstractNode* CloudSchedulerFCFS::selectNode (AbstractRequest* req){
                     if (!found){
 
 
-                    //if (DEBUG_CLOUD_SCHED) cout<< "getSetName()--->"<<getSetName(i, false)<<endl;
+                    if (DEBUG_CLOUD_SCHED) cout<< "getSetName()--->"<<getSetName(i, false)<<endl;
 
-         //           if (DEBUG_CLOUD_SCHED) cout<< " getSetSize--->"<< getSetSize((*(set.begin() + i)))<<endl;
+                    if (DEBUG_CLOUD_SCHED) cout<< " getSetSize--->"<< getSetSize((*(set.begin() + i)))<<endl;
                     for (int j = 0; j < getSetSize((*(set.begin() + i))); j++){
                      //   NodeVL* node_vl = check_and_cast<NodeVL*>(getNodeByIndex((*(set.begin())),j));
                      //Zahra Nikdel:
                         NodeVL* node_vl = check_and_cast<NodeVL*>(getNodeByIndex((*(set.begin()+i)),j));
 
                         numProcesses = node_vl->getNumOfLinkedVMs();
-          //              if (DEBUG_CLOUD_SCHED) cout<< "node_vl--->"<< node_vl->getFullName() <<endl;
+                        if (DEBUG_CLOUD_SCHED) cout<< "node_vl--->"<< node_vl->getFullName() <<endl;
 
-         //               if (DEBUG_CLOUD_SCHED) cout<< "numProcesses--->"<<numProcesses<<endl;
+                        if (DEBUG_CLOUD_SCHED) cout<< "numProcesses--->"<<numProcesses<<endl;
 
                         if (numProcesses < maximum_number_of_processes_per_node){
                             node = check_and_cast<Node*>(node_vl);
-                  //          if (DEBUG_CLOUD_SCHED) cout<< "Selected Node-->"<< node_vl->getFullName() <<endl;
+                            if (DEBUG_CLOUD_SCHED) cout<< "Selected Node-->"<< node_vl->getFullName() <<endl;
                             //Zahra Nikdel:
                             found=true;
                             break;
@@ -255,10 +255,16 @@ AbstractNode* CloudSchedulerFCFS::selectNode (AbstractRequest* req){
                     }
                     }
                 }
+               if (found){
+                   if (DEBUG_CLOUD_SCHED) cout<< "node--->"<<node->getFullName()<<endl;
+               }
+               else
+               {
+                   if (DEBUG_CLOUD_SCHED) cout<< "node---> is null"<<endl;
 
-    //    if (DEBUG_CLOUD_SCHED) cout<< "node--->"<<node->getFullName()<<endl;
+               }
 
-   //     if (DEBUG_CLOUD_SCHED) printf("\n Method[SCHEDULER_FIFO]: -------> select_nodes--- FIN----------------------------------------\n");
+        if (DEBUG_CLOUD_SCHED) printf("\n Method[SCHEDULER_FIFO]: -------> select_nodes--- FIN----------------------------------------\n");
 
 		return node;
 

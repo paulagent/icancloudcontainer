@@ -39,7 +39,9 @@ class DockerEngine : public icancloud_Base
         cGateManager* toContainers;                           // Output gate from this class to an application
 
         int uId;                                        // The user identification value
-        int pId;                                        // The process (VM) identification value
+        int pId;
+        double msgCount;
+        // The process (VM) identification value
     public:
         DockerEngine();
         virtual ~DockerEngine();

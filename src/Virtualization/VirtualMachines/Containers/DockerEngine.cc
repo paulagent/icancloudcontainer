@@ -53,7 +53,7 @@ void DockerEngine::initialize(){
         uId = -1;
         pId = -1;
 
-
+        msgCount=0;
 
         // Init state to idle!
         fromVmMsgController= new cGateManager(this);
@@ -132,6 +132,8 @@ void DockerEngine::processResponseMessage (icancloud_Message *sm){
 
     updateCounters(sm,-1);
 
+    ++msgCount;
+
 
 
         icancloud_App_NET_Message *sm_net;
@@ -193,8 +195,7 @@ void DockerEngine::finishMigration (){
 }
 
 void DockerEngine::pushMessage(icancloud_Message* sm){
-
-    pendingMessages.insert(pendingMessages.end(),sm);
+      pendingMessages.insert(pendingMessages.end(),sm);
 
 }
 
@@ -281,10 +282,10 @@ void DockerEngine::linkNewContainer(cModule* jobAppModule, cGate* scToContainer,
     // Connections to Container
        int idxToContainer = toContainers->newGate("toContainers");
        toContainers->connectOut(jobAppModule->gate("fromOS"), idxToContainer);
-       cout<<"idxToContainer"<<idxToContainer<<endl;
+    //   cout<<"idxToContainer"<<idxToContainer<<endl;
        int idxFromContainers = fromContainers->newGate("fromContainers");
        fromContainers->connectIn(jobAppModule->gate("toOS"), idxFromContainers);
-       cout<<"idxFromContainers"<<idxFromContainers<<endl;
+     //  cout<<"idxFromContainers"<<idxFromContainers<<endl;
 
    // Connections to VmMsgController
        int idxToVmMsg = toVmMsgController->newGate("toVmMsgController");
@@ -296,11 +297,11 @@ void DockerEngine::linkNewContainer(cModule* jobAppModule, cGate* scToContainer,
 }
 
 int DockerEngine::unlinkContainer(cModule* jobAppModule){
-cout<<"DockerEngine::unlinkContainer"<<endl;
+//cout<<"DockerEngine::unlinkContainer"<<endl;
     int gateIdx = jobAppModule->gate("fromOS")->getPreviousGate()->getId();
     int position = toContainers->searchGate(gateIdx);
 
-    cout<<"position"<<position<<endl;
+ //   cout<<"position"<<position<<endl;
 
     toVmMsgController->freeGate(position);
     fromVmMsgController->freeGate(position);
@@ -410,6 +411,7 @@ void DockerEngine::updateCommId (icancloud_App_NET_Message* sm){
 }
 void DockerEngine::finish()
 {
+    cout<<"DockerEngine::finish--->msgCount--->"<<msgCount <<endl;
 
 }
 bool DockerEngine::migrationPrepared()

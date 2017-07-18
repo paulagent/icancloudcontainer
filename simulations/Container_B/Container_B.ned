@@ -72,6 +72,7 @@ network Container_B
         configurator: IPv4NetworkConfigurator {
             parameters:
                 config = xml("<config><interface hosts='**' address='192.168.x.x' netmask='255.x.x.x'/></config>");
+                @display("p=512,101");
         }
 
         // ---------------------------------------------------------------
@@ -125,7 +126,9 @@ network Container_B
         //------------------------------------------------------
         // Modules that defines the topology and the set of VMs 
         //------------------------------------------------------
-        vmSet: VmSet;
+        vmSet: VmSet {
+            @display("p=390,276");
+        }
         topology: Topology;
         // ---------------------------------------------------------------
         //   Definition of Racks

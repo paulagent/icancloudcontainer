@@ -1,6 +1,5 @@
 # Partial OMNeT++/Tkenv config file -- see $HOME/.tkenvrc as well
 config default-configname	{}
 config default-runnumber	{}
-inspector {Cloud_C.rc_4_Rack_C_48[25].hypervisor} HypervisorNoOverhead 19191 2 411x298+193+168:normal
-inspector {Cloud_C.rc_4_Rack_C_48[25].hypervisor} HypervisorNoOverhead 19191 2 509x298+203+178:normal
+inspector {Cloud_C.rc_0_Rack_B_32[4].hypervisor.VM_Medium:u27274:p27280.osModule} VmOperatingSystemModule 27281 2 411x373+994+258:normal
 

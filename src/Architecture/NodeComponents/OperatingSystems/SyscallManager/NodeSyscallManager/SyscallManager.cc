@@ -33,7 +33,7 @@ void SyscallManager::initialize(){
             toAppGates->linkGate("toApps", i);
             fromAppGates->linkGate("fromApps",i);
         }
-     cout << "SyscallManager::initialize()"<<endl;
+  //   cout << "SyscallManager::initialize()"<<endl;
  //       for (int i=0; i<2; i++){
  //           toDockerEngineGates->linkGate("toDockerEngine", i);
 //            fromDockerEngineGates->linkGate("fromDockerEngine",i);
@@ -272,8 +272,8 @@ void SyscallManager::removeProcess(int pid){
 
     if (job != NULL){
         int gateIdx = job->gate("fromOS")->getPreviousGate()->getId();
-        cout<<"SyscallManager::removeProcess--->gate(fromOS)->getPreviousGate()--->"<<job->gate("fromOS")->getPreviousGate()->getFullName()<<endl;
-        cout<<"SyscallManager::removeProcess--->gate index"<<gateIdx<<endl;
+  //      cout<<"SyscallManager::removeProcess--->gate(fromOS)->getPreviousGate()--->"<<job->gate("fromOS")->getPreviousGate()->getFullName()<<endl;
+    //    cout<<"SyscallManager::removeProcess--->gate index"<<gateIdx<<endl;
    //     int cgateIdx = job->gate("fromOSfromCon")->getPreviousGate()->getId();
 
        // int position = toAppGates->searchGate(gateIdx);
@@ -297,7 +297,7 @@ int SyscallManager::createProcess(icancloud_Base* job, int uid){
 
     int newIndexFrom = fromAppGates->newGate("fromApps");
     int newIndexTo = toAppGates->newGate("toApps");
-cout <<" SyscallManager::createProcess"<<endl;
+//cout <<" SyscallManager::createProcess"<<endl;
  //   int cnewIndexFrom = fromDockerEngineGates->newGate("fromDockerEngine");
 //    int cnewIndexTo = toDockerEngineGates->newGate("toDockerEngine");
     //get the app previously created

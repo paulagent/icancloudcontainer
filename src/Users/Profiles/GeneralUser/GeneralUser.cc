@@ -41,7 +41,6 @@ void GeneralUser::userInitialization(){
 
 	// Select the vms to start (all) and then send the request to the cloud manager.
 		vms = selectVMs_ToStartUp ();
-
 	// Start all vms
 		if (vms != NULL)
 		    startVMs(vms);
@@ -134,7 +133,7 @@ AbstractRequest* GeneralUser::selectVMs_ToStartUp (){
 		//maxNumVMsToRequest = getWQ_size();
 		maxNumVMsToRequest = getWQ_size()+getCWQ_size();
 		setSize = vmsToBeSelected.size();
-//		cout <<"vmsToBeSelected--->"<<setsi) <<endl;
+		cout <<"vmsToBeSelected by user--->"<< getUserId()<<":"<< setSize <<endl;
 		req = new RequestVM();
 		reqFilled = false;
 
@@ -383,11 +382,11 @@ void GeneralUser::jobHasFinished (jobBase* job){
 
     UserJob* jobC;
     Machine* m;
-
     jobC = dynamic_cast<UserJob*>(job);
     m = jobC->getMachine();
 
     VM* vm = check_and_cast<VM*>(m);
+    cout<< "jobHasFinished for "<< vm->getFullName() << endl;
 
     if (jobC == NULL) throw cRuntimeError ("GeneralUser::jobHasFinished->job can not be casted to CloudJob\n");
 
