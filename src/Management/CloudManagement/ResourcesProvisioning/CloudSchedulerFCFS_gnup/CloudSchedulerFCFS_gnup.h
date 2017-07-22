@@ -27,7 +27,7 @@ class CloudSchedulerFCFS_gnup : public AbstractCloudScheduler{
              bool printComponentsEnergyConsumed;    // print main subsytems instant consumption
              bool printDataCenterPowerConsumption;  // print all the data-center energyConsumed
              bool printDataCenterEnergyConsumed;    // print all the data-center instant consumption
-
+             bool printDockerResult;
              double dc_EnergyConsumed;  // For storing the total data center energy consumed.
 
              char log_name1[NAME_SIZE];
@@ -92,6 +92,7 @@ class CloudSchedulerFCFS_gnup : public AbstractCloudScheduler{
     * if the printEnergyToFile and printEnergyTrace are active
     */
     void printEnergyValues();
+    void printDockerResults();
 
     /*
     *  This method is invoked before to finalize the simulation

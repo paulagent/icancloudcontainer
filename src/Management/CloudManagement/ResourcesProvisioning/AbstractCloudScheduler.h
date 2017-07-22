@@ -74,6 +74,11 @@ class AbstractCloudScheduler : public AbstractCloudManager{
         void printEnergyValues() = 0;
 
         /*
+         * This method defines the data that will be printed in 'logName' file at 'OUTPUT_ DIRECTORY'
+         * if the printDockerResults is active
+         */
+        void printDockerResults()=0;
+        /*
         *  This method is invoked before to finalize the simulation
         */
         void finalizeScheduler() = 0;

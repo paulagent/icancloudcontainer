@@ -105,10 +105,11 @@ void AbstractDCManager::initialize(){
         // Get the parameters for print the energy data to a file
             printEnergyTrace = par("printEnergyTrace").boolValue();
             printEnergyToFile = par("printEnergyToFile").boolValue();
-
+            printDockerResult= par("printDockerResult").boolValue();
 
         // Create the file
-          if (printEnergyToFile){
+        //  if (printEnergyToFile){
+            if (printDockerResult){
               // Create the folder (if it doesn't exists)
                   DIR *logDir;
 
@@ -127,7 +128,8 @@ void AbstractDCManager::initialize(){
               // Continue with the file creation.
               time (&rawtime);
               timeinfo = localtime (&rawtime);
-              sprintf (log_name, "%s/CloudEnergy_%04d-%02d-%02d_%02d:%02d:%02d.txt",OUTPUT_DIRECTORY.c_str(),
+           //   sprintf (log_name, "%s/CloudEnergy_%04d-%02d-%02d_%02d:%02d:%02d.txt",OUTPUT_DIRECTORY.c_str(),
+              sprintf (log_name, "%s/Docker_%04d-%02d-%02d_%02d:%02d:%02d.txt",OUTPUT_DIRECTORY.c_str(),
                                                   timeinfo->tm_year+1900,
                                                   timeinfo->tm_mon+1,
                                                   timeinfo->tm_mday,
@@ -164,7 +166,8 @@ void AbstractDCManager::processSelfMessage (cMessage *msg){
     //Define ..
         vector<AbstractUser*>::iterator userIt;
         string state;
-
+        cout<<"AbstractDCManager::processSelfMessage"<<endl;
+        cout<<"msg->"<<msg->getName()<<endl;
     //FilePrinter
         std::ostringstream line;
 
@@ -193,6 +196,11 @@ void AbstractDCManager::processSelfMessage (cMessage *msg){
                     if ((printEnergyToFile) && (printEnergyTrace)){
                         printEnergyValues();
                         scheduleAt (simTime()+timeBetweenLogResults_s, logAlarm);
+                    }
+                    if (printDockerResult){
+                        printDockerResults();
+                        scheduleAt (simTime()+timeBetweenLogResults_s, logAlarm);
+
                     }
         }
 

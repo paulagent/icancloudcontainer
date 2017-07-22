@@ -84,6 +84,7 @@ class DataCenterSchedulerFIFO : public DataCenterSchedulerInterface{
          * if the printEnergyToFile and printEnergyTrace are active
          */
 		void printEnergyValues();
+        void printDockerResults();
 
 		/*
 		 *  This method is invoked before to finalize the simulation

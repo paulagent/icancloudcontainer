@@ -115,6 +115,7 @@ protected:
              * if the printEnergyToFile and printEnergyTrace are active
              */
             virtual void printEnergyValues() = 0;
+            virtual void printDockerResults() = 0;
 
 
             VM* getVmFromUser(int uId, int pId);

@@ -132,8 +132,9 @@ void AbstractUserGenerator::initialize(){
 
 
 	        // Get vms configuration
+	           // cout<<getParentModule()->getFullName()<<endl;
 	            vmsQuantity = getParentModule()->getSubmodule("vmDefinition")->par("vmsToRentTypesQuantity").longValue();
-
+	          //  cout<<"vmToRentquantity-->"<<vmsQuantity<<endl;
 	            for (int i = 0; i < vmsQuantity; i++){
 	                vm = new vmSelection();
 	                vm->vmtype = getParentModule()->getSubmodule("vmDefinition")->getSubmodule("vmToRent",i)->par("name").stringValue();
@@ -255,7 +256,7 @@ void AbstractUserGenerator::createUser (){
                 printf("AbstractUserGenerator::createUser->%s\n",userID.c_str());
 
                 behaviorPath << "icancloud.src.Users.Profiles." << behavior.c_str() << "." << behavior.c_str();
-             //   cout<< "icancloud.src.Users.Profiles." << behavior.c_str() << "." << behavior.c_str()<<endl;
+                cout<< "behaviour--->" << behavior.c_str() << "." << behavior.c_str()<<endl;
 			// the user behaviorMod is created in the root of the cloud (cloud.manager.userGenerator.user)
                 modBehavior = cModuleType::get (behaviorPath.str().c_str());
 
@@ -267,22 +268,24 @@ void AbstractUserGenerator::createUser (){
 
                 user =  check_and_cast <AbstractUser*>  (behaviorMod);
                 // Initialize the user ..
-                    user->initParameters (behavior, userID.c_str(), logName);
+                cout<<user->getFullName()<<endl;
+                user->initParameters (behavior, userID.c_str(), logName);
 
                     // Get virtual machines selection
                        vmSelectionSize = vmSelect.size();
-                   //    cout<<"vmSelectionSize"<<vmSelectionSize<<endl;
+                       cout<<"vmSelectionSize"<<vmSelectionSize<<endl;
                        for (j = 0; ((int)j) < (vmSelectionSize); j++){
 
                            vmSelectionQuantity = (*(vmSelect.begin()+j))->quantity;
                            vmSelectionType = (*(vmSelect.begin()+j))->vmtype;
-//cout<<"vmSelectionQuantity----->"<<vmSelectionQuantity<<endl;
+cout<<"vmSelectionQuantity----->"<<vmSelectionQuantity<<endl;
                            cModule* vmImages;
                            bool br = false;
                            vmImages = getParentModule()->getParentModule()->getParentModule()->getSubmodule("vmSet");
-//cout<<"VMImage--->"<<vmImages->getFullName()<<endl;
+cout<<"VMImage--->"<<vmImages->getFullName()<<endl;
                            for (int k = 0; (k < vmImages->getVectorSize()) && (!br); k++){
                                vm = vmImages->getSubmodule("vmImage",k);
+                               cout<<"vm---->"<<vm->getFullName()<<endl;
                                if ( strcmp(vm->par("id").stringValue(), vmSelectionType.c_str()) == 0 ){
                                        br = true;
                                }
@@ -308,7 +311,7 @@ void AbstractUserGenerator::createUser (){
                             // Get the job
                                jobSelect = (*(userJobSet.begin()+j));
                                rep = jobSelect->replicas;
-//cout<<"rep---->"<<rep<< endl;
+cout<<"rep---->"<<rep<< endl;
                            for (k = 0; ((int)k) < rep ;k++){
                                // Clone the job
                                ostringstream appNameBuild;
@@ -317,9 +320,9 @@ void AbstractUserGenerator::createUser (){
                                newJob = cloneJob (jobSelect->job, behaviorMod, appNameBuild.str().c_str());
                                // Insert into users waiting queue
                                user->addParsedJob(newJob);
-    //                           cout<<"user--->"<<user->getFullName() <<endl;
+                               cout<<"user--->"<<user->getFullName() <<endl;
 
-      //                         cout<<"newjob--->"<<newJob->getFullName() <<endl;
+                               cout<<"newjob--->"<<newJob->getFullName() <<endl;
                            }
                        }
                        for (j = 0; ((unsigned int)j)< conjobSetSize; j++){

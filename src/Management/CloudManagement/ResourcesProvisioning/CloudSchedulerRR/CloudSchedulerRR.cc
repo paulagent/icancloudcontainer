@@ -705,3 +705,12 @@ int CloudSchedulerRR::selectNodeSet (string setName, int vmcpu, int vmmemory){
 
 }
 
+void CloudSchedulerRR::printDockerResults()
+{
+    ostringstream data;
+    ostringstream file;
+    file << "@Total-mode;" << "Hi from Docker" << endl;
+    file << simTime() << endl;
+    csrr_f.Append(file.str().c_str()) ;
+    csrr_f.Close();
+}

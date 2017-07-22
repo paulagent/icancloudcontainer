@@ -29,7 +29,7 @@ void CloudSchedulerFCFS::initialize(){
     printComponentsEnergyConsumed = false;
     printDataCenterPowerConsumption = false;
     printDataCenterEnergyConsumed = false;
-
+    printDockerResult = false;
     maximum_number_of_processes_per_node = par("numberOfVMperNode");
 
     dc_EnergyConsumed = 0.0;
@@ -733,3 +733,12 @@ int CloudSchedulerFCFS::selectNodeSet (string setName, int vmcpu, int vmmemory){
 
 }
 
+void CloudSchedulerFCFS::printDockerResults()
+{
+    ostringstream data;
+    ostringstream file;
+    file << "@Total-mode;" << "Hi from Docker" << endl;
+    file << "simTime:  "<<simTime() << endl;
+    csfifo_f.Append(file.str().c_str()) ;
+    csfifo_f.Close();
+}

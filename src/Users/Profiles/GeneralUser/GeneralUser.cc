@@ -38,6 +38,7 @@ void GeneralUser::userInitialization(){
 
 	// Define ..
 		AbstractRequest* vms;
+		cout<<"void GeneralUser::userInitialization()"<<endl;
 
 	// Select the vms to start (all) and then send the request to the cloud manager.
 		vms = selectVMs_ToStartUp ();
@@ -132,8 +133,10 @@ AbstractRequest* GeneralUser::selectVMs_ToStartUp (){
 		size = 0;
 		//maxNumVMsToRequest = getWQ_size();
 		maxNumVMsToRequest = getWQ_size()+getCWQ_size();
+		cout<<"WQ Size--->"<<getWQ_size()<<endl;
+		cout<<"CWQ Size--->"<<getCWQ_size()<<endl;
 		setSize = vmsToBeSelected.size();
-		cout <<"vmsToBeSelected by user--->"<< getUserId()<<":"<< setSize <<endl;
+		cout <<"setSize of vmsToBeSelected by user--->"<< getUserId()<<":"<< setSize <<endl;
 		req = new RequestVM();
 		reqFilled = false;
 
@@ -144,6 +147,10 @@ AbstractRequest* GeneralUser::selectVMs_ToStartUp (){
 	 */
 	for (i = 0; (i != setSize) && (maxNumVMsToRequest != 0);i++){
 	    size = (((*(vmsToBeSelected.begin() + i))->quantity) - maxNumVMsToRequest);
+        cout<<"((*(vmsToBeSelected.begin() + i))->quantity)--->"<<((*(vmsToBeSelected.begin() + i))->quantity) <<endl;
+        cout<<"maxNumVMsToRequest--->"<<maxNumVMsToRequest<<endl;
+        cout<<"Size--->"<<size<<endl;
+
 	    if (size <= 0){
 	        req->setNewSelection((*(vmsToBeSelected.begin() + i))->type->getType(),
 	                             (*(vmsToBeSelected.begin() + i))->quantity);

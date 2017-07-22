@@ -27,7 +27,7 @@ using std::string;
 
 
 /** Flag to enable the log messages */
-#define SHOW_LOG_MESSAGES 0
+#define SHOW_LOG_MESSAGES 1
 
 
 /** Flag to enable the debug messages */
@@ -209,7 +209,7 @@ using std::string;
 	
 /************************* CLOUD SCHEDULER *************************/
 
-	#define DEBUG_CLOUD_SCHED true
+	#define DEBUG_CLOUD_SCHED false
 
 /************************* HYPERVISOR SCHEDULER *************************/
 

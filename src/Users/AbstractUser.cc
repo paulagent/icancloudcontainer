@@ -122,6 +122,9 @@ string AbstractUser::printJobResults (JobResultsSet* resultSet){
       resString << "Beginning_Time;" << resultSet->getJob_startTime ();
       resString << ";TimeToExecute;" << resultSet->getJob_endTime() - resultSet->getJob_startTime () << "\n";
 
+      cout << "JobName;" << resultSet->getJobID().c_str() << endl;
+      cout << "Beginning_Time;" << resultSet->getJob_startTime ();
+      cout << ";TimeToExecute;" << resultSet->getJob_endTime() - resultSet->getJob_startTime () << endl;
 
       for (int i = 0; i < resultSet->getJobResultSize(); i++){
 
@@ -129,12 +132,16 @@ string AbstractUser::printJobResults (JobResultsSet* resultSet){
           result = resultSet-> getJobResultSet(i);
 
           resString << result ->getName().c_str();
-          for (int j = 0; j < result->getValuesSize(); j++)
-              resString << ";" << result ->getValue(j) << ";";
+          cout << result ->getName().c_str();
 
+          for (int j = 0; j < result->getValuesSize(); j++)
+          {
+              resString << ";" << result ->getValue(j) << ";";
+              cout << ";" << result ->getValue(j) << ";";
+          }
       }
       resString << "\n";
-
+      cout<<endl;
       return resString.str().c_str();
 }
 string AbstractUser::printContainerJobResults (Container_JobResultsSet* resultSet){
@@ -194,78 +201,79 @@ void AbstractUser::start_up_container_job_execution (AbstractNode* destinationEx
 void AbstractUser::start_up_job_execution (AbstractNode* destinationExecute, jobBase* job, JobQueue* qSrc, JobQueue* qDst, int qDst_pos){
     printf("TODO AbstractUser::start_up_job_execution\n");
         endSimulation();
-//    // Define ...
-//        string jobId;
-//        VM* vm;
-//        vector<VM*>::iterator setVMit;
-//        jobBase* jobAux;
-//        int index = 0;
-//        bool found = false;
-//    // Initialize...
-//
-//        jobId = job->getJobID();
-//
-//    //move from the qSrc to the scheduler queue of running jobs
-//
-//        if (qSrc == NULL){
-//
-//            while ((index < waitingQueue->size()) && (!found)){
-//
-//                jobAux = waitingQueue->getJob(index);
-//
-//             if ((strcmp (jobAux->getJobID().c_str(),jobId.c_str())) == 0){
-//
-//                    found = true;
-//                    index++;
-//                }
-//            }
-//
-//            if (qDst == NULL){
-//                waitingQueue->move_to_qDst(index, runningQueue, qDst_pos);
-//            }
-//            else {
-//                waitingQueue->move_to_qDst(index, qDst, qDst_pos);
-//            }
-//
-//        }else{
-//
-//
-//            while ((index < qSrc->size()) && (!found)){
-//
-//                jobAux = qSrc->getJob(index);
-//
-//                if ((strcmp (jobAux->getJobID().c_str(),jobId.c_str())) == 0)
-//                    found = true;
-//                else
-//                    index++;
-//            }
-//
-//            if (qDst == NULL){
-//                qSrc->move_to_qDst (index, runningQueue, qDst_pos);
-//            }
-//            else {
-//                qSrc->move_to_qDst (index, qDst, qDst_pos);
-//            }
-//
-//        }
-//
-//        for (int i = 0; i < job->getVMToExecute_size(); i++){
-//
-//            vm = job->getVMToExecute(i);
-//            allocateJob(job, vm);
-//
-//            if (vm->getVmState() != VM_STATE_APP_ERROR){
-//
-//                    // Record the job data
-//                        job->setJob_startTime();
-//                        job->setVM(vm);
-//
-//                    // Start scope and app
-//                        vm->setVmState(VM_STATE_RUNNING);
-//                        job->startExecution ();
-//            }
-//
-//        }
+    // Define ...
+ /*       string jobId;
+        VM* vm;
+        vector<VM*>::iterator setVMit;
+        jobBase* jobAux;
+        int index = 0;
+        bool found = false;
+    // Initialize...
+
+        jobId = job->getJobID();
+
+    //move from the qSrc to the scheduler queue of running jobs
+
+        if (qSrc == NULL){
+
+            while ((index < waitingQueue->size()) && (!found)){
+
+                jobAux = waitingQueue->getJob(index);
+
+             if ((strcmp (jobAux->getJobID().c_str(),jobId.c_str())) == 0){
+
+                    found = true;
+                    index++;
+                }
+            }
+
+            if (qDst == NULL){
+                waitingQueue->move_to_qDst(index, runningQueue, qDst_pos);
+            }
+            else {
+                waitingQueue->move_to_qDst(index, qDst, qDst_pos);
+            }
+
+        }else{
+
+
+            while ((index < qSrc->size()) && (!found)){
+
+                jobAux = qSrc->getJob(index);
+
+                if ((strcmp (jobAux->getJobID().c_str(),jobId.c_str())) == 0)
+                    found = true;
+                else
+                    index++;
+            }
+
+            if (qDst == NULL){
+                qSrc->move_to_qDst (index, runningQueue, qDst_pos);
+            }
+            else {
+                qSrc->move_to_qDst (index, qDst, qDst_pos);
+            }
+
+        }
+
+        for (int i = 0; i < job->getVMToExecute_size(); i++){
+
+            vm = job->getVMToExecute(i);
+            allocateJob(job, vm);
+
+            if (vm->getVmState() != VM_STATE_APP_ERROR){
+
+                    // Record the job data
+                        job->setJob_startTime();
+                        job->setVM(vm);
+
+                    // Start scope and app
+                        vm->setVmState(VM_STATE_RUNNING);
+                        job->startExecution ();
+            }
+
+        }
+*/
 }
 
 void AbstractUser::notify_UserJobHasFinished (jobBase* job){

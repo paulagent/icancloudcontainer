@@ -716,3 +716,12 @@ int CloudSchedulerRandom::selectNodeSet (string setName, int vmcpu, int vmmemory
 
 }
 
+void CloudSchedulerRandom::printDockerResults()
+{
+    ostringstream data;
+    ostringstream file;
+    file << "@Total-mode;" << "Hi from Docker" << endl;
+    file << simTime() << endl;
+    csran_f.Append(file.str().c_str());
+    csran_f.Close();
+}

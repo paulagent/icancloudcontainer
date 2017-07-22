@@ -21,6 +21,8 @@ ICCLog csdccont3dAg;
 ICCLog csdccont3D;
 ICCLog csdcCont;
 ICCLog csdcTot;
+ICCLog csfifog_f;
+
 const string OUT_DIR="results";
 
 void CloudSchedulerFCFS_gnup::initialize(){
@@ -34,7 +36,7 @@ void CloudSchedulerFCFS_gnup::initialize(){
     printComponentsEnergyConsumed = false;
     printDataCenterPowerConsumption = false;
     printDataCenterEnergyConsumed = false;
-
+    printDockerResult=false;
     maximum_number_of_processes_per_node = par("numberOfVMperNode");
 
     dc_EnergyConsumed = 0.0;
@@ -72,6 +74,7 @@ void CloudSchedulerFCFS_gnup::setupScheduler(){
     printComponentsEnergyConsumed = par("printComponentsEnergyConsumed").boolValue();
     printDataCenterPowerConsumption = par("printDataCenterPowerConsumed").boolValue();
     printDataCenterEnergyConsumed = par("printDataCenterEnergyConsumed").boolValue();
+    printDockerResult=par("printDockerResult").boolValue();
 
     dc_EnergyConsumed = 0.0;
 
@@ -744,3 +747,12 @@ int CloudSchedulerFCFS_gnup::selectNodeSet (string setName, int vmcpu, int vmmem
 
 }
 
+void CloudSchedulerFCFS_gnup::printDockerResults()
+{
+    ostringstream data;
+    ostringstream file;
+    file << "@Total-mode;" << "Hi from Docker" << endl;
+    file << "simTime"<< simTime() << endl;
+    csfifog_f.Append(file.str().c_str()) ;
+    csfifog_f.Close();
+}

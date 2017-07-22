@@ -77,7 +77,7 @@ bool AbstractCloudUser::finalizeUser (){
 }
 
 void AbstractCloudUser::createVMSet (int vmsQuantity, int numCores, int memorySizeMB, int storageSizeGB, int numNetIF, string vmSelectionType){
-
+cout<<"AbstractCloudUser::createVMSet"<<endl;
     userVmType* vms;
     elementType* el;
     bool found = false;
@@ -143,7 +143,7 @@ int AbstractCloudUser::machinesLeft (int index){
 
 void AbstractCloudUser::startVMs (AbstractRequest* vmSet){
 
-
+cout<<"AbstractCloudUser::startVMs"<<endl;
     vmSet -> setOperation (REQUEST_START_VM);
     vmSet -> setUid (this->getId());
 
@@ -213,7 +213,7 @@ bool AbstractCloudUser::checkAllVMShutdown(){
 int AbstractCloudUser::allocateJob(jobBase* job){
 
 
-  //  cout<<"allocateJob-----------------"<<endl;
+    cout<<"allocateJob-----------------"<<endl;
 
     // Define ..
         cModule* syscallManager;
@@ -225,10 +225,10 @@ int AbstractCloudUser::allocateJob(jobBase* job){
 
     // Initialize..
         jobC = check_and_cast<UserJob*>(job);
-    //    cout<<"allocateJob-----------------"<<  jobC->getFullName() <<endl;
+      cout<<"JobC-----------------"<<  jobC->getFullName() <<endl;
 
         vm = jobC->getMachine();
-      //  cout<<"allocateJob-----------------"<<  vm->getFullName() <<endl;
+        cout<<"vm-----------------"<<  vm->getFullName() <<endl;
 
         if (vm == NULL) throw cRuntimeError ("User profile has allocate the VM at the job before call createFS.\n");
 

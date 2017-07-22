@@ -54,7 +54,10 @@ void DataCenterSchedulerFIFO::printEnergyValues(){
   // TODO
 }
 
-
+void DataCenterSchedulerFIFO::printDockerResults()
+{
+    //ToDo
+}
 vector<AbstractNode*> DataCenterSchedulerFIFO::remoteShutdown (AbstractRequest* req){
 //TODO
 }

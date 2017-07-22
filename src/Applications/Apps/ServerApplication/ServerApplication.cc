@@ -189,9 +189,10 @@ void ServerApplication::processResponseMessage (icancloud_Message *sm){
 
 			// CPU!
 			if (operation == SM_CPU_EXEC){
-cout<<"pendingHits-->"<<pendingHits;
+
 				pendingHits--;
 				if ((pendingHits == 0) && (uptimeLimit == -1)){
+				    cout<<"pendingHits-->"<<pendingHits;
                     printResults();
                 }
 			}

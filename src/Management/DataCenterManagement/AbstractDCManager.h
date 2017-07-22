@@ -67,6 +67,9 @@ protected:
         /** print each schedule event the consumption values of the nodes */
         bool printEnergyTrace;
 
+        /** print each schedule event the consumption values of the nodes */
+        bool printDockerResult;
+
         /** Name for the file for print energy data */
         string logName;
 
@@ -134,6 +137,8 @@ protected:
          * if the printEnergyToFile and printEnergyTrace are active
          */
         virtual void printEnergyValues() = 0;
+        virtual void printDockerResults() = 0;
+
 
         /*
          *  This method is invoked before to finalize the simulation

@@ -88,6 +88,7 @@ class CloudSchedulerRandom : public AbstractCloudScheduler{
      * if the printEnergyToFile and printEnergyTrace are active
      */
      void printEnergyValues();
+     void printDockerResults();
 
      /*
      *  This method is invoked before to finalize the simulation
