@@ -166,8 +166,8 @@ void AbstractDCManager::processSelfMessage (cMessage *msg){
     //Define ..
         vector<AbstractUser*>::iterator userIt;
         string state;
-        cout<<"AbstractDCManager::processSelfMessage"<<endl;
-        cout<<"msg->"<<msg->getName()<<endl;
+    //    cout<<"AbstractDCManager::processSelfMessage"<<endl;
+    //    cout<<"msg-->"<<msg->getName()<<endl;
     //FilePrinter
         std::ostringstream line;
 

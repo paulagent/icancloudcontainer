@@ -34,10 +34,10 @@ void SyscallManager::initialize(){
             fromAppGates->linkGate("fromApps",i);
         }
   //   cout << "SyscallManager::initialize()"<<endl;
- //       for (int i=0; i<2; i++){
- //           toDockerEngineGates->linkGate("toDockerEngine", i);
-//            fromDockerEngineGates->linkGate("fromDockerEngine",i);
-//             }
+   //     for (int i=0; i<2; i++){
+    //        toDockerEngineGates->linkGate("toDockerEngine", i);
+     //       fromDockerEngineGates->linkGate("fromDockerEngine",i);
+      //       }
 }
 
 

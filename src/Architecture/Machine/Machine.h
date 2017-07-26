@@ -161,6 +161,7 @@ public:
      * Check if an application is executing at system
      */
     bool isAppRunning (int pId){return os->isAppRunning(pId);};
+    bool isContainerRunning (int pId){return os->isContainerRunning(pId);};
 
     /*
      * This method will return the number of processes (Only user processes) executing at node

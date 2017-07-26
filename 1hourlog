@@ -1,0 +1,180 @@
+Loading NED files from .: 144
+Loading NED files from /home/zahra/omnetpp-4.6/inet/src: 274
+
+Preparing for running configuration General, run #0...
+Scenario: $0=1, $repetition=0
+Assigned runID=General-0-20170723-14:53:26-3899
+Setting up network `SaaS'...
+Initializing...
+
+Running simulation...
+** Event #1   T=0   Elapsed: 0.000s (0m 00s)  0% completed
+     Speed:     ev/sec=0   simsec/sec=0   ev/simsec=0
+     Messages:  created: 1771   present: 1771   in FES: 507
+** Event #165376   T=698   Elapsed: 2.001s (0m 02s)  19% completed
+     Speed:     ev/sec=82646.7   simsec/sec=348.826   ev/simsec=236.928
+     Messages:  created: 20506   present: 2181   in FES: 104
+** Event #264704   T=1219   Elapsed: 4.001s (0m 04s)  33% completed
+     Speed:     ev/sec=49664   simsec/sec=260.5   ev/simsec=190.649
+     Messages:  created: 30412   present: 2181   in FES: 104
+** Event #324096   T=1530   Elapsed: 6.006s (0m 06s)  42% completed
+     Speed:     ev/sec=29621.9   simsec/sec=155.112   ev/simsec=190.971
+     Messages:  created: 36325   present: 2181   in FES: 104
+** Event #466688   T=2277.673701895473   Elapsed: 8.011s (0m 08s)  63% completed
+     Speed:     ev/sec=71153.7   simsec/sec=373.091   ev/simsec=190.714
+     Messages:  created: 50541   present: 2181   in FES: 105
+** Event #541696   T=2671   Elapsed: 10.013s (0m 10s)  74% completed
+     Speed:     ev/sec=37485.3   simsec/sec=196.565   ev/simsec=190.702
+     Messages:  created: 58018   present: 2181   in FES: 104
+** Event #620032   T=3081.397273997883   Elapsed: 12.013s (0m 12s)  85% completed
+     Speed:     ev/sec=39168   simsec/sec=205.199   ev/simsec=190.878
+     Messages:  created: 65821   present: 2180   in FES: 104
+** Event #718902   T=3600   Elapsed: 13.621s (0m 13s)  100% completed
+     Speed:     ev/sec=61524   simsec/sec=322.715   ev/simsec=190.645
+     Messages:  created: 75682   present: 2181   in FES: 104
+
+<!> Simulation time limit reached -- simulation stopped at event #718902, t=3600.
+
+
+Calling finish() at end of Run #0...
+
+Preparing for running configuration General, run #1...
+Scenario: $0=1, $repetition=1
+Assigned runID=General-1-20170723-14:53:42-3899
+Setting up network `SaaS'...
+Initializing...
+
+Running simulation...
+** Event #1   T=0   Elapsed: 0.000s (0m 00s)  0% completed
+     Speed:     ev/sec=0   simsec/sec=0   ev/simsec=0
+     Messages:  created: 1771   present: 1771   in FES: 507
+** Event #76544   T=232.391278424028   Elapsed: 2.001s (0m 02s)  6% completed
+     Speed:     ev/sec=38252.9   simsec/sec=116.138   ev/simsec=329.376
+     Messages:  created: 11651   present: 2180   in FES: 105
+** Event #225792   T=1015   Elapsed: 4.004s (0m 04s)  28% completed
+     Speed:     ev/sec=74549.5   simsec/sec=390.913   ev/simsec=190.706
+     Messages:  created: 26533   present: 2181   in FES: 104
+** Event #330752   T=1565   Elapsed: 6.009s (0m 06s)  43% completed
+     Speed:     ev/sec=52349.1   simsec/sec=274.314   ev/simsec=190.836
+     Messages:  created: 36991   present: 2181   in FES: 104
+** Event #423168   T=2049.368242760768   Elapsed: 8.011s (0m 08s)  56% completed
+     Speed:     ev/sec=46161.8   simsec/sec=241.942   ev/simsec=190.797
+     Messages:  created: 46201   present: 2181   in FES: 105
+** Event #547584   T=2701.782253487793   Elapsed: 10.019s (0m 10s)  75% completed
+     Speed:     ev/sec=61960.2   simsec/sec=324.907   ev/simsec=190.701
+     Messages:  created: 58606   present: 2181   in FES: 105
+** Event #698880   T=3495   Elapsed: 12.020s (0m 12s)  97% completed
+     Speed:     ev/sec=75648   simsec/sec=396.609   ev/simsec=190.737
+     Messages:  created: 73687   present: 2181   in FES: 104
+** Event #718902   T=3600   Elapsed: 12.436s (0m 12s)  100% completed
+     Speed:     ev/sec=48127.4   simsec/sec=252.404   ev/simsec=190.676
+     Messages:  created: 75682   present: 2181   in FES: 104
+
+<!> Simulation time limit reached -- simulation stopped at event #718902, t=3600.
+
+
+Calling finish() at end of Run #1...
+
+Preparing for running configuration General, run #2...
+Scenario: $0=5, $repetition=0
+Assigned runID=General-2-20170723-14:53:58-3899
+Setting up network `SaaS'...
+Initializing...
+
+Running simulation...
+** Event #1   T=0   Elapsed: 0.000s (0m 00s)  0% completed
+     Speed:     ev/sec=0   simsec/sec=0   ev/simsec=0
+     Messages:  created: 1771   present: 1771   in FES: 507
+** Event #248320   T=193.419994107323   Elapsed: 2.000s (0m 02s)  5% completed
+     Speed:     ev/sec=124160   simsec/sec=96.71   ev/simsec=1283.84
+     Messages:  created: 38421   present: 5305   in FES: 115
+** Event #500224   T=632.102232980676   Elapsed: 4.003s (0m 04s)  17% completed
+     Speed:     ev/sec=125826   simsec/sec=219.122   ev/simsec=574.229
+     Messages:  created: 82308   present: 5440   in FES: 109
+** Event #636416   T=874.024401078005   Elapsed: 6.005s (0m 06s)  24% completed
+     Speed:     ev/sec=68028   simsec/sec=120.84   ev/simsec=562.958
+     Messages:  created: 106201   present: 5441   in FES: 109
+** Event #899328   T=1341.100650462433   Elapsed: 8.006s (0m 08s)  37% completed
+     Speed:     ev/sec=131390   simsec/sec=233.421   ev/simsec=562.889
+     Messages:  created: 152329   present: 5441   in FES: 109
+** Event #1162240   T=1808.207245321746   Elapsed: 10.006s (0m 10s)  50% completed
+     Speed:     ev/sec=131456   simsec/sec=233.553   ev/simsec=562.852
+     Messages:  created: 198456   present: 5440   in FES: 109
+** Event #1413888   T=2255.288417027714   Elapsed: 12.016s (0m 12s)  62% completed
+     Speed:     ev/sec=125260   simsec/sec=222.539   ev/simsec=562.869
+     Messages:  created: 242608   present: 5441   in FES: 109
+** Event #1494784   T=2399   Elapsed: 14.022s (0m 14s)  66% completed
+     Speed:     ev/sec=40347.1   simsec/sec=71.6766   ev/simsec=562.905
+     Messages:  created: 256796   present: 5441   in FES: 108
+** Event #1643008   T=2662.361404236119   Elapsed: 16.023s (0m 16s)  73% completed
+     Speed:     ev/sec=74075   simsec/sec=131.615   ev/simsec=562.816
+     Messages:  created: 282806   present: 5441   in FES: 108
+** Event #1904640   T=3127.147049685857   Elapsed: 18.026s (0m 18s)  86% completed
+     Speed:     ev/sec=130620   simsec/sec=232.045   ev/simsec=562.909
+     Messages:  created: 328703   present: 5441   in FES: 108
+** Event #2100480   T=3475.024401077862   Elapsed: 20.027s (0m 20s)  96% completed
+     Speed:     ev/sec=97920   simsec/sec=173.939   ev/simsec=562.957
+     Messages:  created: 363060   present: 5440   in FES: 109
+** Event #2170724   T=3600   Elapsed: 21.150s (0m 21s)  100% completed
+     Speed:     ev/sec=62549.4   simsec/sec=111.287   ev/simsec=562.054
+     Messages:  created: 375401   present: 5441   in FES: 108
+
+<!> Simulation time limit reached -- simulation stopped at event #2170724, t=3600.
+
+
+Calling finish() at end of Run #2...
+
+Preparing for running configuration General, run #3...
+Scenario: $0=5, $repetition=1
+Assigned runID=General-3-20170723-14:54:22-3899
+Setting up network `SaaS'...
+Initializing...
+
+Running simulation...
+** Event #1   T=0   Elapsed: 0.000s (0m 00s)  0% completed
+     Speed:     ev/sec=0   simsec/sec=0   ev/simsec=0
+     Messages:  created: 1771   present: 1771   in FES: 507
+** Event #157952   T=123.5200229   Elapsed: 2.004s (0m 02s)  3% completed
+     Speed:     ev/sec=78818.4   simsec/sec=61.6367   ev/simsec=1278.76
+     Messages:  created: 25690   present: 3849   in FES: 116
+** Event #349184   T=363.930675418614   Elapsed: 4.004s (0m 04s)  10% completed
+     Speed:     ev/sec=95616   simsec/sec=120.205   ev/simsec=795.439
+     Messages:  created: 55824   present: 5440   in FES: 109
+** Event #572928   T=761.264740082308   Elapsed: 6.009s (0m 06s)  21% completed
+     Speed:     ev/sec=111649   simsec/sec=198.27   ev/simsec=563.113
+     Messages:  created: 95067   present: 5440   in FES: 109
+** Event #633088   T=868.101902959119   Elapsed: 8.014s (0m 08s)  24% completed
+     Speed:     ev/sec=30020   simsec/sec=53.312   ev/simsec=563.1
+     Messages:  created: 105620   present: 5441   in FES: 109
+** Event #849408   T=1252.50446127362   Elapsed: 10.029s (0m 10s)  34% completed
+     Speed:     ev/sec=107355   simsec/sec=190.771   ev/simsec=562.743
+     Messages:  created: 143578   present: 5441   in FES: 109
+** Event #951808   T=1434.392346901902   Elapsed: 12.033s (0m 12s)  39% completed
+     Speed:     ev/sec=51123.3   simsec/sec=90.8077   ev/simsec=562.984
+     Messages:  created: 161541   present: 5440   in FES: 109
+** Event #1067008   T=1639   Elapsed: 14.040s (0m 14s)  45% completed
+     Speed:     ev/sec=57399.1   simsec/sec=101.947   ev/simsec=563.029
+     Messages:  created: 181745   present: 5441   in FES: 108
+** Event #1234176   T=1936   Elapsed: 16.045s (0m 16s)  53% completed
+     Speed:     ev/sec=83417.2   simsec/sec=148.204   ev/simsec=562.855
+     Messages:  created: 211076   present: 5441   in FES: 108
+** Event #1414400   T=2256.19135156496   Elapsed: 18.047s (0m 18s)  62% completed
+     Speed:     ev/sec=90022   simsec/sec=159.936   ev/simsec=562.863
+     Messages:  created: 242696   present: 5441   in FES: 109
+** Event #1670400   T=2711   Elapsed: 20.049s (0m 20s)  75% completed
+     Speed:     ev/sec=127936   simsec/sec=227.291   ev/simsec=562.874
+     Messages:  created: 287612   present: 5441   in FES: 108
+** Event #1881856   T=3086.761742284393   Elapsed: 22.049s (0m 22s)  85% completed
+     Speed:     ev/sec=105728   simsec/sec=187.881   ev/simsec=562.74
+     Messages:  created: 324717   present: 5440   in FES: 109
+** Event #2106112   T=3485.010104614355   Elapsed: 24.051s (0m 24s)  96% completed
+     Speed:     ev/sec=112016   simsec/sec=198.925   ev/simsec=563.106
+     Messages:  created: 364049   present: 5441   in FES: 109
+** Event #2170724   T=3600   Elapsed: 24.593s (0m 24s)  100% completed
+     Speed:     ev/sec=119208   simsec/sec=212.158   ev/simsec=561.884
+     Messages:  created: 375401   present: 5441   in FES: 108
+
+<!> Simulation time limit reached -- simulation stopped at event #2170724, t=3600.
+
+
+Calling finish() at end of Run #3...

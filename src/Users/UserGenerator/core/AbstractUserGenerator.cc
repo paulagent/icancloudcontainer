@@ -253,10 +253,10 @@ void AbstractUserGenerator::createUser (){
                 userNameBuild << name << "_" << users_created_counter;
                 users_created_counter++;
                 userID = userNameBuild.str().c_str();
-                printf("AbstractUserGenerator::createUser->%s\n",userID.c_str());
+           //     printf("AbstractUserGenerator::createUser->%s\n",userID.c_str());
 
                 behaviorPath << "icancloud.src.Users.Profiles." << behavior.c_str() << "." << behavior.c_str();
-                cout<< "behaviour--->" << behavior.c_str() << "." << behavior.c_str()<<endl;
+             //   cout<< "behaviour--->" << behavior.c_str() << "." << behavior.c_str()<<endl;
 			// the user behaviorMod is created in the root of the cloud (cloud.manager.userGenerator.user)
                 modBehavior = cModuleType::get (behaviorPath.str().c_str());
 
@@ -268,7 +268,7 @@ void AbstractUserGenerator::createUser (){
 
                 user =  check_and_cast <AbstractUser*>  (behaviorMod);
                 // Initialize the user ..
-                cout<<user->getFullName()<<endl;
+               // cout<<user->getFullName()<<endl;
                 user->initParameters (behavior, userID.c_str(), logName);
 
                     // Get virtual machines selection
@@ -278,11 +278,11 @@ void AbstractUserGenerator::createUser (){
 
                            vmSelectionQuantity = (*(vmSelect.begin()+j))->quantity;
                            vmSelectionType = (*(vmSelect.begin()+j))->vmtype;
-cout<<"vmSelectionQuantity----->"<<vmSelectionQuantity<<endl;
+                           //cout<<"vmSelectionQuantity----->"<<vmSelectionQuantity<<endl;
                            cModule* vmImages;
                            bool br = false;
                            vmImages = getParentModule()->getParentModule()->getParentModule()->getSubmodule("vmSet");
-cout<<"VMImage--->"<<vmImages->getFullName()<<endl;
+                           //cout<<"VMImage--->"<<vmImages->getFullName()<<endl;
                            for (int k = 0; (k < vmImages->getVectorSize()) && (!br); k++){
                                vm = vmImages->getSubmodule("vmImage",k);
                                cout<<"vm---->"<<vm->getFullName()<<endl;
@@ -301,8 +301,10 @@ cout<<"VMImage--->"<<vmImages->getFullName()<<endl;
 
                    // Clone job definitions to be linked to user's waiting queue
                        jobSetSize = userJobSet.size();
-               //        cout<<"jobSetSize--->"<<jobSetSize<<endl;
-                       conjobSetSize=Container_userJobSet.size();
+                  //     cout<<"jobSetSize--->"<<jobSetSize<<endl;
+                      conjobSetSize=Container_userJobSet.size();
+                  //     cout<<"conjobSetSize--->"<<conjobSetSize<<endl;
+
                        for (j = 0; ((unsigned int)j)< jobSetSize; j++){
                            jobSelection* jobSelect;
                            UserJob* newJob;
@@ -311,18 +313,18 @@ cout<<"VMImage--->"<<vmImages->getFullName()<<endl;
                             // Get the job
                                jobSelect = (*(userJobSet.begin()+j));
                                rep = jobSelect->replicas;
-cout<<"rep---->"<<rep<< endl;
+                              // cout<<"rep---->"<<rep<< endl;
                            for (k = 0; ((int)k) < rep ;k++){
                                // Clone the job
                                ostringstream appNameBuild;
                                appNameBuild << jobSelect->appName.c_str() << "_" << k << ":" << userID;
-  //                             cout<<"jobSelect->appName"<<jobSelect->appName.c_str() << "_" << k << ":" << userID<<endl;
+                            //   cout<<"jobSelect->appName"<<jobSelect->appName.c_str() << "_" << k << ":" << userID<<endl;
                                newJob = cloneJob (jobSelect->job, behaviorMod, appNameBuild.str().c_str());
                                // Insert into users waiting queue
                                user->addParsedJob(newJob);
-                               cout<<"user--->"<<user->getFullName() <<endl;
+                           //    cout<<"user--->"<<user->getFullName() <<endl;
 
-                               cout<<"newjob--->"<<newJob->getFullName() <<endl;
+                             //  cout<<"newjob--->"<<newJob->getFullName() <<endl;
                            }
                        }
                        for (j = 0; ((unsigned int)j)< conjobSetSize; j++){
@@ -332,8 +334,9 @@ cout<<"rep---->"<<rep<< endl;
 
                                                  // Get the job
                                                     jobSelect = (*(Container_userJobSet.begin()+j));
-                                                    cout<<jobSelect->appName<<endl;
+                                                    cout<<"Container Name:"<<jobSelect->appName<<endl;
                                                     rep = jobSelect->replicas;
+                                                    cout<<"rep---->"<<rep<< endl;
 
                                                 for (k = 0; ((int)k) < rep ;k++){
                                                     // Clone the job
@@ -342,9 +345,8 @@ cout<<"rep---->"<<rep<< endl;
                                                     newJob = cloneContainerJob (jobSelect->job, behaviorMod, appNameBuild.str().c_str());
                                                     // Insert into users waiting queue
                                                     user->addParsedContainerJob(newJob);
-   //                                                 cout<<"user--->"<<user->getFullName() <<endl;
-
-     //                                               cout<<"newContainerjob--->"<<newJob->getFullName() <<endl;
+                                                    cout<<"user--->"<<user->getFullName() <<endl;
+                                                    cout<<"newContainerjob--->"<<newJob->getFullName() <<endl;
                                                 }
                                             }
 

@@ -411,7 +411,7 @@ void DockerEngine::updateCommId (icancloud_App_NET_Message* sm){
 }
 void DockerEngine::finish()
 {
-    cout<<"DockerEngine::finish--->msgCount--->"<<msgCount <<endl;
+  //  cout<<"DockerEngine::finish--->msgCount--->"<<msgCount <<endl;
 
 }
 bool DockerEngine::migrationPrepared()
