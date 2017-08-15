@@ -883,13 +883,13 @@ void AbstractDCManager::userStorageRequest (StorageRequest* st_req, AbstractNode
         fsStructure = st_req->getFSSet();
         if (nodeHost == NULL) throw cRuntimeError ("AbstractDCManager::userStorageRequest->req->getOperation() == %i, error. The storage request has an unknown operation\n", st_req->getConnection(0)->ip.c_str());
 
-      if (requestOperation == REQUEST_LOCAL_STORAGE){
+      if (requestOperation == REQUEST_LOCAL_STORAGE || requestOperation == CONTAINER_REQUEST_LOCAL_STORAGE){
           // Get the io manager of the OS from the host node to communicate the new operation
               if (nodeHost == NULL) throw cRuntimeError ("AbstractDCManager::userStorageRequest->req->getOperation() == %s, error. The storage request has an unknown operation\n", st_req->getConnection(0)->ip.c_str());
           // Erase the first position that is the node host
 
       }
-      else if (requestOperation == REQUEST_REMOTE_STORAGE){
+      else if (requestOperation == REQUEST_REMOTE_STORAGE || requestOperation == CONTAINER_REQUEST_REMOTE_STORAGE){
 
            // get the storage nodes
           nodes = selectStorageNodes(st_req);
@@ -994,7 +994,7 @@ double AbstractDCManager::getEnergyConsumed(bool computeNodes, bool storageNodes
  *                                  Private methods
  ****************************************************************************************/
 void AbstractDCManager::deleteUser (int userId){
-
+cout<<" AbstractDCManager::deleteUser"<<endl;
 // Delete user from networkManager
     networkManager->deleteUser (userId);
 

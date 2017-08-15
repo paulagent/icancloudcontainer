@@ -21,7 +21,8 @@ StorageManagement::~StorageManagement() {
 }
 
 void StorageManagement::initialize(){
-    if (DEBUG_CLOUD_SCHED) printf("\n Method[StorageManagement]: -------> initialize\n");
+  //  if (DEBUG_CLOUD_SCHED)
+        printf("\n Method[StorageManagement]: -------> initialize\n");
 
     // The number of Parallel file system remote servers (from .ned parameter)
     numberOfPFSRemoteServers = par("numberOfPFSRemoteServers");
@@ -35,7 +36,8 @@ void StorageManagement::finish(){
 }
 
 void StorageManagement::manageStorageRequest(StorageRequest* st_req, AbstractNode* nodeHost, vector<AbstractNode*> nodesTarget){
-
+    //if (DEBUG_CLOUD_SCHED)
+    cout << "manageStorageRequest"<<endl;
     // Extract the information from the storage request for the storage management
         int uid;
         int pId;
@@ -45,7 +47,8 @@ void StorageManagement::manageStorageRequest(StorageRequest* st_req, AbstractNod
         uid = st_req->getUid();
         pId = st_req->getPid();
         spId = st_req->getSPid();
-
+    //    if (DEBUG_CLOUD_SCHED)
+        cout<<"pid:"<<st_req->getPid()<<"     op:"<<st_req->getOperation()<<endl;
     // Define ..
        PendingStorageRequest* pendingRequest;
        processOperations* processOperation;
@@ -110,7 +113,7 @@ void StorageManagement::manageStorageRequest(StorageRequest* st_req, AbstractNod
        }
 
            // Its time to distinguish between local or remote storage.
-           if (st_req->getOperation() == REQUEST_LOCAL_STORAGE){
+           if (st_req->getOperation() == REQUEST_LOCAL_STORAGE || st_req->getOperation() == CONTAINER_REQUEST_LOCAL_STORAGE){
 
               string opIp = st_req->getConnection(0)->ip;
 
@@ -124,7 +127,7 @@ void StorageManagement::manageStorageRequest(StorageRequest* st_req, AbstractNod
 
              nodeHost->setLocalFiles(uid, pId, spId, opIp, st_req->getPreloadFilesSet(), st_req->getFSSet());
 
-           } else if(st_req->getOperation() == REQUEST_REMOTE_STORAGE){
+           } else if(st_req->getOperation() == REQUEST_REMOTE_STORAGE || st_req->getOperation() == CONTAINER_REQUEST_REMOTE_STORAGE){
                // Connections have the created data for connect node host with nodes target
                connections = createConnectionToStorage (st_req, nodeHost, nodesTarget);
 

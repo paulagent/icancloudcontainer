@@ -222,7 +222,7 @@ void SmartUser::requestAttended (AbstractRequest* req){
             generateMPIEnv(reqVM);
             pendingVmsAtStartup -= reqVM->getNumberVM();
 
-        } else if ((req->getOperation() == REQUEST_LOCAL_STORAGE) || (req->getOperation() == REQUEST_REMOTE_STORAGE)){
+        } else if ((req->getOperation() == REQUEST_LOCAL_STORAGE) || (req->getOperation() == REQUEST_REMOTE_STORAGE)||(req->getOperation() == CONTAINER_REQUEST_LOCAL_STORAGE) || (req->getOperation() == CONTAINER_REQUEST_REMOTE_STORAGE)){
 
             pendingConnections --;
 

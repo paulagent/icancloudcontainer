@@ -19,6 +19,7 @@
 package icancloud.src.Virtualization.VirtualMachines.SetDefinition;
 
 import icancloud.src.Applications.Apps.AppBase;
+import icancloud.src.Virtualization.VirtualMachines.Containers.Container;
 
 module VmImage
 {

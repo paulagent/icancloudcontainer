@@ -67,7 +67,8 @@ void CloudSchedulerFCFS::setupScheduler(){
 
 void CloudSchedulerFCFS::schedule (){
 
-    if (DEBUG_CLOUD_SCHED) printf("\n Method[CLOUD_SCHEDULER]: -------> schedule\n");
+   // if (DEBUG_CLOUD_SCHED)
+    printf("\n Method[CLOUD_SCHEDULER]: -------> schedule\n");
 
        //Define ...
            vector<AbstractNode*> selectedNodes;
@@ -137,7 +138,8 @@ void CloudSchedulerFCFS::schedule (){
                        }
 
                    }
-                   else if(req->getOperation() == REQUEST_ABANDON_SYSTEM){
+                   else if(req->getOperation() == REQUEST_ABANDON_SYSTEM || req->getOperation() == CONTAINER_REQUEST_ABANDON_SYSTEM){
+                       cout<< "REQUEST_ABANDON_SYSTEM"<<endl;
                            // To perform management operations..
                        AbstractUser* user;
                        AbstractCloudUser* cl_user;
@@ -165,7 +167,8 @@ void CloudSchedulerFCFS::schedule (){
 
                schedulerUnblock();
            }
-           if (DEBUG_CLOUD_SCHED) printf("\n Method[CLOUD_SCHEDULER]: -------> schedule----FIN------\n");
+         //  if (DEBUG_CLOUD_SCHED)
+               printf("\n Method[CLOUD_SCHEDULER]: -------> schedule----FIN------\n");
 
 }
 

@@ -57,6 +57,7 @@ void AbstractUser::finish(){
 
 bool AbstractUser::finalizeUser (){
 
+    cout<<"%%%%%%%%%%%%%%%%----AbstractUser::finalizeUser "<<endl;
     // Define ..
         jobBase* job;
         Container_jobBase* con_job;
@@ -67,13 +68,12 @@ bool AbstractUser::finalizeUser (){
     // Begin ..
 
         if (!hasPendingRequests()){
-
+    //        cout<<"no pending req"<<endl;
             userFinalizing = true;
             endTime = simTime();
-
             // Supress all the Jobs from the Waiting Queue to the Finish Queue.
             while (!(waitingQueue->isEmpty())){
-
+                cout<<"waiting queue is not empty"<<endl;
                 job = waitingQueue->getJob(0);
 
                 job -> setJob_startTime ();
@@ -83,6 +83,7 @@ bool AbstractUser::finalizeUser (){
             }
             // Supress all the Jobs from the Waiting Queue to the Finish Queue.
            while (!(containerWaitingQueue->isEmpty())){
+               cout<<"container waiting queue is not empty"<<endl;
 
                con_job = containerWaitingQueue->getJob(0);
 
@@ -93,18 +94,22 @@ bool AbstractUser::finalizeUser (){
            }
 
             userFinalization();
-
-            while (finishQueue->isEmpty())
+            while (!finishQueue->isEmpty())
                 finishQueue->removeJob(0);
 
-            while (containerFinishQueue->isEmpty())
+            cout<<"containerFinishQueue size :"<<containerFinishQueue->get_queue_size()<<endl;
+
+            while (!containerFinishQueue->isEmpty())
                 containerFinishQueue->removeJob(0);
 
-           abandonSystem();
+            cout<<"containerFinishQueue size :"<<containerFinishQueue->get_queue_size()<<endl;
+
+            abandonSystem();
 
         } else {
             userFinalizing = false;
         }
+        cout<<"%%%%%%%%%%%%%%%%----AbstractUser::finalizeUser ----ENDENDEND----%%%%%%%%%%%%%%%%%%%%55"<<endl;
 
         return userFinalizing;
 }
@@ -354,7 +359,7 @@ void AbstractUser::notify_UserRequestAttendeed  (AbstractRequest* req){
 	 */
 
 
-	if (req->getOperation() == REQUEST_RESOURCES){
+	if (req->getOperation() == REQUEST_RESOURCES || req->getOperation() == CONTAINER_REQUEST_RESOURCES){
 		requestAttended (req);
 
 		// This method (userBase) delete the request from the pending_requests vector.
@@ -362,10 +367,10 @@ void AbstractUser::notify_UserRequestAttendeed  (AbstractRequest* req){
 	}
 
 //	DE AQUI EN ADELANTE, NO REVISADO!!
-	else if (req->getOperation() == REQUEST_FREE_RESOURCES){
+	else if (req->getOperation() == REQUEST_FREE_RESOURCES || req->getOperation() == CONTAINER_REQUEST_FREE_RESOURCES){
 		requestAttended (req);
 	}
-	else if (req->getOperation() == REQUEST_REMOTE_STORAGE){
+	else if (req->getOperation() == REQUEST_REMOTE_STORAGE || req->getOperation() == CONTAINER_REQUEST_REMOTE_STORAGE){
 
 //	    strReq = check_and_cast<StorageRequest>(req);
 //  	    storageConnectionSize = strReq->getConnectionSize();
@@ -394,8 +399,7 @@ void AbstractUser::notify_UserRequestAttendeed  (AbstractRequest* req){
 //			}
 //		}
 
-	}else if (req->getOperation() == REQUEST_LOCAL_STORAGE){
-
+	     }else if ((req->getOperation() == REQUEST_LOCAL_STORAGE)||(req->getOperation() == CONTAINER_REQUEST_LOCAL_STORAGE)){
 //        strReq = check_and_cast<StorageRequest>(req);
 //		storageConnectionSize = req->getConnectionSize();
 //

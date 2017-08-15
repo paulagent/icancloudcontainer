@@ -271,9 +271,9 @@ void SyscallManager::removeProcess(int pid){
     icancloud_Base* job = deleteJobFromStructures(pid);
 
     if (job != NULL){
-        int gateIdx = job->gate("fromOS")->getPreviousGate()->getId();
-  //      cout<<"SyscallManager::removeProcess--->gate(fromOS)->getPreviousGate()--->"<<job->gate("fromOS")->getPreviousGate()->getFullName()<<endl;
-    //    cout<<"SyscallManager::removeProcess--->gate index"<<gateIdx<<endl;
+       int gateIdx = job->gate("fromOS")->getPreviousGate()->getId();
+        cout<<"SyscallManager::removeProcess--->gate(fromOS)->getPreviousGate()--->"<<job->gate("fromOS")->getPreviousGate()->getFullName()<<endl;
+        cout<<"SyscallManager::removeProcess--->gate index"<<gateIdx<<endl;
    //     int cgateIdx = job->gate("fromOSfromCon")->getPreviousGate()->getId();
 
        // int position = toAppGates->searchGate(gateIdx);
@@ -295,21 +295,25 @@ int SyscallManager::createProcess(icancloud_Base* job, int uid){
 
     if (job == NULL) throw cRuntimeError("SyscallManager::createJob, error with dynamic casting. Entry parameter cannot cast to jobBase.\n");
 
-    int newIndexFrom = fromAppGates->newGate("fromApps");
-    int newIndexTo = toAppGates->newGate("toApps");
-//cout <<" SyscallManager::createProcess"<<endl;
- //   int cnewIndexFrom = fromDockerEngineGates->newGate("fromDockerEngine");
-//    int cnewIndexTo = toDockerEngineGates->newGate("toDockerEngine");
+ //   int newIndexFrom = fromAppGates->newGate("fromApps");
+ //   int newIndexTo = toAppGates->newGate("toApps");
+cout <<" SyscallManager::createProcess"<<endl;
+    int newIndexFrom = fromDockerEngineGates->newGate("fromDockerEngine");
+    int newIndexTo = toDockerEngineGates->newGate("toDockerEngine");
     //get the app previously created
     job->changeParentTo(this);
 
     //Connect the modules (app created and node selected)
-        fromAppGates->connectIn(job->gate("fromOS"), newIndexFrom);
-       toAppGates->connectOut(job->gate("toOS"), newIndexTo);
+       //fromAppGates->connectIn(job->gate("fromOS"), newIndexFrom);
+       //toAppGates->connectOut(job->gate("toOS"), newIndexTo);
 
 
- //   fromDockerEngineGates->connectIn(job->gate("fromOS"), cnewIndexFrom);
-//    toDockerEngineGates->connectOut(job->gate("toOS"), cnewIndexTo);
+    fromDockerEngineGates->connectIn(job->gate("fromOS"), newIndexFrom);
+    toDockerEngineGates->connectOut(job->gate("toOS"), newIndexTo);
+
+//    fromDockerEngineGates->connectIn(job->gate("fromDockerEngine"), newIndexFrom);// Second one is for docker
+ //    toDockerEngineGates->connectOut(job->gate("toDockerEngine"), newIndexTo);
+
         processRunning* proc;
         proc = new processRunning();
         proc->process = job;

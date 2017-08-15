@@ -39,8 +39,8 @@ private:
 
 	cGateManager* fromDockerEngine;
 	cGateManager* toDockerEngine;
-	cGateManager* fromOSContainers;
-	cGateManager* toOSContainers;
+//	cGateManager* fromOSContainers;
+//	cGateManager* toOSContainers;
 
 	int uId;                                        // The user identification value
 

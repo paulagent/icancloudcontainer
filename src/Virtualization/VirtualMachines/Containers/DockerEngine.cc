@@ -280,9 +280,12 @@ void DockerEngine::updateCounters (icancloud_Message* msg, int quantity){
 void DockerEngine::linkNewContainer(cModule* jobAppModule, cGate* scToContainer, cGate* scFromContainer){
 
     // Connections to Container
+       cout<<"Connections to Container"<<endl;
        int idxToContainer = toContainers->newGate("toContainers");
-       toContainers->connectOut(jobAppModule->gate("fromOS"), idxToContainer);
+       toContainers->connectOut(jobAppModule->gate("fromOS"), idxToContainer); //fromOS is for container
+
     //   cout<<"idxToContainer"<<idxToContainer<<endl;
+
        int idxFromContainers = fromContainers->newGate("fromContainers");
        fromContainers->connectIn(jobAppModule->gate("toOS"), idxFromContainers);
      //  cout<<"idxFromContainers"<<idxFromContainers<<endl;
@@ -297,11 +300,12 @@ void DockerEngine::linkNewContainer(cModule* jobAppModule, cGate* scToContainer,
 }
 
 int DockerEngine::unlinkContainer(cModule* jobAppModule){
-//cout<<"DockerEngine::unlinkContainer"<<endl;
+cout<<"DockerEngine::unlinkContainer"<<endl;
     int gateIdx = jobAppModule->gate("fromOS")->getPreviousGate()->getId();
+  //  int gateIdx = jobAppModule->gate("fromDockerEngine")->getPreviousGate()->getId();
     int position = toContainers->searchGate(gateIdx);
 
- //   cout<<"position"<<position<<endl;
+  //  cout<<"position-->"<<position<<endl;
 
     toVmMsgController->freeGate(position);
     fromVmMsgController->freeGate(position);
@@ -309,6 +313,7 @@ int DockerEngine::unlinkContainer(cModule* jobAppModule){
     toContainers->freeGate(position);
     fromContainers->freeGate(position);
 
+    jobAppModule->gate("toOS")->disconnect();
 
    return position;
 

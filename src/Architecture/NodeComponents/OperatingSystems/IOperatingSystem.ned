@@ -46,6 +46,6 @@ moduleinterface IOperatingSystem
         input fromDockerEngine[]; // Input gates from Containers
         output toDockerEngine[];  // Output gates to Containers
         
-        input fromOSContainers[];
-        output toOSContainers[];
+  //      input fromOSContainers[];
+  //      output toOSContainers[];
 }

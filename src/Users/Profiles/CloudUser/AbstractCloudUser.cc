@@ -166,7 +166,7 @@ void AbstractCloudUser::startVMs (AbstractRequest* vmSet){
 }
 
 void AbstractCloudUser::shutdown_VM (VM* vm){
-
+cout << "------------------------------AbstractCloudUser::shutdown_VM------------------------------"<<endl;
     RequestVM* req;
     vector<VM*> vms;
 
@@ -189,10 +189,12 @@ void AbstractCloudUser::shutdown_VM (VM* vm){
         send_request_to_manager(req);
 
     }
+    cout << "------------------------------AbstractCloudUser::shutdown_VM--------ENDENDEND----------------------"<<endl;
+
 }
 
 bool AbstractCloudUser::checkAllVMShutdown(){
-
+cout<<"AbstractCloudUser::checkAllVMShutdown"<<endl;
     bool ok;
     int count1, count2;
     unsigned int i;
@@ -213,7 +215,7 @@ bool AbstractCloudUser::checkAllVMShutdown(){
 int AbstractCloudUser::allocateJob(jobBase* job){
 
 
-    //cout<<"allocateJob-----------------"<<endl;
+    cout<<"allocateJob-----------------"<<endl;
 
     // Define ..
         cModule* syscallManager;
@@ -246,7 +248,7 @@ int AbstractCloudUser::allocateJob(jobBase* job){
         return commId;
 }
 int AbstractCloudUser::allocateContainerJob(Container_jobBase* job){
-//cout<<"allocateContainerJob-----------------"<<endl;
+cout<<"allocateContainerJob-----------------"<<endl;
     // Define ..
         cModule* syscallManager;
         cModule* osModule;
@@ -273,13 +275,17 @@ int AbstractCloudUser::allocateContainerJob(Container_jobBase* job){
 
 
         return commId;
+        cout<<"allocateContainerJob-----------ENDEND------"<<endl;
+
 }
 
 void AbstractCloudUser::deleteJobVM (VM* vm, UserJob* job){
+    cout<<"AbstractCloudUser::deleteJobVM"<<endl;
     vm->removeProcess(job->getId());
 }
 
 void AbstractCloudUser::deleteContainerJobVM (VM* vm, Container_UserJob* job){
+    cout<<"AbstractCloudUser::deleteContainerJobVM"<<endl;
     vm->removeProcess(job->getId());
 }
 
@@ -360,7 +366,7 @@ void AbstractCloudUser::start_up_job_execution (VM* vmToExecute, UserJob* job, J
 
 }
 void AbstractCloudUser::start_up_container_job_execution (VM* vmToExecute, Container_UserJob* job, Container_JobQueue* qSrc, Container_JobQueue* qDst, int qDst_pos){
-
+cout<<"---------------------start_up_container_job_execution--------------------------------------"<<endl;
     // Define ...
         int jobId;
 //      cModule* startExecution;
@@ -431,6 +437,7 @@ void AbstractCloudUser::start_up_container_job_execution (VM* vmToExecute, Conta
 }
 void AbstractCloudUser::executePendingJobs(){
 
+    cout<< "AbstractCloudUser::executePendingJobs()"<< endl;
     // Define..
             UserJob* jobC;
             jobBase* jobB;
@@ -444,7 +451,7 @@ void AbstractCloudUser::executePendingJobs(){
             i = 0;
         // Begin ..
             while (i < waiting_for_remote_storage_Queue->get_queue_size()){
-
+cout<<"inside job while"<<endl;
                 jobB = waiting_for_remote_storage_Queue->getJob(i);
 
                 j = 0;
@@ -476,6 +483,7 @@ void AbstractCloudUser::executePendingJobs(){
                       i = 0;
                   // Begin ..
                       while (i < container_waiting_for_remote_storage_Queue->get_queue_size()){
+                      //    cout<<"inside container job while"<<endl;
 
                           cJobB = container_waiting_for_remote_storage_Queue->getJob(i);
 
@@ -545,7 +553,7 @@ void AbstractCloudUser::notify_UserJobHasFinished (jobBase* job){
 
 }
 void AbstractCloudUser::notify_UserContainerJobHasFinished (Container_jobBase* job){
-
+cout<<"AbstractCloudUser::notify_UserContainerJobHasFinished"<<endl;
     string jobID;
     int wqs = getCWQ_size();
     // Begin ..
@@ -903,13 +911,27 @@ void AbstractCloudUser::send_request_to_manager (AbstractRequest* req){
 }
 
 void AbstractCloudUser::deleteAllVMs(){
-
+cout<<"deleteAllVMs"<<endl;
     int size = wastedVMs.size();
+cout<<size<<endl;
+VM* vm;
 
-    while(size != 0){
+    for(int i=0; i<size;i++)
+    {
+        vm = (*(wastedVMs.begin()+i));
+        cout<<vm->getFullName()<<endl;
+        delete(vm);
+
+    }
+ /*   while(size != 0){
         VM* vm;
         vm = (*(wastedVMs.begin()));
+        cout<<vm->getFullName()<<endl;
         delete(vm);
         size --;
-    }
+        cout<<size<<endl;
+
+    }*/
+    size = wastedVMs.size();
+    cout<<size<<endl;
 }

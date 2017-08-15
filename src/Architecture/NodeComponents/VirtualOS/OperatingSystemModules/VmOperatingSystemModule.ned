@@ -61,8 +61,8 @@ module VmOperatingSystemModule like IOperatingSystem
         input fromDockerEngine[];
         output toDockerEngine[];
 
-        input fromOSContainers[];
-        output toOSContainers[];
+   //     input fromOSContainers[];
+    //    output toOSContainers[];
 
     submodules:
         syscallManager: <syscallManagerType> like ISyscallManager {
@@ -126,8 +126,8 @@ module VmOperatingSystemModule like IOperatingSystem
                 toApps[];
 
                 //Added by Zahra Nikdel:
-                fromOSContainers[];
-                toOSContainers[];
+           //     fromOSContainers[];
+            //    toOSContainers[];
                 fromDockerEngine[];
                 toDockerEngine[];
         }

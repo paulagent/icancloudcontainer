@@ -158,7 +158,8 @@ AbstractRequest* GeneralUser::selectVMs_ToStartUp (){
 	        (*(vmsToBeSelected.begin() + i))->quantity = (*(vmsToBeSelected.begin() + i))->quantity - size;
 	        reqFilled = true;
 	    } else {
-	        req->setNewSelection((*(vmsToBeSelected.begin() + i))->type->getType(), (*(vmsToBeSelected.begin() + i))->quantity - size);
+	        req->setNewSelection((*(vmsToBeSelected.begin() + i))->type->getType(),
+	                             (*(vmsToBeSelected.begin() + i))->quantity - size);
 	        reqFilled = true;
             (*(vmsToBeSelected.begin() + i))->quantity = (*(vmsToBeSelected.begin() + i))->quantity - maxNumVMsToRequest;
 	        break;
@@ -187,7 +188,6 @@ AbstractRequest* GeneralUser::selectResourcesJob (jobBase* job){
 		AbstractRequest* aReq;
 		RequestVM* reqVM;
 	// Init...
-		found = false;
 		vm = NULL;
 		found = false;
 		selectedVMs.clear();
@@ -223,7 +223,8 @@ AbstractRequest* GeneralUser::selectResourcesJob (jobBase* job){
 
 }
 AbstractRequest* GeneralUser::selectResourcesContainerJob (Container_jobBase* job){
-
+//Wanna find VMs to run container jobs on it
+cout<<"GeneralUser::selectResourcesContainerJob "<<endl;
     // Define ..
         VM* vm;
         Machine* machine;
@@ -234,28 +235,31 @@ AbstractRequest* GeneralUser::selectResourcesContainerJob (Container_jobBase* jo
         AbstractRequest* aReq;
         RequestVM* reqVM;
     // Init...
-        found = false;
         vm = NULL;
         found = false;
         selectedVMs.clear();
         reqVM = new RequestVM();
-
+        cout<<"job->getNumCopies()--->"<<job->getNumCopies()<<endl;
     // The behavior of the selection of VMs is to get the first VM in free state.
-    for (i = 0; i < machinesMap->size() && (!found); i++){
+        //cout<< "machinesMap->size()--->"<<machinesMap->size()<<endl;
+        for (i = 0; i < machinesMap->size() && (!found); i++){
+        //cout<<"machinesMap->getSetQuantity(i)---->"<<machinesMap->getSetQuantity(i)<<endl;
 
-        for (j = 0; (j < (unsigned int)machinesMap->getSetQuantity(i)) && (!found); j++){
+            for (j = 0; (j < (unsigned int)machinesMap->getSetQuantity(i)) && (!found); j++){
 
-            machine = machinesMap->getMachineByIndex(i,j);
-            vm = dynamic_cast<VM*>(machine);
-            if (vm->getPendingOperation() == NOT_PENDING_OPS){
-                if (vm->getState() == MACHINE_STATE_IDLE) {
-                //if ((vm->getVmState() == MACHINE_STATE_IDLE) || (vm->getVmState() == MACHINE_STATE_RUNNING)) {
-                    selectedVMs.insert(selectedVMs.begin(), vm);
-                    //selectedVMs.insert(selectedVMs.begin(), vm);
-                    found = true;
+                machine = machinesMap->getMachineByIndex(i,j);
+                vm = dynamic_cast<VM*>(machine);
+              //  cout<<"seleted VM name---->"<<vm->getFullName()<<endl;
+              //  cout<<"vm->getPendingOperation() ---->"<<vm->getPendingOperation() <<endl;
+                if (vm->getPendingOperation() == NOT_PENDING_OPS){ // NOT_PENDING_OPS=0
+                //    cout<<"vm->getState()--->"<<vm->getState() <<endl;
+                    if (vm->getState() == MACHINE_STATE_IDLE) {
+                    //if ((vm->getVmState() == MACHINE_STATE_IDLE) || (vm->getVmState() == MACHINE_STATE_RUNNING)) {
+                        selectedVMs.insert(selectedVMs.begin(), vm);
+                        found = true;
 
+                    }
                 }
-            }
         }
     }
 
@@ -279,16 +283,17 @@ void GeneralUser::requestAttended (AbstractRequest* req){
 
 	// Initialize ..
 		i = 0;
-
-
+		cout<<">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>.GeneralUser::requestAttended  >>>>>>>>>>>>>>>>>>>>>>>."<<endl;
+	//	cout<<"operation: "<<req->getOperation()<<endl;
 	// Begin ..
 	if (req->getOperation() == REQUEST_START_VM){
+        cout<< "REQUEST_START_VM"<< endl;
 
         reqVM = dynamic_cast<RequestVM*>(req);
 
-		exceededVMs = reqVM->getVMQuantity() -  getWQ_size();
+		exceededVMs = reqVM->getVMQuantity() -  (getWQ_size()+getCWQ_size());
 
-		if (isEmpty_WQ()){
+		if (isEmpty_WQ()&& isEmpty_CWQ()){
 			while (i !=  reqVM->getVMQuantity()) {
 				shutdown_VM (reqVM->getVM(i));
 				reqVM->eraseVM(i);
@@ -304,12 +309,13 @@ void GeneralUser::requestAttended (AbstractRequest* req){
 		}
 
 	} else if ((req->getOperation() == REQUEST_LOCAL_STORAGE) || (req->getOperation() == REQUEST_REMOTE_STORAGE)||(req->getOperation() == CONTAINER_REQUEST_LOCAL_STORAGE) || (req->getOperation() == CONTAINER_REQUEST_REMOTE_STORAGE)){
+        cout<< "REQUEST_LOCAL_STORAGE"<< endl;
 
 	    // Only execute the pending jobs that the vms of the request have assigned..
         executePendingJobs ();
 
 	} else if( (req->getOperation() == REQUEST_FREE_RESOURCES) ||( (req->getOperation() == CONTAINER_REQUEST_FREE_RESOURCES))){
-
+	    cout<< "REQUEST_FREE_RESOURCES"<< endl;
 		// User has pending jobs | requests?
 		//if ( (getWQ_size() == 0) && (getRQ_size() == 0) && (checkAllVMShutdown())){
 	    if ( (getWQ_size() == 0) && (getRQ_size() == 0) &&  (getCWQ_size() == 0) && (getCRQ_size() == 0) && (checkAllVMShutdown())){
@@ -319,6 +325,7 @@ void GeneralUser::requestAttended (AbstractRequest* req){
 	else {
 		showErrorMessage("Unknown request operation in BasicBehavior: %i", req->getOperation());
 	}
+	cout<<">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>.GeneralUser::requestAttended  ENDENENENENENENED >>>>>>>>>>>>>>>>>>>>>>>."<<endl;
 }
 
 void GeneralUser::requestErrorDeleted (AbstractRequest* req){
@@ -359,7 +366,7 @@ jobBase* GeneralUser::selectJob(){
 }
 //Container_UserJob* GeneralUser::selectContainerJob(){
 Container_jobBase* GeneralUser::selectContainerJob(){
-
+cout<< " #######################GeneralUser::selectContainerJob()"<<endl;
     // Define ..
         Container_jobBase *job;
      //   Container_UserJob* jobC;
@@ -380,6 +387,7 @@ Container_jobBase* GeneralUser::selectContainerJob(){
         }
 
      //  jobC = dynamic_cast<Container_UserJob*> (job);
+        cout<< " #######################GeneralUser::selectContainerJob()------ENDENDEND---######"<<endl;
 
     return job;
 }
@@ -393,7 +401,7 @@ void GeneralUser::jobHasFinished (jobBase* job){
     m = jobC->getMachine();
 
     VM* vm = check_and_cast<VM*>(m);
-    cout<< "jobHasFinished for "<< vm->getFullName() << endl;
+    cout<< "jobHasFinished for --->"<< vm->getFullName() << endl;
 
     if (jobC == NULL) throw cRuntimeError ("GeneralUser::jobHasFinished->job can not be casted to CloudJob\n");
 
@@ -439,7 +447,7 @@ void GeneralUser::containerjobHasFinished (Container_jobBase* job)
  */
 
 void GeneralUser::schedule(){
-
+cout<<"^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^66GeneralUser::schedule()^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"<<endl;
 	Enter_Method_Silent();
 
 	// Define ..
@@ -478,7 +486,7 @@ void GeneralUser::schedule(){
 
 			 reqB= selectResourcesJob (job);
 			 reqVM = dynamic_cast<RequestVM*>(reqB);
-
+			 cout<<"reqVM->getVMQuantity()--->"<<reqVM->getVMQuantity()<<endl;
 			if (reqVM->getVMQuantity() != 0){
 
 				// Allocate the set of machines where the job is going to execute into the own job
@@ -501,7 +509,7 @@ void GeneralUser::schedule(){
 				for (i = 0; i != machinesMap->size(); i++){
 					quantityVMFree += machinesMap->countONMachines(i);
 				}
-
+				cout<<"quantityVMFree--->"<<quantityVMFree<<endl;
 				waitingQSize = getWQ_size();
 
 				if ( (quantityVMFree > 0) && (waitingQSize >= 1) ){
@@ -522,40 +530,25 @@ void GeneralUser::schedule(){
 		    job = dynamic_cast<UserJob*> (jobB); // Job comes from waiting queue
 		}
 
-		if ( (job == NULL) ){
-		    for (i = 0; i < (unsigned int)machinesMap->getMapQuantity(); i++){
-                for (int j = 0; j < (int)machinesMap->getSetQuantity(i); j++){
 
-                    Machine* machine = machinesMap->getMachineByIndex(i,j);
-                    VM* vm = dynamic_cast<VM*>(machine);
-
-                    if ( (vm->getPendingOperation() == NOT_PENDING_OPS) &&
-                         (vm->getState() == MACHINE_STATE_IDLE) &&
-                         (vm->getNumProcessesRunning() == 0) ){
-                            shutdown_VM(vm);
-                    }
-                }
-		    }
-
-		}
-		/*
 		cJobB = selectContainerJob();
+	//	cout<<"cJobB->getNumCopies()--->"<<cJobB->getNumCopies()<<endl;
 	    cJob =  dynamic_cast<Container_UserJob*> (cJobB); // cJob comes from waiting queue
         breakScheduling = false;
         quantityVMFree = 0;
         waitingQSize = 0;
-
+        cout<<"before while:"<<endl;
 	        while ((cJob != NULL) && (!breakScheduling)){
-
+	            cout<<"General user scheduling container--->"<<cJob->getFullName()<<endl;
 	             cReqB= selectResourcesContainerJob (cJob); // get first free VM
 	             cReqVM = dynamic_cast<RequestVM*>(cReqB);
-
+	             cout<<"cReqVM->getVMQuantity()--->"<<cReqVM->getVMQuantity()<<endl;
 	            if (cReqVM->getVMQuantity() != 0){
 
 	                // Allocate the set of machines where the cJob is going to execute into the own cJob
 
 	                    vm = dynamic_cast<VM*>(cReqVM->getVM(0));
-
+	                    cout<<vm->getFullName()<<endl;
 	                    cJob->setMachine(vm);
 	                    cJobB = dynamic_cast<Container_jobBase*>(cJob);
 
@@ -591,9 +584,14 @@ void GeneralUser::schedule(){
 
 	            cJobB = selectContainerJob();
 	            cJob =  dynamic_cast<Container_UserJob*> (cJobB); // cJob comes from waiting queue
-	          }
 
-	        if ( (cJob == NULL) ){
+	            if (cJob!=NULL) cout<<"cJob--->"<<cJob->getFullName()<<endl;
+	          }
+	        cout<<"after while:"<<endl;
+
+
+	        if ( (cJob == NULL && job==NULL) ){
+	            cout<<"(cJob == NULL && job==NULL)"<<endl;
 	            for (i = 0; i < (unsigned int)machinesMap->getMapQuantity(); i++){
 	                for (int j = 0; j < (int)machinesMap->getSetQuantity(i); j++){
 
@@ -603,13 +601,15 @@ void GeneralUser::schedule(){
 	                    if ( (vm->getPendingOperation() == NOT_PENDING_OPS) &&
 	                         (vm->getState() == MACHINE_STATE_IDLE) &&
 	                         (vm->getNumProcessesRunning() == 0) ){
+	                        cout<<"calling shutdown vm"<<endl;
 	                            shutdown_VM(vm);
 	                    }
 	                }
 	            }
 
 	        }
-*/
+            cout<<"^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^66GeneralUser::schedule()^^^^^^^^^^ENDEND^^^^^^^^^^^^^^^^^^^^^"<<endl;
+
 }
 
 

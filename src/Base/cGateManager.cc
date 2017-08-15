@@ -6,6 +6,7 @@
  */
 
 #include <cGateManager.h>
+#include <iostream>
 
 cGateManager::cGateManager(cModule* module) {
     mod = module;
@@ -94,7 +95,8 @@ cGate* cGateManager::getGate(int index){
 cGate* cGateManager::freeGate(int index){
     cGate* gate = NULL;
     gateStructure* gateSt;
-
+    //std::cout<<" cGateManager::freeGate--->index--->"<<index<<endl;
+    //std::cout<< (*(gates.begin() + index))->gate<<endl;
     gateSt = (*(gates.begin() + index));
 
     if (!gateSt->gateHit){

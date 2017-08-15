@@ -338,7 +338,7 @@ bool MPI_Base::isProcessInThisNode (unsigned int processID){
 		for (cModule::SubmoduleIterator i(getParentModule()); !i.end(); i++)
 		 {
 		     currentApp = i();
-
+		     cout<<"currentApp->getFullName()"<<currentApp->getFullName()<<endl;
              if (strcmp(currentApp->getFullName(), "app" ) == 0) // if submod() is in the same vector as this module
              {
 
@@ -349,8 +349,6 @@ bool MPI_Base::isProcessInThisNode (unsigned int processID){
                      if (processID == currentRank)
                          found=true;
                  }
-
-
              }
 		}
 

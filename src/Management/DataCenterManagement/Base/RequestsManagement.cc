@@ -173,7 +173,7 @@ void RequestsManagement::eraseRequest (unsigned int index){
 }
 
 void RequestsManagement::eraseRequest (AbstractRequest* req){
-
+cout<<"RequestsManagement::eraseRequest"<<endl;
     vector<AbstractRequest*>::iterator reqIt;
     unsigned int index;
     bool found = false;
@@ -185,7 +185,7 @@ void RequestsManagement::eraseRequest (AbstractRequest* req){
         if (req->compareReq(*(reqIt))){
             found = true;
 
-            if (req->getOperation() == REQUEST_STORAGE){
+            if (req->getOperation() == REQUEST_STORAGE || req->getOperation() == CONTAINER_REQUEST_STORAGE){
                 insertExecutingRequest(req);
             }
 

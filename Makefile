@@ -411,7 +411,6 @@ OBJS = \
     $O/src/Virtualization/Hypervisor/Hypervisors/Hypervisor.o \
     $O/src/Virtualization/VirtualMachines/VM.o \
     $O/src/Virtualization/VirtualMachines/Containers/DockerEngine.o \
-    $O/src/Virtualization/VirtualMachines/Containers/Container.o \
     $O/src/Virtualization/VirtualMachines/Containers/Container_CPU_Intensive/Container_CPU_Intensive.o \
     $O/src/Virtualization/VirtualMachines/Containers/Container_Management/Container_JobQueue.o \
     $O/src/Virtualization/VirtualMachines/Containers/Container_Management/Container_UserJob.o \
@@ -6801,48 +6800,6 @@ $O/src/Virtualization/VirtualMachines/VM.o: src/Virtualization/VirtualMachines/V
 	src/Virtualization/VirtualMachines/Containers/DockerEngine.h \
 	src/Virtualization/VirtualMachines/VM.h \
 	src/Virtualization/VirtualMachines/VMManagement/VmMsgController/VmMsgController.h \
-	$(INET_PROJ)/src/base/Compat.h \
-	$(INET_PROJ)/src/base/INETDefs.h \
-	$(INET_PROJ)/src/networklayer/contract/IPv4Address.h \
-	$(INET_PROJ)/src/networklayer/contract/IPv6Address.h \
-	$(INET_PROJ)/src/networklayer/contract/IPvXAddress.h \
-	$(INET_PROJ)/src/transport/contract/TCPCommand_m.h \
-	$(INET_PROJ)/src/transport/contract/TCPSocket.h
-$O/src/Virtualization/VirtualMachines/Containers/Container.o: src/Virtualization/VirtualMachines/Containers/Container.cc \
-	src/Base/Messages/icancloud_App_CPU_Message.h \
-	src/Base/Messages/icancloud_App_CPU_Message_m.h \
-	src/Base/Messages/icancloud_App_IO_Message.h \
-	src/Base/Messages/icancloud_App_IO_Message_m.h \
-	src/Base/Messages/icancloud_App_MEM_Message.h \
-	src/Base/Messages/icancloud_App_MEM_Message_m.h \
-	src/Base/Messages/icancloud_App_NET_Message.h \
-	src/Base/Messages/icancloud_App_NET_Message_m.h \
-	src/Base/Messages/icancloud_BlockList_Message.h \
-	src/Base/Messages/icancloud_BlockList_Message_m.h \
-	src/Base/Messages/icancloud_Container_CPU_Message.h \
-	src/Base/Messages/icancloud_Container_CPU_Message_m.h \
-	src/Base/Messages/icancloud_Container_IO_Message.h \
-	src/Base/Messages/icancloud_Container_IO_Message_m.h \
-	src/Base/Messages/icancloud_Container_MEM_Message.h \
-	src/Base/Messages/icancloud_Container_MEM_Message_m.h \
-	src/Base/Messages/icancloud_Container_NET_Message.h \
-	src/Base/Messages/icancloud_Container_NET_Message_m.h \
-	src/Base/Messages/icancloud_File.h \
-	src/Base/Messages/icancloud_MPI_Message.h \
-	src/Base/Messages/icancloud_MPI_Message_m.h \
-	src/Base/Messages/icancloud_Message.h \
-	src/Base/Messages/icancloud_Message_m.h \
-	src/Base/Messages/icancloud_Migration_Message.h \
-	src/Base/Messages/icancloud_Migration_Message_m.h \
-	src/Base/Util/Log/ICCLog.h \
-	src/Base/cGateManager.h \
-	src/Base/icancloud_Base.h \
-	src/Base/include/Constants.h \
-	src/Base/include/icancloud_debug.h \
-	src/Base/include/icancloud_types.h \
-	src/EnergySystem/EnergyMeter/EnergyMeterUnit/Memorization/Memoization_uthash.h \
-	src/EnergySystem/EnergyMeter/EnergyMeterUnit/Memorization/uthash.h \
-	src/Virtualization/VirtualMachines/Containers/Container.h \
 	$(INET_PROJ)/src/base/Compat.h \
 	$(INET_PROJ)/src/base/INETDefs.h \
 	$(INET_PROJ)/src/networklayer/contract/IPv4Address.h \

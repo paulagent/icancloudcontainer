@@ -179,19 +179,20 @@ void AbstractUserGenerator::initialize(){
                     userJobSet.push_back(jobSel);
                 }
                 numContainers = getParentModule()->getSubmodule("containerDefinition")->par("containerQuantity").longValue();
-            //    cout <<"numContainers"<<numContainers<<endl;
-              //  numContainers=1;
+                cout <<"numContainers"<<numContainers<<endl;
+                numContainers=1;
                 for (int i = 0; i < numContainers;i++){
-                                  conjobSel = new Container_jobSelection();
-                                  conjobSel->replicas = getParentModule()->getSubmodule("containerDefinition")->getSubmodule("container",i)->par("copies").longValue();
-                                  conjobSel->appName = getParentModule()->getSubmodule("containerDefinition")->getSubmodule("container",i)->par("name").stringValue();
-                           //       cout<< " conjobSel->appName"<<  conjobSel->appName<<endl;
-                                  auxMod = getParentModule()->getSubmodule("containerDefinition")->getSubmodule("container",i)->getSubmodule("container");
-                                  conjobSel->job = dynamic_cast<Container_UserJob*> (auxMod);
+                        conjobSel = new Container_jobSelection();
+                        conjobSel->replicas = getParentModule()->getSubmodule("containerDefinition")->getSubmodule("container",i)->par("copies").longValue();
+                        conjobSel->appName = getParentModule()->getSubmodule("containerDefinition")->getSubmodule("container",i)->par("name").stringValue();
+                        cout<< " conjobSel->appName"<<  conjobSel->appName<<endl;
+                        auxMod = getParentModule()->getSubmodule("containerDefinition")->getSubmodule("container",i)->getSubmodule("container");
+                        conjobSel->job = dynamic_cast<Container_UserJob*> (auxMod);
 
-                                  conjobSel->job->setOriginalName(conjobSel->appName);
-                                  conjobSel->job->setAppType(getParentModule()->getSubmodule("containerDefinition")->getSubmodule("container",i)->par("containerType").stringValue());
-                                  conjobSel->job->setNumCopies(conjobSel->replicas);
+                        conjobSel->job->setOriginalName(conjobSel->appName);
+                        cout << "Container original name--->"<<conjobSel->job->getOriginalName()<<endl;
+                        conjobSel->job->setAppType(getParentModule()->getSubmodule("containerDefinition")->getSubmodule("container",i)->par("containerType").stringValue());
+                        conjobSel->job->setNumCopies(conjobSel->replicas);
 
                                   // Get the app and set the values..
                                   fsStructure_T* fs;
@@ -301,9 +302,9 @@ void AbstractUserGenerator::createUser (){
 
                    // Clone job definitions to be linked to user's waiting queue
                        jobSetSize = userJobSet.size();
-                  //     cout<<"jobSetSize--->"<<jobSetSize<<endl;
+                       cout<<"jobSetSize--->"<<jobSetSize<<endl;
                       conjobSetSize=Container_userJobSet.size();
-                  //     cout<<"conjobSetSize--->"<<conjobSetSize<<endl;
+                       cout<<"conjobSetSize--->"<<conjobSetSize<<endl;
 
                        for (j = 0; ((unsigned int)j)< jobSetSize; j++){
                            jobSelection* jobSelect;
@@ -464,7 +465,7 @@ UserJob* AbstractUserGenerator::cloneJob (UserJob* app, cModule* userMod, string
         cModuleType *modType;
         std::ostringstream appPath;
         int i, numParameters, size;
-
+        cout<<" AbstractUserGenerator::cloneJob "<<endl;
     // Init ..
         appPath << app->getNedTypeName();
 
@@ -518,6 +519,7 @@ Container_UserJob* AbstractUserGenerator::cloneContainerJob (Container_UserJob* 
         cModuleType *modType;
         std::ostringstream appPath;
         int i, numParameters, size;
+        cout<<" AbstractUserGenerator::cloneContainerJob "<<endl;
 
     // Init ..
         appPath << app->getNedTypeName();
@@ -534,7 +536,7 @@ Container_UserJob* AbstractUserGenerator::cloneContainerJob (Container_UserJob* 
             cloneApp->par(i) = app->par(i);
         }
 
-        cloneApp->setName("app");
+        cloneApp->setName("docker");
 
     // Finalize and build the module
         cloneApp->finalizeParameters();
@@ -555,7 +557,7 @@ Container_UserJob* AbstractUserGenerator::cloneContainerJob (Container_UserJob* 
         for (i = 0; i < size; i++){
             newJob->setPreloadFile(app->getPreloadFile(i));
         }
-
+        cout<<newJob->getFullName()<<endl;
         size = app->getFSSize();
         for (i = 0; i < size; i++){
             newJob->setFSElement(app->getFSElement(i));

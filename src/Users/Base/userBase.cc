@@ -16,7 +16,7 @@
 #include <userBase.h>
 
 void userBase::abandonSystem(){
-
+cout<<"userBase::abandonSystem()"<<endl;
     RequestBase* request;
     request = new RequestBase();
     request->setOperation(REQUEST_ABANDON_SYSTEM);
@@ -26,6 +26,7 @@ void userBase::abandonSystem(){
 }
 
 void userBase::container_abandonSystem(){
+    cout<<"userBase::container_abandonSystem()"<<endl;
 
     RequestBase* request;
     request = new RequestBase();

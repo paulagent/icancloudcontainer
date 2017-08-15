@@ -48,8 +48,8 @@ module BasicVM extends VM like IVM
                 fromDockerEngine[];
         		toDockerEngine[];
         		
-        		fromOSContainers[];
-        		toOSContainers[];
+        //		fromOSContainers[];
+        //		toOSContainers[];
                 
         }     
 

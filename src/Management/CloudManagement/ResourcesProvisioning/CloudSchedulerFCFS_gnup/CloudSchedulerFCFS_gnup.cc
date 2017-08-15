@@ -156,7 +156,7 @@ void CloudSchedulerFCFS_gnup::schedule (){
                        }
 
                    }
-                   else if(req->getOperation() == REQUEST_ABANDON_SYSTEM){
+                   else if(req->getOperation() == REQUEST_ABANDON_SYSTEM || req->getOperation() == CONTAINER_REQUEST_ABANDON_SYSTEM){
                        AbstractUser* user;
                        AbstractCloudUser* cl_user;
                        user = getUserById(req->getUid());

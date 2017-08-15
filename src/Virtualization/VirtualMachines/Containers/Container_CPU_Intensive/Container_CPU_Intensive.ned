@@ -24,8 +24,10 @@ simple Container_CPU_Intensive like IContainer
         int iterations = default (0);						// Number of iterations
         @display("i=msg/job");
     gates:
-        input fromDockerEngine[] @loose;			// Input gate from OS (Operating System)
-        output toDockerEngine[] @loose;				// Output gate to OS (Operating System)
+     //   input fromDockerEngine @loose;			// Input gate from OS (Operating System)
+     //   output toDockerEngine @loose;				// Output gate to OS (Operating System)
+        input fromOS @loose;			// Input gate from OS (Operating System)
+        output toOS @loose;				// Output gate to OS (Operating System)
 }
 
 
