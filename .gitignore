@@ -39,5 +39,6 @@ out/
 *.sca
 *.vec
 *.log
+*.elog
 *.txt
 *.tkenvlog
