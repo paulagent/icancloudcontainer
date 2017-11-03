@@ -42,3 +42,4 @@ out/
 *.elog
 *.txt
 *.tkenvlog
+simulations/Container_B/results/General-0.elog
